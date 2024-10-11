@@ -1,0 +1,46 @@
+<script>
+	import BlurFade from '$lib/components/svelte_magicui/BlurFade.svelte';
+</script>
+
+<svelte:head>
+	<title>AmbitiousYou</title>
+	<meta name="description" content="AmbitiousYou" />
+	<meta name="keywords" content="AmbitiousYou" />
+	<meta name="author" content="AmbitiousYou" />
+	<meta name="robots" content="index, follow" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="theme-color" content="#000000" />
+	<link rel="icon" type="image/png" href="/favicon.png" />
+	<link rel="apple-touch-icon" href="/favicon.png" />
+	<link rel="manifest" href="/manifest.json" />
+</svelte:head>
+
+<div class="flex flex-col gap-8 justify-center items-center">
+	<BlurFade delay={0.25} class="flex gap-2 font-bold sm:text-9xl text-5xl text-center"
+		><h1
+			class="selection:text-black tracking-tight bg-gradient-to-br from-black dark:from-white to-[--custom-secondary] text-transparent bg-clip-text"
+		>
+			AmbitiousYou
+		</h1>
+		🚩</BlurFade
+	>
+	<BlurFade delay={0.5}
+		><h2 class="font-semibold sm:text-3xl text-xl text-center">
+			Manage all your ambitions at a single place!
+		</h2></BlurFade
+	>
+	<BlurFade delay={0.75}>
+		<p class="text-center my-10 max-w-2xl font-light">
+			Imagine an app that let&apos;s you manage all your ambitions at a single place, you might have
+			a lot of ambitions in your life but due to the time constraint and busy schedule you might be
+			facing issues and cumbersomeness for the ambitions and plans you had for yourself in the short
+			term or sometimes even in the long term, AmbitiousYou helps you solve this issue!
+		</p>
+	</BlurFade>
+	<BlurFade delay={1}>
+		<div class="flex justify-center items-center gap-2">
+			<a id="secondaryButton" href="/signup">Sign Up</a>
+			<a id="primaryButton" href="/login">Login</a>
+		</div>
+	</BlurFade>
+</div>

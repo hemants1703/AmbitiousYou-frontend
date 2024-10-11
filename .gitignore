@@ -1,0 +1,60 @@
+# Node modules (installed packages)
+node_modules/
+
+# Build output directories (SvelteKit builds for deployment)
+.svelte-kit/
+build/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# SvelteKit specific cache
+.svelte-kit/output
+.svelte-kit/.vite
+
+# SvelteKit Kit itself generates a folder for building, let's ignore that
+build/
+
+# Vite-related
+.vite/
+dist/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# VSCode settings and extensions
+.vscode/
+
+# Parcel cache (if used)
+.cache/
+
+# Lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# IDE-specific files
+.idea/
+
+# Optional: MacOS-specific metadata
+*.DS_Store
+
+# Optional: Linux temporary files
+*~ 
+
+# Optional: Vim temporary files
+*.swp
+*.swo
+
+# Optional: Miscellaneous backups and config files
+*.log
+
+ideas.txt

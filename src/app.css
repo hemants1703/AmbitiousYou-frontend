@@ -1,0 +1,214 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap'); */
+
+/* :root {
+    --custom-primary: #001C30;
+    --custom-primary: #000000;
+    --custom-primary: #DAFFFB;
+    --custom-primary: #FFFFFF;
+    --custom-secondary: #176B87;
+    --custom-secondary: #64CCC5;
+} */
+
+:root {
+    --custom-light: #64CCC5;
+    --custom-dark: #176B87;
+    --custom-completed: rgba(16, 185, 129, 0.3);
+    --custom-ongoing: rgba(59, 130, 246, 0.3);
+    --custom-future: rgba(168, 85, 247, 0.3);
+    --scrollbar-bg-light: #ffffff;
+    --scrollbar-thumb-light: #000000;
+    --scrollbar-bg-dark: #000000;
+    --scrollbar-thumb-dark: #ffffff;
+}
+
+/* Style the scrollbar */
+::-webkit-scrollbar {
+    width: 5px;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--scrollbar-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb);
+}
+
+@layer base {
+    :root {
+        --custom-primary: #000000;
+        --custom-secondary: #176B87;
+
+        --background: 0 0% 100%;
+        --foreground: 0 0% 3.9%;
+
+        --muted: 0 0% 96.1%;
+        --muted-foreground: 0 0% 45.1%;
+
+        --popover: 0 0% 100%;
+        --popover-foreground: 0 0% 3.9%;
+
+        --card: 0 0% 100%;
+        --card-foreground: 0 0% 3.9%;
+
+        --border: 0 0% 89.8%;
+        --input: 0 0% 89.8%;
+
+        --primary: 0 0% 9%;
+        --primary-foreground: 0 0% 98%;
+
+        --secondary: 0 0% 96.1%;
+        --secondary-foreground: 0 0% 9%;
+
+        --accent: 0 0% 96.1%;
+        --accent-foreground: 0 0% 9%;
+
+        --destructive: 0 72.2% 50.6%;
+        --destructive-foreground: 0 0% 98%;
+
+        --ring: 0 0% 3.9%;
+
+        --radius: 0.5rem;
+
+        --scrollbar-bg: var(--scrollbar-bg-light);
+        --scrollbar-thumb: var(--scrollbar-thumb-light);
+    }
+
+    .dark {
+        --custom-primary: #FFFFFF;
+        --custom-secondary: #64CCC5;
+
+
+        --background: 0 0% 3.9%;
+        --foreground: 0 0% 98%;
+
+        --muted: 0 0% 14.9%;
+        --muted-foreground: 0 0% 63.9%;
+
+        --popover: 0 0% 3.9%;
+        --popover-foreground: 0 0% 98%;
+
+        --card: 0 0% 3.9%;
+        --card-foreground: 0 0% 98%;
+
+        --border: 0 0% 14.9%;
+        --input: 0 0% 14.9%;
+
+        --primary: 0 0% 98%;
+        --primary-foreground: 0 0% 9%;
+
+        --secondary: 0 0% 14.9%;
+        --secondary-foreground: 0 0% 98%;
+
+        --accent: 0 0% 14.9%;
+        --accent-foreground: 0 0% 98%;
+
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 0 0% 98%;
+
+        --ring: 0 0% 83.1%;
+
+        --scrollbar-bg: var(--scrollbar-bg-dark);
+        --scrollbar-thumb: var(--scrollbar-thumb-dark);
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+    }
+}
+
+@font-face {
+    font-family: "GeistVF";
+    src: url("/fonts/GeistVF.woff");
+}
+
+@font-face {
+    font-family: "GeistVF_Mono";
+    src: url("/fonts/GeistMonoVF.woff");
+}
+
+/* Color Pallette link: https://colorhunt.co/palette/001c30176b8764ccc5dafffb */
+
+::selection {
+    background-color: var(--custom-light);
+    /* color: var(--background); */
+}
+
+* {
+    font-family: "GeistVF", "GeistMonoVF", sans-serif;
+    /* font-family: "Inter Tight", sans-serif; */
+    font-optical-sizing: auto;
+    font-synthesis: initial;
+    font-synthesis-weight: none;
+    --scrollbar-bg: var(--scrollbar-bg-dark);
+    --scrollbar-thumb: var(--scrollbar-thumb-dark);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+#primaryButton {
+    background-color: #64CCC5;
+    color: black;
+    border: none;
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.1s ease-in-out;
+}
+
+#primaryButton:hover {
+    filter: brightness(1.2);
+}
+
+#primaryButton:active {
+    background-color: var(--custom-secondary);
+}
+
+#secondaryButton {
+    background-color: transparent;
+    /* color: var(--background); */
+    border: none;
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.1s ease-in-out;
+}
+
+#secondaryButton:hover {
+    background-color: #176B87;
+}
+
+#secondaryButton:active {
+    opacity: 0.7;
+}
+
+#primaryLink {
+    text-decoration: none;
+    transition: all 0.1s ease-in-out;
+}
+
+#primaryLink:hover {
+    text-decoration: underline;
+}
+
+#primaryLink:active {
+    color: var(--custom-secondary);
+}
