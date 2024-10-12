@@ -1,6 +1,10 @@
+import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ fetch }) => {
+export const load: PageServerLoad = async ({ locals, fetch }) => {
+	if (!locals.user) {
+		redirect(307, '/');
+	}
 	const response = await fetch('/api/mock', {
 		method: 'GET',
 		headers: {

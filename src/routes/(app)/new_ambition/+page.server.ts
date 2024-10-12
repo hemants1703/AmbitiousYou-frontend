@@ -1,6 +1,13 @@
-import type { Action } from './$types';
+import { redirect } from '@sveltejs/kit';
+import type { Action, PageServerLoad } from './$types';
 
-export const actions = {
+export const load: PageServerLoad = async ({ locals }) => {
+	if (!locals.user) {
+		redirect(307, '/');
+	}
+};
+
+export const actions: Action = {
 	add_ambition: async ({ request }) => {
 		const requestData = await request.formData();
 
@@ -25,4 +32,4 @@ export const actions = {
 		console.log(requestData);
 		console.log(ambition);
 	}
-} satisfies Action;
+};

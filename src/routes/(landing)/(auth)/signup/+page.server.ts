@@ -5,20 +5,20 @@ import { ID } from 'node-appwrite';
 
 export const actions = {
 	createAccount: async ({ request, cookies }) => {
-		const data = await request.formData();
+		const formData = await request.formData();
 
-		const fullName: string = data.get('fullName') as string;
-		const email: FormDataEntryValue = data.get('email') as string;
-		const password: FormDataEntryValue = data.get('password') as string;
+		const fullName: string = formData.get('fullName') as string;
+		const email: FormDataEntryValue = formData.get('email') as string;
+		const password: FormDataEntryValue = formData.get('password') as string;
 
-		console.log('formData', data);
+		console.log('formData', formData);
 
 		if (!fullName || !email || !password) {
 			return {
 				status: 400,
 				success: false,
 				message: 'All fields are required',
-				data: {
+				body: {
 					full_name: fullName,
 					email: email,
 					password: password
@@ -36,7 +36,7 @@ export const actions = {
 				status: 400,
 				success: false,
 				message: 'Invalid Password',
-				data: {
+				body: {
 					fullName: fullName,
 					email: email,
 					password: password
@@ -67,7 +67,7 @@ export const actions = {
 				status: 200,
 				success: true,
 				message: 'Account Created Successfully',
-				data: response
+				body: response
 			};
 
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -77,7 +77,7 @@ export const actions = {
 				status: error.code,
 				success: false,
 				message: error.response.message,
-				data: error
+				body: error
 			};
 		}
 

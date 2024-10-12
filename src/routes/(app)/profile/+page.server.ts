@@ -1,20 +1,23 @@
 // src/routes/account/+page.server.js
 
 import { SESSION_COOKIE, createSessionClient } from '$lib/appwrite/appwrite.js';
-import { redirect } from '@sveltejs/kit';
+import { redirect, type Actions } from '@sveltejs/kit';
+import type { PageServerLoad } from './$types';
 
-export async function load({ locals }) {
+export const load: PageServerLoad = ({ locals }) => {
 	// Logged out users can't access this page.
-	if (!locals.user) redirect(302, '/signup');
+	if (!locals.user) {
+		redirect(307, '/');
+	}
 
 	// Pass the stored user local to the page.
 	return {
 		user: locals.user
 	};
-}
+};
 
 // Define our log out endpoint/server action.
-export const actions = {
+export const actions: Actions = {
 	default: async (event) => {
 		// Create the Appwrite client.
 		const { account } = createSessionClient(event);

@@ -1,5 +1,6 @@
 // src/hooks.server.js
 import { createSessionClient } from '$lib/appwrite/appwrite';
+import chalk from 'chalk';
 
 export async function handle({ event, resolve }) {
 	try {
@@ -11,8 +12,7 @@ export async function handle({ event, resolve }) {
 	} catch (error) {
 		// If the user is not logged in, we will catch the error
 		// and continue with the request.
-		console.error('Error from Svelte Server-Side Hook', error);
-		event.locals.user = null;
+		console.error(chalk.bgYellow(error));
 	}
 
 	// Continue with the request.

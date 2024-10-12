@@ -1,6 +1,11 @@
-<script>
+<script lang="ts">
 	import Particles from '$lib/components/svelte_magicui/Particles.svelte';
 	import NumberTicker from '$lib/components/svelte_magicui/NumberTicker.svelte';
+	import type { PageServerData } from './$types';
+
+	export let data: PageServerData;
+
+	// const { userData } = data;
 
 	let greetUser = true;
 

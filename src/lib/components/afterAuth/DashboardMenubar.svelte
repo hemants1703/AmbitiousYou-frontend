@@ -50,7 +50,11 @@
 						<DropdownMenu.Item href="/user_feedback">User Feedback</DropdownMenu.Item>
 						<DropdownMenu.Item href="/report_bugs">Report Bugs</DropdownMenu.Item>
 						<Separator class="my-1" />
-						<DropdownMenu.Item href="/logout" class="text-red-500">Logout</DropdownMenu.Item>
+						<div class="text-red-500">
+							<form action="?/logout" method="POST">
+								<DropdownMenu.Item type="submit">Logout</DropdownMenu.Item>
+							</form>
+						</div>
 					</DropdownMenu.Group>
 				</DropdownMenu.Content>
 			</DropdownMenu.Root>
