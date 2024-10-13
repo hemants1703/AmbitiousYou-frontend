@@ -1,18 +1,14 @@
-// src/routes/account/+page.server.js
-
 import { SESSION_COOKIE, createSessionClient } from '$lib/appwrite/appwrite.js';
 import { redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import confirmAuth from '$lib/utils/auth';
 
 export const load: PageServerLoad = ({ locals }) => {
-	// Logged out users can't access this page.
-	if (!locals.user) {
-		redirect(307, '/');
-	}
+	confirmAuth(locals);
 
 	// Pass the stored user local to the page.
 	return {
-		user: locals.user
+		userData: locals.user
 	};
 };
 

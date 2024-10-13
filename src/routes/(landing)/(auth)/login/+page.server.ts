@@ -3,7 +3,7 @@ import chalk from 'chalk';
 import type { PageServerLoad } from './$types';
 import type { Actions } from './$types';
 import { redirect } from '@sveltejs/kit';
-// import { API_URL } from '$env/static/private';
+import { greetUser, loggedInUser } from '$lib/store/userData';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
@@ -60,6 +60,10 @@ export const actions: Actions = {
 				secure: true,
 				path: '/'
 			});
+
+			const user = await account.get();
+			loggedInUser.set(user);
+			greetUser.set(true);
 
 			formResponse = {
 				status: 200,

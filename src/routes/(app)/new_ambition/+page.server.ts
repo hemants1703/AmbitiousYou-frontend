@@ -1,13 +1,11 @@
-import { redirect } from '@sveltejs/kit';
-import type { Action, PageServerLoad } from './$types';
+import type { Actions, PageServerLoad } from './$types';
+import confirmAuth from '$lib/utils/auth';
 
 export const load: PageServerLoad = async ({ locals }) => {
-	if (!locals.user) {
-		redirect(307, '/');
-	}
+	confirmAuth(locals);
 };
 
-export const actions: Action = {
+export const actions: Actions = {
 	add_ambition: async ({ request }) => {
 		const requestData = await request.formData();
 

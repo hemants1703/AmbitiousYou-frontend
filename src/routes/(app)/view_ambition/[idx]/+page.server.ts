@@ -1,6 +1,9 @@
+import confirmAuth from '$lib/utils/auth';
 import type { PageServerLoad, Actions } from './$types';
 
-export const load: PageServerLoad = async ({ params, fetch }) => {
+export const load: PageServerLoad = async ({ locals, params, fetch }) => {
+	confirmAuth(locals);
+
 	const { idx } = params;
 	const response = await fetch('/api/mock', {
 		method: 'GET',

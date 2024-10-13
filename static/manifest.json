@@ -1,0 +1,15 @@
+{
+    "name": "AmbitiousYou",
+    "short_name": "AmbitiousYou",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#000000",
+    "icons": [
+      {
+        "src": "/logo.png",
+        "sizes": "1200x1200",
+        "type": "image/png"
+      }
+    ]
+  }

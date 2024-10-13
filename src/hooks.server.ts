@@ -1,5 +1,6 @@
 // src/hooks.server.js
 import { createSessionClient } from '$lib/appwrite/appwrite';
+// import { loggedInUser } from '$lib/store/userData';
 import chalk from 'chalk';
 
 export async function handle({ event, resolve }) {
@@ -9,6 +10,8 @@ export async function handle({ event, resolve }) {
 		// Store the current logged in user in locals,
 		// for easy access in our other routes.
 		event.locals.user = await account.get();
+		// loggedInUser.set(event.locals.user);
+		// console.log(chalk.bgGreenBright.white('User data from session:'), event.locals.user);
 	} catch (error) {
 		// If the user is not logged in, we will catch the error
 		// and continue with the request.

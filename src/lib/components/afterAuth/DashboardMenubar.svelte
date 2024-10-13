@@ -1,9 +1,40 @@
-<script>
+<script lang="ts">
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import * as Avatar from '$lib/components/ui/avatar';
 	import ThemeToggler from '../ThemeToggler.svelte';
 	import { MenuIcon } from 'lucide-svelte';
 	import Separator from '../ui/separator/separator.svelte';
+	import { toast } from 'svoast';
+
+	export let userData;
+
+	const userFullName = userData.name;
+
+	async function handleLogout(event: Event) {
+		event.preventDefault();
+		console.log('Logging out...');
+
+		try {
+			let response = await fetch('/api/logout', {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			});
+
+			response = await response.json();
+			console.log('Logout response: ', response);
+
+			if (response.success) {
+				window.location.href = '/';
+			} else {
+				console.error('Failed to logout');
+			}
+		} catch (error) {
+			console.error('Failed to logout', error);
+			toast.error("Couldn't logout. Please try again later.");
+		}
+	}
 </script>
 
 <nav class="w-full border-b bg-background max-h-20 overflow-hidden">
@@ -27,7 +58,7 @@
 					><div
 						class="max-sm:hidden flex flex-col text-end border rounded-md px-2 hover:bg-foreground hover:bg-opacity-10 transition-all duration-100 ease-in-out"
 					>
-						<p class="font-medium text-md">Hemant Sharma</p>
+						<p class="font-medium text-md">{userFullName}</p>
 						<span class="text-xs text-emerald-500">Logged in</span>
 					</div>
 					<div class="sm:hidden border rounded-md p-1">
@@ -39,7 +70,7 @@
 					<DropdownMenu.Group>
 						<DropdownMenu.Label>
 							<div class="sm:hidden flex flex-col text-end">
-								<span>Hemant Sharma</span>
+								<span>{userFullName}</span>
 								<span class="text-xs text-emerald-500">Logged in</span>
 							</div>
 							<div class="max-sm:hidden">Menu</div>
@@ -50,11 +81,9 @@
 						<DropdownMenu.Item href="/user_feedback">User Feedback</DropdownMenu.Item>
 						<DropdownMenu.Item href="/report_bugs">Report Bugs</DropdownMenu.Item>
 						<Separator class="my-1" />
-						<div class="text-red-500">
-							<form action="?/logout" method="POST">
-								<DropdownMenu.Item type="submit">Logout</DropdownMenu.Item>
-							</form>
-						</div>
+						<DropdownMenu.Item type="submit" on:click={handleLogout} class="text-red-500"
+							>Logout</DropdownMenu.Item
+						>
 					</DropdownMenu.Group>
 				</DropdownMenu.Content>
 			</DropdownMenu.Root>

@@ -1,9 +1,20 @@
-import type { UserType } from '$lib/types/userType';
-import type { AmbitionType } from '$lib/types/ambitionType';
-
 type LoggedInUserType = {
-	user: UserType;
-	ambitions: AmbitionType[];
+	$createdAt: string;
+	$id: string;
+	$updatedAt: string;
+	accessedAt: string;
+	email: string;
+	emailVerification: boolean;
+	labels: [];
+	mfa: boolean;
+	name: string;
+	passwordUpdate: string;
+	phone: string;
+	phoneVerification: boolean;
+	prefs: object;
+	registration: string;
+	status: boolean;
+	targets: object[];
 };
 
 export type { LoggedInUserType };

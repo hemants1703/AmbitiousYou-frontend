@@ -2,6 +2,7 @@ import type { Actions } from './$types';
 import { SESSION_COOKIE, createAdminClient } from '$lib/appwrite/appwrite.js';
 import { redirect } from '@sveltejs/kit';
 import { ID } from 'node-appwrite';
+import { greetUser, loggedInUser } from '$lib/store/userData';
 
 export const actions = {
 	createAccount: async ({ request, cookies }) => {
@@ -60,6 +61,10 @@ export const actions = {
 				secure: true,
 				path: '/'
 			});
+
+			const user = await account.get();
+			loggedInUser.set(user);
+			greetUser.set(true);
 
 			console.log('response signing in: ', response);
 

@@ -9,7 +9,9 @@
 
 	export let data;
 
-	const updatedAmbitions: AmbitionType[] = data.ambitions ?? [];
+	const { userData } = data;
+
+	const updatedAmbitions: AmbitionType[] = data.data.ambitions ?? [];
 
 	let selectedStatus: string | unknown = '';
 	let selectedCategory: string | unknown = '';
@@ -49,7 +51,7 @@
 	{:else}
 		<div class="flex flex-col gap-10">
 			<header>
-				<h1 class="font-bold text-3xl">All Ambitions!</h1>
+				<h1 class="font-bold text-3xl">{userData.name.split(' ')[0]}'s All Ambitions!</h1>
 				<p class="text-muted-foreground">
 					All your ambitions in one single place. You can also track your progress on each ambition.
 				</p>

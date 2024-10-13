@@ -1,8 +1,6 @@
-import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import confirmAuth from '$lib/utils/auth';
 
 export const load: PageServerLoad = async ({ locals }) => {
-	if (!locals.user) {
-		redirect(307, '/');
-	}
+	confirmAuth(locals);
 };
