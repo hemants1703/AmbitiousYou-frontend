@@ -5,6 +5,7 @@
 	import { MenuIcon } from 'lucide-svelte';
 	import Separator from '../ui/separator/separator.svelte';
 	import { toast } from 'svoast';
+	import { User } from 'lucide-svelte';
 
 	export let userData;
 
@@ -76,10 +77,13 @@
 							<div class="max-sm:hidden">Menu</div>
 						</DropdownMenu.Label>
 						<DropdownMenu.Separator />
-						<DropdownMenu.Item href="/profile">Profile</DropdownMenu.Item>
-						<DropdownMenu.Item href="/feature_request">Feature Request</DropdownMenu.Item>
+						<DropdownMenu.Item href="/profile" class="flex gap-2">
+							<span><User class="w-4 h-auto" /></span>
+							<span>Profile</span>
+						</DropdownMenu.Item>
+						<!-- <DropdownMenu.Item href="/feature_request">Feature Request</DropdownMenu.Item>
 						<DropdownMenu.Item href="/user_feedback">User Feedback</DropdownMenu.Item>
-						<DropdownMenu.Item href="/report_bugs">Report Bugs</DropdownMenu.Item>
+						<DropdownMenu.Item href="/report_bugs">Report Bugs</DropdownMenu.Item> -->
 						<Separator class="my-1" />
 						<DropdownMenu.Item type="submit" on:click={handleLogout} class="text-red-500"
 							>Logout</DropdownMenu.Item

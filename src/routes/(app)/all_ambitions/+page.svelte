@@ -6,19 +6,31 @@
 	import { Badge } from '$lib/components/ui/badge/index.js';
 	import { CalendarArrowUp, CircleCheckBig, LoaderPinwheel } from 'lucide-svelte';
 	import Button from '$lib/components/ui/button/Button.svelte';
+	import type { PageServerData } from './$types';
+	import { toast } from 'svoast';
 
-	export let data;
+	export let data: PageServerData;
+
+	console.log('PageServerData All Ambitions: ', data);
+
+	if (data) {
+		if (!data.success) {
+			toast.error(data.message);
+		}
+	}
 
 	const { userData } = data;
 
-	const updatedAmbitions: AmbitionType[] = data.data.ambitions ?? [];
+	console.log('PageServerData documents: ', data.body.documents);
 
-	let selectedStatus: string | unknown = '';
-	let selectedCategory: string | unknown = '';
+	const updatedAmbitions = data.body === null ? [] : data.body.documents;
+
+	// let selectedStatus: string | unknown = '';
+	// let selectedCategory: string | unknown = '';
 </script>
 
 <svelte:head>
-	<title>All your ambitions! - AmbitiousYou!</title>
+	<title>{userData.name.split(' ')[0]}'s All ambitions! - AmbitiousYou!</title>
 </svelte:head>
 
 <div class="flex flex-col gap-10 pb-20">
@@ -26,8 +38,7 @@
 		<header>
 			<h1 class="font-bold text-3xl">No Ambitions Found!</h1>
 			<p class="text-muted-foreground">
-				Here you can see all your ambitions and add new ambitions. You can also track your progress
-				on each ambition.
+				It seems you haven't added any ambitions yet {userData.name.split(' ')[0]}!
 			</p>
 		</header>
 		<div class="flex flex-col items-center justify-center gap-5">
@@ -110,13 +121,13 @@
 					
 				</div> -->
 				<div class="flex flex-col gap-5">
-					{#each updatedAmbitions as ambition, idx}
-						<a href={`/view_ambition/${idx}`}>
+					{#each updatedAmbitions as ambition}
+						<a href={`/view_ambition/${ambition.$id}`}>
 							<MagicCard
 								class="cursor-pointer w-full flex-col items-start justify-start shadow-sm whitespace-nowrap group active:scale-[0.99] transition-all duration-100"
-								gradientColor={ambition.status === 'Completed'
+								gradientColor={ambition.ambitionStatus === 'completed'
 									? 'var(--custom-completed)'
-									: ambition.status === 'Ongoing'
+									: ambition.ambitionStatus === 'ongoing'
 										? 'var(--custom-ongoing)'
 										: 'var(--custom-future)'}
 								gradientSize={300}
@@ -126,24 +137,24 @@
 								>
 									<div class="flex justify-between items-center w-full">
 										<div class="flex flex-col text-start">
-											<h2 class="text-xl max-sm:max-w-48 truncate">{ambition.name}</h2>
+											<h2 class="text-xl max-sm:max-w-48 truncate">{ambition.ambitionName}</h2>
 											<p class="text-md font-light sm:max-w-96 max-w-48 truncate">
-												{ambition.definition}
+												{ambition.ambitionDefinition}
 											</p>
 											<div class="flex gap-2">
-												{#each ambition.tags as tag}
+												<!-- {#each JSON.parse(ambition.tags) as tag}
 													<Badge class="mt-2 w-fit">{tag}</Badge>
-												{/each}
+												{/each} -->
 											</div>
 										</div>
 										<span>
-											{#if ambition.status === 'Completed'}
+											{#if ambition.ambitionStatus === 'completed'}
 												<CircleCheckBig color="#10b981" />
-											{:else if ambition.status === 'Ongoing'}
+											{:else if ambition.ambitionStatus === 'ongoing'}
 												<div class="animate-spin">
 													<LoaderPinwheel color="#3b82f6" />
 												</div>
-											{:else if ambition.status === 'Future'}
+											{:else if ambition.ambitionStatus === 'future'}
 												<CalendarArrowUp color="#a855f7" />
 											{/if}
 										</span>

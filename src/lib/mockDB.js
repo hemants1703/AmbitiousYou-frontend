@@ -12,7 +12,8 @@ const user = {
 const ambitions = [
 	{
 		id: 1,
-		user_id: 1,
+		userId: 1,
+		userEmail: 'hemant@hemantsharma.tech',
 		name: 'Become a Full Stack Developer',
 		definition:
 			'I want to become a full stack developer and work for a tech company. I want to work for Facebook. I want to work on a social media app. Also, I want to work on a project that has a positive impact on society.',

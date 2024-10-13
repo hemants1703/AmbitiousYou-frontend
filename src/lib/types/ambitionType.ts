@@ -1,20 +1,38 @@
-type AmbitionType = {
+type AmbitionTaskType = {
 	id: number;
-	userId: number;
 	name: string;
-	definition: string;
-	type: string;
-	tasks: Array<object>;
-	start_date: string;
-	end_date: string;
-	completion_date: string;
-	status: string;
-	priority: string;
-	category: string;
-	tags: Array<string>;
-	notes: Array<string>;
-	created_at: string;
-	updated_at: string;
+	description: string;
+	checked: boolean;
 };
 
-export type { AmbitionType };
+type AmbitionNoteType = {
+	id: number;
+	content: string;
+	created_at: string;
+};
+
+type AmbitionType = {
+	userId: string;
+	userEmail: string;
+	ambitionName: string;
+	ambitionDefinition: string;
+	ambitionType: string;
+	ambitionStartDate: string;
+	ambitionEndDate: string;
+	ambitionCompletionDate: string;
+	ambitionStatus: string;
+	ambitionPriority: string;
+	ambitionCategory: string;
+	ambitionPercentageCompleted: number;
+	ambitionTasks: string; // JSON string of AmbitionTask[]
+	ambitionTags: string;
+	ambitionNotes: string; // JSON string of AmbitionNote[]
+	$id: string;
+	$createdAt: string;
+	$updatedAt: string;
+	$permissions: string[];
+	$databaseId: string;
+	$collectionId: string;
+};
+
+export type { AmbitionNoteType, AmbitionTaskType, AmbitionType };

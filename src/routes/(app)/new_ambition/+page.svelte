@@ -8,19 +8,31 @@
 	import { cn } from '$lib/utils.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Popover from '$lib/components/ui/popover/index.js';
-
-	const df = new DateFormatter('en-US', {
-		dateStyle: 'long'
-	});
-
-	let value: DateValue | undefined = undefined;
-
 	import { RangeCalendar } from '$lib/components/ui/range-calendar/index.js';
 	import { enhance } from '$app/forms';
 	import Separator from '$lib/components/ui/separator/separator.svelte';
 	import { ListPlus, MessageSquareDiff } from 'lucide-svelte';
 	import Checkbox from '$lib/components/ui/checkbox/checkbox.svelte';
 	import { toast } from 'svoast';
+	import type { PageServerData } from './$types';
+
+	const df = new DateFormatter('en-US', { dateStyle: 'long' });
+
+	export let data: PageServerData;
+	export let form: FormData;
+
+	const { userData } = data;
+
+	$: if (form) {
+		console.log(form);
+		if (!form.success) {
+			toast.error(form.message);
+		} else {
+			toast.success(`${form.message} ${userData.name.split(' ')[0]}!`);
+		}
+	}
+
+	let value: DateValue | undefined = undefined;
 
 	let startValue: DateValue | undefined = undefined;
 
@@ -75,9 +87,9 @@
 	<header>
 		<h1 class="text-3xl font-bold">Add You New Ambition!</h1>
 		<p class="text-muted-foreground">
-			Ambitions are the goals you want to achieve. They can be anything from learning a new skill to
-			starting a new project. You can add as many ambitions as you want. You can also track your
-			progress on each ambition.
+			Ambitions are the goals you want to achieve in your life. They can be anything from learning a
+			new skill to starting a new project. You can add as many ambitions as you want. You can also
+			track your progress on each ambition.
 		</p>
 	</header>
 	<Separator />
@@ -92,6 +104,7 @@
 							id="ambitionName"
 							name="ambitionName"
 							class="max-w-full"
+							required
 							placeholder="Name your ambition that you wish to achieve"
 						/>
 					</div>
@@ -100,6 +113,7 @@
 						<Textarea
 							id="ambitionDefinition"
 							name="ambitionDefinition"
+							required
 							placeholder="Define your ambitions descriptively here..."
 						/>
 					</div>
@@ -118,7 +132,7 @@
 									<Select.Item value="finance">Finance</Select.Item>
 									<Select.Item value="relationship">Relationship</Select.Item>
 								</Select.Content>
-								<Select.Input name="ambitionCategory" />
+								<Select.Input name="ambitionCategory" required />
 							</Select.Root>
 						</div>
 						<div class="flex flex-col gap-2">
@@ -132,7 +146,7 @@
 									<Select.Item value="medium" class="text-yellow-500">Medium</Select.Item>
 									<Select.Item value="high" class="text-red-500">High</Select.Item>
 								</Select.Content>
-								<Select.Input name="ambitionPriority" />
+								<Select.Input name="ambitionPriority" required />
 							</Select.Root>
 						</div>
 						<div class="flex flex-col gap-2">
@@ -146,7 +160,7 @@
 									<Select.Item value="ongoing" class="text-[#3b82f6]">Ongoing</Select.Item>
 									<Select.Item value="future" class="text-[#a855f7]">Future</Select.Item>
 								</Select.Content>
-								<Select.Input name="ambitionStatus" />
+								<Select.Input name="ambitionStatus" required />
 							</Select.Root>
 						</div>
 					</div>
@@ -198,7 +212,12 @@
 					<div class="grid sm:grid-cols-2 gap-x-5">
 						<div class="col-span-2">
 							<Label class="text-xl">Tasks for this ambition</Label>
-							<input type="hidden" name="ambitionTasks" value={JSON.stringify(ambitionTasks)} />
+							<input
+								type="hidden"
+								name="ambitionTasks"
+								value={JSON.stringify(ambitionTasks)}
+								required
+							/>
 						</div>
 						<div class="max-sm:col-span-2">
 							<div class=" border rounded-md p-4">
@@ -263,6 +282,8 @@
 								</div>
 							</div>
 						</div>
+
+						<!-- INPUT TASKS SECTION -->
 						<div class="border rounded-md p-4 max-sm:col-span-2 max-sm:mt-5">
 							{#if ambitionTasks.length === 0}
 								<p class="text-center text-muted-foreground">No tasks added yet!</p>
@@ -294,7 +315,12 @@
 					<div class="grid sm:grid-cols-2 gap-x-5">
 						<div class="col-span-2">
 							<Label class="text-xl">Notes for this ambition</Label>
-							<input type="hidden" name="ambitionNotes" value={JSON.stringify(ambitionNotes)} />
+							<input
+								type="hidden"
+								name="ambitionNotes"
+								value={JSON.stringify(ambitionNotes)}
+								required
+							/>
 						</div>
 						<div class="max-sm:col-span-2">
 							<div class=" border rounded-md p-4">
@@ -318,11 +344,13 @@
 								</div>
 							</div>
 						</div>
+
+						<!-- INPUT NOTES SECTION -->
 						<div class="border rounded-md p-4 max-sm:col-span-2 max-sm:mt-5">
 							{#if ambitionNotes.length === 0}
 								<p class="text-center text-muted-foreground">No notes added yet!</p>
 							{:else}
-								<div class="flex flex-col space-y-4 max-h-96 overflow-y-auto">
+								<div class="flex flex-col space-y-4 max-h-28 overflow-y-auto">
 									{#each ambitionNotes as note}
 										<div
 											class="flex flex-col gap-2 justify-between items-start bg-yellow-200 dark:bg-yellow-900 dark:bg-opacity-20 bg-opacity-20 border border-yellow-400 rounded-lg p-2"

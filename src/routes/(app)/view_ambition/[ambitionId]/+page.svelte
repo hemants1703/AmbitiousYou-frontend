@@ -12,47 +12,64 @@
 	import { ListPlus, MessageSquareDiff } from 'lucide-svelte';
 	import { enhance } from '$app/forms';
 	import { toast } from 'svoast';
+	import type { AmbitionTaskType } from '$lib/types/ambitionType';
 
 	export let data: PageData;
 	// console.log('view ambitions page data: ', data);
 
-	const ambitionIdx = data.idx;
-	const ambitions = data.data.ambitions;
-
-	const ambition: object = ambitions[ambitionIdx];
+	const ambition = data.body;
 
 	const daysLeft = Math.floor(
-		(new Date(ambition.end_date).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)
+		(new Date(ambition.ambitionEndDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)
 	);
 
 	let taskName: string = '';
 	let taskDescription: string = '';
 
 	let noteContent: string = '';
+
+	const ambitionStartDate = new Date(ambition.ambitionStartDate).toLocaleDateString();
+	const ambitionEndDate = new Date(ambition.ambitionEndDate).toLocaleDateString();
+	const ambitionCompletionDate = new Date(ambition.ambitionCompletionDate).toLocaleDateString();
+	const ambitionTasks = JSON.parse(ambition.ambitionTasks);
+	// const ambitionTags = JSON.parse(ambition.ambitionTags);
+	const ambitionNotes = JSON.parse(ambition.ambitionNotes);
+	const ambitionStatus =
+		ambition.ambitionStatus[0].toUpperCase() + ambition.ambitionStatus.slice(1);
+	const ambitionPriority =
+		ambition.ambitionPriority[0].toUpperCase() + ambition.ambitionPriority.slice(1);
+	const ambitionCategory =
+		ambition.ambitionCategory[0].toUpperCase() + ambition.ambitionCategory.slice(1);
+
+	$: finishedAmbitionTasks = ambitionTasks.filter((task: AmbitionTaskType) => task.checked);
+	$: unfinishedAmbitionTasks = ambitionTasks.filter((task: AmbitionTaskType) => !task.checked);
+	let totalAmbitionTasks = ambitionTasks.length;
+
+	$: percentageCompleted = (finishedAmbitionTasks / totalAmbitionTasks) * 100;
 </script>
 
 <svelte:head>
-	<title>{ambition.name} - AmbitiousYou!</title>
-	<meta name="description" content={ambition.definition} />
+	<title>{ambition.ambitionName} - AmbitiousYou!</title>
+	<meta name="description" content={ambition.ambitionDefinition} />
 </svelte:head>
 
 <div class="flex flex-col gap-10 pb-20">
 	<header class="flex flex-col gap-5">
 		<div>
 			<h1 class="font-bold text-3xl">
-				{ambition.name}
-				<Badge class="bg-[--custom-dark] text-white px-2 py-1 rounded-full"
-					>{ambition.category}</Badge
+				{ambition.ambitionName}
+				<Badge class="bg-[--custom-dark] text-white px-2 py-1 -translate-y-1.5 rounded-full"
+					>{ambition.ambitionCategory}</Badge
 				>
 			</h1>
 			<p class="text-muted-foreground text-md">
-				{ambition.definition}
+				{ambition.ambitionDefinition}
 			</p>
 		</div>
 		<div class="flex gap-2">
-			{#each ambition.tags as tag, idx}
+			<!-- {#each JSON.parse(ambition.tags) as tag, idx}
 				<Badge>{tag}</Badge>
-			{/each}
+			{/each} -->
 		</div>
 	</header>
 	<section class="grid lg:grid-cols-2 gap-5 w-full">
@@ -71,11 +88,19 @@
 						</div>
 						<div class="flex justify-between w-full border-b">
 							<strong>Percentage Completed:</strong>
-							<p>{ambition.percentage_completed}%</p>
+							<p>{percentageCompleted}%</p>
+						</div>
+						<div class="flex justify-between w-full border-b">
+							<strong>Unfinished Tasks:</strong>
+							<p>{unfinishedAmbitionTasks.length}</p>
+						</div>
+						<div class="flex justify-between w-full border-b">
+							<strong>Finished Tasks:</strong>
+							<p>{finishedAmbitionTasks.length}</p>
 						</div>
 						<div class="flex justify-between w-full border-b">
 							<strong>Total Tasks:</strong>
-							<p>{ambition.tasks.length}</p>
+							<p>{totalAmbitionTasks}</p>
 						</div>
 					</div>
 				</div>
@@ -84,7 +109,7 @@
 				<h2 class="text-xl font-semibold mb-4">Tasks to Accomplish your Ambition</h2>
 				<div class=" border rounded-xl p-4">
 					<div class="max-h-96 space-y-4 overflow-y-auto overflow-x-hidden">
-						{#each ambition.tasks as task}
+						{#each ambitionTasks as task}
 							<div class="flex items-center space-x-3 p-4 border rounded-lg shadow-sm">
 								<Checkbox
 									id={task.id}
@@ -92,7 +117,7 @@
 										task.checked = !task.checked;
 									}}
 									checked={task.checked}
-									aria-labelledby="tasks-checkbox-label"
+									aria-labelledby="ambitionTasks-checkbox-label"
 								/>
 								<Label
 									for={task.id}
@@ -161,10 +186,10 @@
 			<div>
 				<div class="flex flex-col gap-2 border p-4 rounded-xl">
 					<h1 class="font-bold text-xs">
-						NOTE{ambition.notes.length > 1 ? 'S' : ''}
+						NOTE{ambitionNotes.length > 1 ? 'S' : ''}
 					</h1>
 					<div class="flex flex-col space-y-4 max-h-96 overflow-y-auto">
-						{#each ambition.notes as note}
+						{#each ambitionNotes as note}
 							<div
 								class="flex flex-col gap-2 justify-between items-start bg-yellow-200 dark:bg-yellow-900 dark:bg-opacity-20 bg-opacity-20 border border-yellow-400 rounded-lg p-2"
 							>
@@ -223,55 +248,55 @@
 						<ul class="space-y-5">
 							<li class="flex justify-between w-full border-b py-1">
 								<strong>Start Date:</strong>
-								{ambition.start_date}
+								{ambitionStartDate}
 							</li>
 							<li class="flex justify-between w-full border-b py-1">
 								<strong>End Date:</strong>
-								{ambition.end_date}
+								{ambitionEndDate}
 							</li>
 							<li class="flex justify-between w-full border-b py-1">
 								<strong>Completion Date:</strong>
-								{ambition.completion_date ?? 'Not completed yet'}
+								{ambitionCompletionDate ?? 'Not completed yet'}
 							</li>
 							<li class="flex justify-between w-full border-b py-1">
 								<strong>Status:</strong>
 								<p class="flex place-items-center gap-2">
-									{#if ambition.status === 'Completed'}
+									{#if ambition.ambitionStatus === 'completed'}
 										<CircleCheckBig color="#10b981" />
-									{:else if ambition.status === 'Ongoing'}
+									{:else if ambition.ambitionStatus === 'ongoing'}
 										<div class="animate-spin">
 											<LoaderPinwheel color="#3b82f6" />
 										</div>
-									{:else if ambition.status === 'Future'}
+									{:else if ambition.ambitionStatus === 'future'}
 										<CalendarArrowUp color="#a855f7" />
 									{/if}
-									{ambition.status}
+									{ambitionStatus}
 								</p>
 							</li>
 							<li class="flex justify-between w-full border-b py-1">
 								<strong>Priority:</strong>
 								<p class="flex place-items-center gap-2">
-									{#if ambition.priority === 'High'}
+									{#if ambition.ambitionPriority === 'high'}
 										<span class="border border-red-500 px-1 rounded-md text-red-500 text-sm"
 											>!!!</span
 										>
-									{:else if ambition.priority === 'Medium'}
+									{:else if ambition.ambitionPriority === 'medium'}
 										<span class="border border-yellow-500 px-1 rounded-md text-yellow-500 text-sm"
 											>!!</span
 										>
-									{:else if ambition.priority === 'Low'}
+									{:else if ambition.ambitionPriority === 'low'}
 										<span class="border border-green-500 px-1 rounded-md text-green-500 text-sm"
 											>!</span
 										>
 									{/if}
 									<span>
-										{ambition.priority}
+										{ambitionPriority}
 									</span>
 								</p>
 							</li>
 							<li class="flex justify-between w-full border-b py-1">
 								<strong>Category:</strong>
-								{ambition.category}
+								{ambitionCategory}
 							</li>
 						</ul>
 					</div>

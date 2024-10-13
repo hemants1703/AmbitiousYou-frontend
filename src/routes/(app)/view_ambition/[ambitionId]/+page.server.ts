@@ -1,14 +1,15 @@
-import type { PageServerLoad } from './$types';
 import confirmAuth from '$lib/utils/auth';
-import { Client, Databases, Query } from 'node-appwrite';
+import type { PageServerLoad, Actions } from './$types';
+import { SESSION_COOKIE } from '$lib/appwrite/appwrite';
 import { PUBLIC_APPWRITE_ENDPOINT, PUBLIC_APPWRITE_PROJECT_ID } from '$env/static/public';
 import { PRIVATE_APPWRITE_DATABASE_ID, PRIVATE_APPWRITE_COLLECTION_ID } from '$env/static/private';
-import { SESSION_COOKIE } from '$lib/appwrite/appwrite';
+import { Client, Databases } from 'node-appwrite';
 import chalk from 'chalk';
 
-export const load: PageServerLoad = async ({ locals, fetch, cookies }) => {
+export const load: PageServerLoad = async ({ locals, params, cookies }) => {
 	confirmAuth(locals);
 
+	const { ambitionId } = params;
 	let pageServerResponse = {};
 
 	const sessionCookie: string | undefined = cookies.get(SESSION_COOKIE);
@@ -31,10 +32,10 @@ export const load: PageServerLoad = async ({ locals, fetch, cookies }) => {
 	const databases = new Databases(client);
 
 	try {
-		const documentListingResult = await databases.listDocuments(
+		const documentListingResult = await databases.getDocument(
 			PRIVATE_APPWRITE_DATABASE_ID,
 			PRIVATE_APPWRITE_COLLECTION_ID,
-			[Query.equal('userEmail', [locals.user.email])]
+			ambitionId
 		);
 
 		console.log(chalk.bgWhiteBright.black('Ambitions List: '), documentListingResult);
@@ -69,3 +70,40 @@ export const load: PageServerLoad = async ({ locals, fetch, cookies }) => {
 	// const data = await response.json();
 	return pageServerResponse;
 };
+
+export const actions = {
+	addNewTaskForAmbition: async ({ request }) => {
+		const requestData = await request.formData();
+
+		const taskName: FormDataEntryValue = requestData.get('taskName') as string;
+		const taskDescription: FormDataEntryValue = requestData.get('taskDescription') as string;
+
+		const ambitionTask = {
+			id: 0,
+			name: taskName,
+			description: taskDescription,
+			status: '',
+			checked: false,
+			created_at: new Date().toISOString(),
+			updated_at: new Date().toISOString()
+		};
+
+		console.log(requestData);
+		console.log(ambitionTask);
+	},
+	addNewNoteForAmbition: async ({ request }) => {
+		const requestData = await request.formData();
+
+		const noteContent: FormDataEntryValue = requestData.get('noteContent') as string;
+
+		const ambitionNode = {
+			id: 0,
+			content: noteContent,
+			created_at: new Date().toISOString(),
+			updated_at: new Date().toISOString()
+		};
+
+		console.log(requestData);
+		console.log(ambitionNode);
+	}
+} satisfies Actions;
