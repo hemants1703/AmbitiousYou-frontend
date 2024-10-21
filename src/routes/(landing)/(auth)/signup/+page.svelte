@@ -13,6 +13,7 @@
 			toast.success(form.message);
 		} else {
 			toast.error(form.message);
+			signupFormSubmitted = false;
 		}
 	}
 
@@ -23,6 +24,8 @@
 		revealInputPassword = !revealInputPassword;
 		passwordInputElement.type = revealInputPassword ? 'text' : 'password';
 	}
+
+	let signupFormSubmitted = false;
 </script>
 
 <svelte:head>
@@ -30,7 +33,7 @@
 </svelte:head>
 
 <div
-	class={`flex max-md:flex-col gap-40 max-md:gap-10 justify-center items-center w-full h-full mx-auto`}
+	class={`flex max-md:flex-col lg:gap-40 gap-10 justify-center items-center w-full h-full mx-auto`}
 >
 	<div class="w-1/2 max-w-96 text-center">
 		<h1 class="font-bold text-7xl text-end max-md:text-center">📑 Signup</h1>
@@ -40,7 +43,14 @@
 		</p>
 	</div>
 	<div class="sm:w-1/2 border p-5 rounded-2xl sm:max-w-sm w-3/4 z-10">
-		<form action="?/createAccount" method="POST" class="flex flex-col gap-4" use:enhance>
+		<form
+			action="?/createAccount"
+			method="POST"
+			class="flex flex-col gap-4"
+			use:enhance={() => {
+				signupFormSubmitted = true;
+			}}
+		>
 			<input
 				placeholder="Full Name"
 				type="text"
@@ -90,7 +100,30 @@
 					<li>8 characters long</li>
 				</ul>
 			</div>
-			<button id="primaryButton" type="submit">Create Free Account</button>
+			<button
+				id="primaryButton"
+				type="submit"
+				disabled={signupFormSubmitted}
+				class="flex justify-center items-center gap-2"
+			>
+				{#if signupFormSubmitted}
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="16"
+						height="16"
+						fill="#000"
+						viewBox="0 0 256 256"
+						class="animate-spin"
+					>
+						<path
+							d="M232,128a104,104,0,0,1-208,0c0-41,23.81-78.36,60.66-95.27a8,8,0,0,1,6.68,14.54C60.15,61.59,40,93.27,40,128a88,88,0,0,0,176,0c0-34.73-20.15-66.41-51.34-80.73a8,8,0,0,1,6.68-14.54C208.19,49.64,232,87,232,128Z"
+						></path>
+					</svg>
+					<span>Creating Free Account!</span>
+				{:else}
+					Create Free Account!
+				{/if}
+			</button>
 		</form>
 	</div>
 </div>

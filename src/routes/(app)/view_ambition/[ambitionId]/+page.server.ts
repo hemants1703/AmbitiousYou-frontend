@@ -3,14 +3,27 @@ import type { PageServerLoad, Actions } from './$types';
 import { SESSION_COOKIE } from '$lib/appwrite/appwrite';
 import { PUBLIC_APPWRITE_ENDPOINT, PUBLIC_APPWRITE_PROJECT_ID } from '$env/static/public';
 import { PRIVATE_APPWRITE_DATABASE_ID, PRIVATE_APPWRITE_COLLECTION_ID } from '$env/static/private';
-import { Client, Databases } from 'node-appwrite';
+import { Client, Databases, Query } from 'node-appwrite';
 import chalk from 'chalk';
+import { error } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({ locals, params, cookies }) => {
 	confirmAuth(locals);
 
 	const { ambitionId } = params;
-	let pageServerResponse = {};
+	let pageServerResponse: {
+		status: number;
+		success: boolean;
+		message: string;
+		userData: object;
+		body: object;
+	} = {
+		status: 0,
+		success: false,
+		message: '',
+		userData: {},
+		body: {}
+	};
 
 	const sessionCookie: string | undefined = cookies.get(SESSION_COOKIE);
 
@@ -20,7 +33,9 @@ export const load: PageServerLoad = async ({ locals, params, cookies }) => {
 			success: false,
 			message: 'Unauthorized',
 			userData: locals.user,
-			body: null
+			body: {
+				ambitionId: ambitionId
+			}
 		};
 	}
 
@@ -57,17 +72,16 @@ export const load: PageServerLoad = async ({ locals, params, cookies }) => {
 			success: false,
 			message: error.response.message,
 			userData: locals.user,
-			body: null
+			body: {
+				ambitionId: ambitionId
+			}
 		};
 	}
 
-	// const response = await fetch('/api/mock', {
-	// 	method: 'GET',
-	// 	headers: {
-	// 		'content-type': 'application/json'
-	// 	}
-	// });
-	// const data = await response.json();
+	if (!pageServerResponse.success) {
+		error(404, pageServerResponse);
+	}
+
 	return pageServerResponse;
 };
 

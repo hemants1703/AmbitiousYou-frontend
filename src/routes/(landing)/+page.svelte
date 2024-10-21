@@ -16,7 +16,7 @@
 </svelte:head>
 
 <div class="flex flex-col gap-8 justify-center items-center">
-	<BlurFade delay={0.25} class="flex gap-2 font-bold sm:text-9xl text-5xl text-center"
+	<BlurFade delay={0.25} class="flex gap-2 font-bold md:text-7xl lg:text-9xl text-5xl text-center"
 		><h1
 			class="selection:text-black tracking-tight bg-gradient-to-br from-black dark:from-white to-[--custom-secondary] text-transparent bg-clip-text"
 		>
@@ -37,10 +37,24 @@
 			term or sometimes even in the long term, AmbitiousYou helps you solve this issue!
 		</p>
 	</BlurFade>
-	<BlurFade delay={1}>
-		<div class="flex justify-center items-center gap-2">
+	<BlurFade delay={1} class="text-center">
+		<a
+			id="primaryLink"
+			href="/features"
+			class="relative inline-flex overflow-hidden rounded-xl p-px text-xl shadow-lg hover:shadow-xl active:shadow-md active:translate-y-1"
+		>
+			<span
+				class="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#c2c2c2_0%,#64CCC5_50%,#bebebe_100%)]"
+			/>
+			<span
+				class="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-[11px] bg-background px-4 py-2 font-medium text-foreground backdrop-blur-3xl"
+			>
+				Explore AmbitiousYou!
+			</span>
+		</a>
+		<!-- <div class="flex justify-center items-center gap-2">
 			<a id="secondaryButton" href="/signup">Sign Up</a>
 			<a id="primaryButton" href="/login">Login</a>
-		</div>
+		</div> -->
 	</BlurFade>
 </div>

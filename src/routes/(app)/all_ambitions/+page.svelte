@@ -8,6 +8,7 @@
 	import Button from '$lib/components/ui/button/Button.svelte';
 	import type { PageServerData } from './$types';
 	import { toast } from 'svoast';
+	import { afterUpdate } from 'svelte';
 
 	export let data: PageServerData;
 
@@ -21,9 +22,14 @@
 
 	const { userData } = data;
 
-	console.log('PageServerData documents: ', data.body.documents);
+	// console.log('PageServerData documents: ', data.body.documents);
 
-	const updatedAmbitions = data.body === null ? [] : data.body.documents;
+	let updatedAmbitions = data.body === null ? [] : data.body.documents;
+	// updatedAmbitions = updatedAmbitions.reverse();
+
+	afterUpdate(() => {
+		updatedAmbitions = updatedAmbitions.reverse();
+	});
 
 	// let selectedStatus: string | unknown = '';
 	// let selectedCategory: string | unknown = '';
@@ -120,7 +126,7 @@
 					</div>
 					
 				</div> -->
-				<div class="flex flex-col gap-5">
+				<div class="flex flex-col gap-2">
 					{#each updatedAmbitions as ambition}
 						<a href={`/view_ambition/${ambition.$id}`}>
 							<MagicCard

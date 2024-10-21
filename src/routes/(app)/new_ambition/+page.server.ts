@@ -10,7 +10,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 	confirmAuth(locals);
 
 	const pageServerResponse = {
-		userData: locals.user
+		user: locals.user
 	};
 
 	return pageServerResponse;
@@ -33,37 +33,71 @@ export const actions: Actions = {
 		const ambitionName = (requestData.get('ambitionName') as string) || '';
 		const ambitionDefinition = (requestData.get('ambitionDefinition') as string) || '';
 		const ambitionType = (requestData.get('ambitionType') as string) || '';
-		const ambitionTasks = (requestData.get('ambitionTasks') as string) || '';
-		const ambitionStartDate = (requestData.get('ambitionStartDate') as string) || '';
-		const ambitionEndDate = (requestData.get('ambitionEndDate') as string) || '';
-		const ambitionCompletionDate = (requestData.get('ambitionCompletionDate') as string) || '';
+		let ambitionTasks = (requestData.get('ambitionTasks') as string) || '';
+		let ambitionStartDate = (requestData.get('ambitionStartDate') as string) || '';
+		let ambitionEndDate = (requestData.get('ambitionEndDate') as string) || '';
+		const ambitionCompletionDate = null;
 		const ambitionStatus = (requestData.get('ambitionStatus') as string) || '';
 		const ambitionPriority = (requestData.get('ambitionPriority') as string) || '';
 		const ambitionCategory = (requestData.get('ambitionCategory') as string) || '';
-		const ambitionTags = (requestData.get('ambitionTags') as string) || '';
-		const ambitionNotes = (requestData.get('ambitionNotes') as string) || '';
+		// let ambitionTags = (requestData.get('ambitionTags') as string) || '';
+		let ambitionNotes = (requestData.get('ambitionNotes') as string) || '';
 
 		// Check if all the required fields are filled
 		if (
 			!ambitionName ||
 			!ambitionDefinition ||
-			!ambitionType ||
-			!ambitionTasks ||
-			!ambitionStartDate ||
-			!ambitionEndDate ||
-			!ambitionCompletionDate ||
-			!ambitionStatus ||
-			!ambitionPriority ||
 			!ambitionCategory ||
-			!ambitionTags ||
-			!ambitionNotes
+			!ambitionPriority ||
+			!ambitionStatus
 		) {
 			return {
 				status: 400,
 				success: false,
-				message: 'Please fill in all the fields.'
+				message: 'Please fill in all the fields.',
+				body: {
+					ambitionName: ambitionName,
+					ambitionDefinition: ambitionDefinition,
+					ambitionType: ambitionType,
+					ambitionTasks: ambitionTasks,
+					ambitionStartDate: ambitionStartDate,
+					ambitionEndDate: ambitionEndDate,
+					ambitionCompletionDate: ambitionCompletionDate,
+					ambitionStatus: ambitionStatus,
+					ambitionPriority: ambitionPriority,
+					ambitionCategory: ambitionCategory,
+					// ambitionTags: ambitionTags,
+					ambitionNotes: ambitionNotes
+				}
+			};
+		} else if (!ambitionStartDate || !ambitionEndDate) {
+			return {
+				status: 400,
+				success: false,
+				message: 'Please select a Start and End date as well in the date picker!',
+				body: {
+					ambitionName: ambitionName,
+					ambitionDefinition: ambitionDefinition,
+					ambitionType: ambitionType,
+					ambitionTasks: ambitionTasks,
+					ambitionStartDate: ambitionStartDate,
+					ambitionEndDate: ambitionEndDate,
+					ambitionCompletionDate: ambitionCompletionDate,
+					ambitionStatus: ambitionStatus,
+					ambitionPriority: ambitionPriority,
+					ambitionCategory: ambitionCategory,
+					// ambitionTags: ambitionTags,
+					ambitionNotes: ambitionNotes
+				}
 			};
 		}
+
+		ambitionTasks = JSON.parse(ambitionTasks).map((task) => JSON.stringify(task));
+		ambitionNotes = JSON.parse(ambitionNotes).map((note) => JSON.stringify(note));
+		// ambitionTags = JSON.parse(ambitionTags).map((tag) => JSON.stringify(tag));
+
+		ambitionStartDate = new Date(ambitionStartDate).toISOString();
+		ambitionEndDate = new Date(ambitionEndDate).toISOString();
 
 		const ambition = {
 			userId: userId,
@@ -78,7 +112,7 @@ export const actions: Actions = {
 			ambitionStatus: ambitionStatus,
 			ambitionPriority: ambitionPriority,
 			ambitionCategory: ambitionCategory,
-			ambitionTags: ambitionTags,
+			// ambitionTags: ambitionTags,
 			ambitionNotes: ambitionNotes,
 			ambitionPercentageCompleted: 0
 		};

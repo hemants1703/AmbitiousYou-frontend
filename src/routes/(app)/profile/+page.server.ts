@@ -8,7 +8,7 @@ export const load: PageServerLoad = ({ locals }) => {
 
 	// Pass the stored user local to the page.
 	return {
-		userData: locals.user
+		user: locals.user
 	};
 };
 

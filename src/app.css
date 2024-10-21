@@ -181,6 +181,11 @@
     background-color: var(--custom-secondary);
 }
 
+#primaryButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 #secondaryButton {
     background-color: transparent;
     /* color: var(--background); */

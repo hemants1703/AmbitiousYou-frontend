@@ -1,11 +1,15 @@
 <script lang="ts">
 	import ThemeToggler from './ThemeToggler.svelte';
+	import { page } from '$app/stores';
+
+	$: pagePathname = $page.url.pathname;
 
 	let navbarMenu: HTMLDivElement;
 	let navbarToggled: boolean = false;
 
 	function toggleNavbar() {
 		navbarMenu.classList.toggle('max-sm:hidden');
+		navbarMenu.classList.toggle('max-sm:animate-dropDown');
 		navbarToggled = !navbarToggled;
 		document.documentElement.style.overflow = navbarToggled ? 'hidden' : 'auto';
 	}
@@ -28,12 +32,32 @@
 		>
 
 		<div
-			class="max-sm:hidden flex max-sm:flex-col justify-center items-center gap-10 max-sm:fixed max-sm:inset-0 max-sm:top-0 max-sm:bg-background max-sm:z-40"
+			class="max-sm:hidden max-sm:fixed max-sm:inset-0 max-sm:bg-background flex max-sm:flex-col justify-center items-center gap-10 z-40"
 			bind:this={navbarMenu}
 		>
-			<div class="space-x-6">
-				<a id="primaryLink" href="/features" on:click={toggleNavbar}>Features</a>
-				<!-- <a id="primaryLink" href="/pricing">Pricing</a> -->
+			<div
+				class="sm:space-x-6 max-sm:space-y-10 text-center flex justify-center items-center max-sm:flex-col"
+			>
+				<a href="/" on:click={toggleNavbar} class={pagePathname === '/' ? 'sm:hidden block' : ''}
+					>Home</a
+				>
+				<a
+					id="primaryLink"
+					href="/features"
+					on:click={toggleNavbar}
+					class="relative inline-flex overflow-hidden rounded-xl p-px {pagePathname === '/'
+						? 'sm:hidden block'
+						: ''}"
+				>
+					<span
+						class="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#c2c2c2_0%,#64CCC5_50%,#bebebe_100%)]"
+					/>
+					<span
+						class="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-[11px] bg-background px-4 py-2 text-sm font-medium text-foreground backdrop-blur-3xl"
+					>
+						Explore Features!
+					</span>
+				</a>
 			</div>
 
 			<div class="flex max-sm:flex-col justify-center items-center gap-2 max-sm:gap-10">

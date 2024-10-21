@@ -5,6 +5,7 @@ declare global {
 		// interface Error {}
 		interface Locals {
 			user: Models.User<Models.Preferences> | undefined;
+			userData: Models.User<Models.Preferences> | undefined;
 		}
 		// interface PageData {}
 		// interface PageState {}

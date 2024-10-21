@@ -37,7 +37,7 @@ export const load: PageServerLoad = async ({ locals, fetch, cookies }) => {
 			[Query.equal('userEmail', [locals.user.email])]
 		);
 
-		console.log(chalk.bgWhiteBright.black('Ambitions List: '), documentListingResult);
+		// console.log(chalk.bgWhiteBright.black('Ambitions List: '), documentListingResult);
 
 		pageServerResponse = {
 			status: 200,

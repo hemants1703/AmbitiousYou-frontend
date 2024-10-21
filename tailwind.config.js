@@ -58,7 +58,9 @@ const config = {
 			},
 			animation: {
 				shake: 'shake 0.5s cubic-bezier(.36,.07,.19,.97) forwards',
-				fadeOut: 'fadeOut 1s ease-in-out forwards'
+				fadeOut: 'fadeOut 1s ease-in-out forwards',
+				dropDown: 'dropDown 0.5s cubic-bezier(.36,.07,.19,.97) forwards',
+				dropDownReverse: 'dropDown 0.5s cubic-bezier(.36,.07,.19,.97) reverse forwards'
 			},
 			keyframes: {
 				shake: {
@@ -70,6 +72,14 @@ const config = {
 				fadeOut: {
 					'0%': { opacity: 1 },
 					'100%': { opacity: 0, display: 'none' }
+				},
+				dropDown: {
+					'0%': { transform: 'translateY(-100%)', opacity: 0 },
+					'100%': { transform: 'translateY(0)', opacity: 1 }
+				},
+				dropDownReverse: {
+					'0%': { transform: 'translateY(0)', opacity: 1 },
+					'100%': { transform: 'translateY(-100%)', opacity: 0 }
 				}
 			}
 		}

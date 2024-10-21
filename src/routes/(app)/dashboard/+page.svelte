@@ -3,12 +3,41 @@
 	import NumberTicker from '$lib/components/svelte_magicui/NumberTicker.svelte';
 	import type { PageServerData } from './$types';
 	import { loggedInUser, greetUser } from '$lib/store/userData';
+	import CountCard from '$lib/components/afterAuth/CountCard.svelte';
 
 	export let data: PageServerData;
 
-	console.log('dashboard user data: ', data.userData);
+	console.log('dashboard user : ', data.user);
+	console.log('dashboard userData : ', data.userData);
 
-	loggedInUser.set(data.userData);
+	const user = data.user;
+	const userData = data.userData;
+
+	const ambitionsData = {
+		totalAmbitions: userData.total,
+		completedAmbitions: 0,
+		ongoingAmbitions: 0,
+		futureAmbitions: 0,
+		combinedAmbitionTasks: 0,
+		recentlyCompletedAmbition: {}
+	};
+
+	let latestCompletionDate = new Date(0);
+
+	userData.documents.forEach((document) => {
+		if (document.ambitionStatus === 'ongoing') ambitionsData.ongoingAmbitions++;
+		else if (document.ambitionStatus === 'completed') ambitionsData.completedAmbitions++;
+		else ambitionsData.futureAmbitions++;
+
+		ambitionsData.combinedAmbitionTasks += document.ambitionTasks.length;
+
+		if (new Date(document.ambitionCompletionDate) > latestCompletionDate) {
+			latestCompletionDate = new Date(document.ambitionCompletionDate);
+			ambitionsData.recentlyCompletedAmbition = document;
+		}
+	});
+
+	loggedInUser.set(data.user);
 
 	// import { userData } from '$lib/mockDB
 
@@ -20,7 +49,7 @@
 	<title>Dashboard - AmbitiousYou!</title>
 </svelte:head>
 
-<div class="flex flex-col gap-10">
+<div class="flex flex-col gap-10 pb-32">
 	<header>
 		<h1 class="font-bold text-3xl">Welcome, {userfirstName}!</h1>
 		<p class="text-muted-foreground">
@@ -28,6 +57,43 @@
 			new ambitions. You can also track your progress on each ambition.
 		</p>
 	</header>
+
+	<section class="space-y-4">
+		<div class="flex max-sm:flex-col justify-center items-center gap-4">
+			<CountCard
+				count={ambitionsData.totalAmbitions}
+				title="Total Ambitions"
+				customClass={'bg-[#64CCC550]'}
+			/>
+			<CountCard
+				count={ambitionsData.completedAmbitions}
+				title="Completed Ambitions"
+				customClass={'bg-[#10b98150]'}
+			/>
+			<CountCard
+				count={ambitionsData.ongoingAmbitions}
+				title="Ongoing Ambitions"
+				customClass={'bg-[#3b82f650]'}
+			/>
+		</div>
+		<div>
+			<CountCard
+				count={ambitionsData.combinedAmbitionTasks}
+				title="Total Ambition Combined Tasks"
+			/>
+		</div>
+		<!-- <div
+			class="flex flex-col items-start justify-center w-full h-full gap-2 border rounded-md p-4 shadow-md dark:shadow-gray-900"
+		>
+			<h2 class="text-xl font-semibold">Recently Completed Ambition</h2>
+			<div class="flex flex-col">
+				<h2 class="text-2xl font-bold">{ambitionsData.recentlyCompletedAmbition.ambitionName}</h2>
+				<p class="text-muted-foreground">
+					{ambitionsData.recentlyCompletedAmbition.ambitionDefinition}
+				</p>
+			</div>
+		</div> -->
+	</section>
 
 	<!-- GREETING USERS -->
 	{#if $greetUser}

@@ -15,24 +15,31 @@
 	import Checkbox from '$lib/components/ui/checkbox/checkbox.svelte';
 	import { toast } from 'svoast';
 	import type { PageServerData } from './$types';
+	import { ambitions } from '$lib/mockDB';
+	import { goto } from '$app/navigation';
 
-	const df = new DateFormatter('en-US', { dateStyle: 'long' });
+	const df = new DateFormatter('en-IN', { dateStyle: 'long' });
 
 	export let data: PageServerData;
 	export let form: FormData;
 
-	const { userData } = data;
+	let submitButtonClicked = false;
+
+	const { user } = data;
 
 	$: if (form) {
 		console.log(form);
 		if (!form.success) {
 			toast.error(form.message);
+			submitButtonClicked = false;
 		} else {
-			toast.success(`${form.message} ${userData.name.split(' ')[0]}!`);
+			toast.success(`${form.message} ${user.name.split(' ')[0]}!`);
+			submitButtonClicked = false;
+			goto('/all_ambitions');
 		}
 	}
 
-	let value: DateValue | undefined = undefined;
+	let value: DateValue | undefined | { start: number; end: number } = undefined;
 
 	let startValue: DateValue | undefined = undefined;
 
@@ -55,6 +62,7 @@
 			checked: false
 		};
 		ambitionTasks = [...ambitionTasks, newTask];
+
 		taskName = '';
 		taskDescription = '';
 	}
@@ -75,6 +83,7 @@
 			created_at: new Date()
 		};
 		ambitionNotes = [...ambitionNotes, newNote];
+
 		noteContent = '';
 	}
 </script>
@@ -94,7 +103,13 @@
 	</header>
 	<Separator />
 	<div class="">
-		<form method="POST" action="?/add_ambition" use:enhance>
+		<form
+			method="POST"
+			action="?/add_ambition"
+			use:enhance={() => {
+				submitButtonClicked = true;
+			}}
+		>
 			<div class="flex flex-col gap-10">
 				<div class="flex flex-col gap-4">
 					<div class="flex flex-col gap-2">
@@ -129,10 +144,12 @@
 									<Select.Item value="career">Career</Select.Item>
 									<Select.Item value="project">Project</Select.Item>
 									<Select.Item value="health">Health</Select.Item>
+									<Select.Item value="life">Life</Select.Item>
+									<Select.Item value="hobby">Hobby</Select.Item>
 									<Select.Item value="finance">Finance</Select.Item>
 									<Select.Item value="relationship">Relationship</Select.Item>
 								</Select.Content>
-								<Select.Input name="ambitionCategory" required />
+								<Select.Input name="ambitionCategory" />
 							</Select.Root>
 						</div>
 						<div class="flex flex-col gap-2">
@@ -146,7 +163,7 @@
 									<Select.Item value="medium" class="text-yellow-500">Medium</Select.Item>
 									<Select.Item value="high" class="text-red-500">High</Select.Item>
 								</Select.Content>
-								<Select.Input name="ambitionPriority" required />
+								<Select.Input name="ambitionPriority" />
 							</Select.Root>
 						</div>
 						<div class="flex flex-col gap-2">
@@ -160,7 +177,7 @@
 									<Select.Item value="ongoing" class="text-[#3b82f6]">Ongoing</Select.Item>
 									<Select.Item value="future" class="text-[#a855f7]">Future</Select.Item>
 								</Select.Content>
-								<Select.Input name="ambitionStatus" required />
+								<Select.Input name="ambitionStatus" />
 							</Select.Root>
 						</div>
 					</div>
@@ -171,6 +188,16 @@
 								I'll complete my ambition within this time frame
 							</p>
 						</Label>
+						<input
+							type="hidden"
+							name="ambitionStartDate"
+							value={value?.start ? value.start.toDate(getLocalTimeZone()) : ''}
+						/>
+						<input
+							type="hidden"
+							name="ambitionEndDate"
+							value={value?.end ? value.end.toDate(getLocalTimeZone()) : ''}
+						/>
 						<Popover.Root openFocus>
 							<Popover.Trigger asChild let:builder>
 								<Button
@@ -209,6 +236,25 @@
 							</Popover.Content>
 						</Popover.Root>
 					</div>
+
+					<!-- TAGS FEATURE, MIGHT BE USING IN FUTURE UPDATES -->
+					<!-- <div class="flex flex-col gap-2">
+						<Label for="ambitionTags" class="text-xl">Tags</Label>
+						<Input
+							id="ambitionTag"
+							name="ambitionTag"
+							placeholder="Give your ambition some tags for easy search..."
+						/>
+						<div>
+							{#each ambitionTags as tag}
+								<span
+									class="text-sm bg-yellow-200 dark:bg-yellow-900 dark:bg-opacity-20 bg-opacity-20 rounded-lg p-1"
+								>
+									{tag}
+								</span>
+							{/each}
+						</div>
+					</div> -->
 					<div class="grid sm:grid-cols-2 gap-x-5">
 						<div class="col-span-2">
 							<Label class="text-xl">Tasks for this ambition</Label>
@@ -375,7 +421,30 @@
 					</div>
 				</div>
 				<div class="self-center">
-					<button type="submit" id="primaryButton">Remember my Ambition!</button>
+					<button
+						type="submit"
+						id="primaryButton"
+						class="flex justify-center items-center gap-2"
+						disabled={submitButtonClicked}
+					>
+						{#if submitButtonClicked}
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="16"
+								height="16"
+								fill="#000"
+								viewBox="0 0 256 256"
+								class="animate-spin"
+							>
+								<path
+									d="M232,128a104,104,0,0,1-208,0c0-41,23.81-78.36,60.66-95.27a8,8,0,0,1,6.68,14.54C60.15,61.59,40,93.27,40,128a88,88,0,0,0,176,0c0-34.73-20.15-66.41-51.34-80.73a8,8,0,0,1,6.68-14.54C208.19,49.64,232,87,232,128Z"
+								></path>
+							</svg>
+							<span>Remembering Ambition...</span>
+						{:else}
+							<span>Remember my Ambition!</span>
+						{/if}
+					</button>
 				</div>
 			</div>
 		</form>
