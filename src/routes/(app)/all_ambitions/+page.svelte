@@ -12,7 +12,7 @@
 
 	export let data: PageServerData;
 
-	console.log('PageServerData All Ambitions: ', data);
+	// console.log('PageServerData All Ambitions: ', data);
 
 	if (data) {
 		if (!data.success) {

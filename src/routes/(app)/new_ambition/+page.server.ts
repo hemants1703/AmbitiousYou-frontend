@@ -44,37 +44,68 @@ export const actions: Actions = {
 		let ambitionNotes = (requestData.get('ambitionNotes') as string) || '';
 
 		// Check if all the required fields are filled
-		if (
-			!ambitionName ||
-			!ambitionDefinition ||
-			!ambitionCategory ||
-			!ambitionPriority ||
-			!ambitionStatus
-		) {
+		// if (
+		// 	!ambitionName ||
+		// 	!ambitionDefinition ||
+		// 	!ambitionCategory ||
+		// 	!ambitionPriority ||
+		// 	!ambitionStatus
+		// ) {
+		// 	return {
+		// 		status: 400,
+		// 		success: false,
+		// 		message: 'Please fill in all the fields.',
+		// 		body: {
+		// 			ambitionName: ambitionName,
+		// 			ambitionDefinition: ambitionDefinition,
+		// 			ambitionType: ambitionType,
+		// 			ambitionTasks: ambitionTasks,
+		// 			ambitionStartDate: ambitionStartDate,
+		// 			ambitionEndDate: ambitionEndDate,
+		// 			ambitionCompletionDate: ambitionCompletionDate,
+		// 			ambitionStatus: ambitionStatus,
+		// 			ambitionPriority: ambitionPriority,
+		// 			ambitionCategory: ambitionCategory,
+		// 			// ambitionTags: ambitionTags,
+		// 			ambitionNotes: ambitionNotes
+		// 		}
+		// 	};
+		// } else if (!ambitionStartDate || !ambitionEndDate) {
+		// 	return {
+		// 		status: 400,
+		// 		success: false,
+		// 		message: 'Please select a Start and End date as well in the date picker!',
+		// 		body: {
+		// 			ambitionName: ambitionName,
+		// 			ambitionDefinition: ambitionDefinition,
+		// 			ambitionType: ambitionType,
+		// 			ambitionTasks: ambitionTasks,
+		// 			ambitionStartDate: ambitionStartDate,
+		// 			ambitionEndDate: ambitionEndDate,
+		// 			ambitionCompletionDate: ambitionCompletionDate,
+		// 			ambitionStatus: ambitionStatus,
+		// 			ambitionPriority: ambitionPriority,
+		// 			ambitionCategory: ambitionCategory,
+		// 			// ambitionTags: ambitionTags,
+		// 			ambitionNotes: ambitionNotes
+		// 		}
+		// 	};
+		// }
+
+		ambitionTasks = JSON.parse(ambitionTasks).map((task) => JSON.stringify(task));
+		ambitionNotes = JSON.parse(ambitionNotes).map((note) => JSON.stringify(note));
+		// ambitionTags = JSON.parse(ambitionTags).map((tag) => JSON.stringify(tag));
+
+		ambitionStartDate = new Date(ambitionStartDate).toISOString();
+		ambitionEndDate = new Date(ambitionEndDate).toISOString();
+
+		console.log(chalk.bgWhiteBright.black('Ambition Tasks after processing: '), ambitionTasks);
+
+		if (ambitionTasks.length === 0) {
 			return {
 				status: 400,
 				success: false,
-				message: 'Please fill in all the fields.',
-				body: {
-					ambitionName: ambitionName,
-					ambitionDefinition: ambitionDefinition,
-					ambitionType: ambitionType,
-					ambitionTasks: ambitionTasks,
-					ambitionStartDate: ambitionStartDate,
-					ambitionEndDate: ambitionEndDate,
-					ambitionCompletionDate: ambitionCompletionDate,
-					ambitionStatus: ambitionStatus,
-					ambitionPriority: ambitionPriority,
-					ambitionCategory: ambitionCategory,
-					// ambitionTags: ambitionTags,
-					ambitionNotes: ambitionNotes
-				}
-			};
-		} else if (!ambitionStartDate || !ambitionEndDate) {
-			return {
-				status: 400,
-				success: false,
-				message: 'Please select a Start and End date as well in the date picker!',
+				message: "Please add at least one task to the Ambition's task list.",
 				body: {
 					ambitionName: ambitionName,
 					ambitionDefinition: ambitionDefinition,
@@ -91,13 +122,6 @@ export const actions: Actions = {
 				}
 			};
 		}
-
-		ambitionTasks = JSON.parse(ambitionTasks).map((task) => JSON.stringify(task));
-		ambitionNotes = JSON.parse(ambitionNotes).map((note) => JSON.stringify(note));
-		// ambitionTags = JSON.parse(ambitionTags).map((tag) => JSON.stringify(tag));
-
-		ambitionStartDate = new Date(ambitionStartDate).toISOString();
-		ambitionEndDate = new Date(ambitionEndDate).toISOString();
 
 		const ambition = {
 			userId: userId,

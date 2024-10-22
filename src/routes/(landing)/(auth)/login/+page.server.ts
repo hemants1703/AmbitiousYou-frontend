@@ -4,6 +4,7 @@ import type { PageServerLoad } from './$types';
 import type { Actions } from './$types';
 import { redirect } from '@sveltejs/kit';
 import { greetUser, loggedInUser } from '$lib/store/userData';
+import type { ServerFormData } from '$lib/types/serverFormData';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
@@ -18,7 +19,7 @@ export const actions: Actions = {
 		const email: FormDataEntryValue = formData.get('email') as string;
 		const password: FormDataEntryValue = formData.get('password') as string;
 
-		let formResponse = {};
+		let formResponse: ServerFormData = {};
 
 		if (!email || !password) {
 			return {
@@ -31,21 +32,6 @@ export const actions: Actions = {
 				}
 			};
 		}
-
-		// const passwordRegex: RegExp =
-		// 	/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-		// if (!passwordRegex.test(password)) {
-		// 	return {
-		// 		status: 400,
-		// 		success: false,
-		// 		message: 'Invalid Password',
-		// 		body: {
-		// 			email: email,
-		// 			password: password
-		// 		}
-		// 	};
-		// }
 
 		const { account } = createAdminClient();
 
@@ -71,7 +57,8 @@ export const actions: Actions = {
 				message: 'Login successful',
 				body: session
 			};
-		} catch (error) {
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		} catch (error: any) {
 			console.error(chalk.bgRedBright.white('Error'), error);
 			formResponse = {
 				status: 401,

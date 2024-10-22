@@ -19,14 +19,14 @@ type AmbitionType = {
 	ambitionType: string;
 	ambitionStartDate: string;
 	ambitionEndDate: string;
-	ambitionCompletionDate: string;
+	ambitionCompletionDate: string | null;
 	ambitionStatus: string;
 	ambitionPriority: string;
 	ambitionCategory: string;
 	ambitionPercentageCompleted: number;
-	ambitionTasks: string; // JSON string of AmbitionTask[]
-	ambitionTags: string;
-	ambitionNotes: string; // JSON string of AmbitionNote[]
+	ambitionTasks: AmbitionTaskType[]; // Array of AmbitionTaskType
+	ambitionTags: string[];
+	ambitionNotes: AmbitionNoteType[]; // Array of AmbitionNoteType
 	$id: string;
 	$createdAt: string;
 	$updatedAt: string;

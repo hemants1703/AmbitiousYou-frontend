@@ -1,12 +1,26 @@
 <script lang="ts">
-	import type { PageServerData } from './$types';
-	import Button from '$lib/components/ui/button/button.svelte';
+	import type { ActionData, PageServerData } from './$types';
+	import { enhance } from '$app/forms';
+	import Trash_2 from 'lucide-svelte/icons/trash-2';
+	import { toast } from 'svoast';
 
 	export let data: PageServerData;
+	export let form: ActionData;
+
+	$: if (form) {
+		if (form.success) {
+			toast.success(form.message);
+		} else {
+			toast.error(form.message);
+			deleteAccountButtonClicked = false;
+		}
+	}
 
 	const { user } = data;
 
-	console.log(user);
+	// console.log(user);
+
+	let deleteAccountButtonClicked = false;
 </script>
 
 <svelte:head>
@@ -52,4 +66,45 @@
 			</div>
 		</div>
 	</div>
+	<!-- <div>
+		<form
+			action="?/deleteAccount"
+			method="POST"
+			use:enhance={() => {
+				deleteAccountButtonClicked = true;
+			}}
+		>
+			<button
+				type="submit"
+				class="flex gap-2 bg-red-100 hover:bg-red-500 text-red-500 hover:text-red-100 p-2 rounded-md"
+			>
+				{#if deleteAccountButtonClicked}
+					<span>
+						<span class="animate-spin"
+							><svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								><path d="M12 2v4" /><path d="m16.2 7.8 2.9-2.9" /><path d="M18 12h4" /><path
+									d="m16.2 16.2 2.9 2.9"
+								/><path d="M12 18v4" /><path d="m4.9 19.1 2.9-2.9" /><path d="M2 12h4" /><path
+									d="m4.9 4.9 2.9 2.9"
+								/></svg
+							></span
+						>
+					</span>
+					Deleting Account...
+				{:else}
+					<Trash_2 size="24" />
+					Delete Account
+				{/if}
+			</button>
+		</form>
+	</div> -->
 </div>

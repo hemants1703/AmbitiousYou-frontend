@@ -8,13 +8,34 @@
 	export let form: ActionData;
 	$: console.log('Signup form response from server:', form);
 
+	const signUpDetails = {
+		fullName: '',
+		email: '',
+		password: ''
+	};
+
 	$: if (form) {
 		if (form.success) {
 			toast.success(form.message);
 		} else {
-			toast.error(form.message);
+			if (form.body?.response?.type === 'user_already_exists')
+				toast.error(
+					"Email already exists. Please login or try another email if you don't have an account."
+				);
+
+			if (form.message === 'Invalid Password') {
+				toast.error('Invalid Password');
+				handleInvalidPassword(form);
+			}
+
 			signupFormSubmitted = false;
 		}
+	}
+
+	function handleInvalidPassword(form: ActionData) {
+		signUpDetails.fullName = form!.body.formData.fullName;
+		signUpDetails.email = form!.body.formData.email;
+		signupFormSubmitted = false;
 	}
 
 	let passwordInputElement: HTMLInputElement;
@@ -52,6 +73,7 @@
 			}}
 		>
 			<input
+				bind:value={signUpDetails.fullName}
 				placeholder="Full Name"
 				type="text"
 				name="fullName"
@@ -59,6 +81,7 @@
 				class="bg-transparent border rounded-lg py-1 px-2 active:outline focus:outline-[--custom-primary] transition-all duration-100 ease-in-out"
 			/>
 			<input
+				bind:value={signUpDetails.email}
 				placeholder="Email"
 				type="email"
 				name="email"
@@ -107,18 +130,24 @@
 				class="flex justify-center items-center gap-2"
 			>
 				{#if signupFormSubmitted}
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="16"
-						height="16"
-						fill="#000"
-						viewBox="0 0 256 256"
-						class="animate-spin"
+					<span class="animate-spin"
+						><svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							><path d="M12 2v4" /><path d="m16.2 7.8 2.9-2.9" /><path d="M18 12h4" /><path
+								d="m16.2 16.2 2.9 2.9"
+							/><path d="M12 18v4" /><path d="m4.9 19.1 2.9-2.9" /><path d="M2 12h4" /><path
+								d="m4.9 4.9 2.9 2.9"
+							/></svg
+						></span
 					>
-						<path
-							d="M232,128a104,104,0,0,1-208,0c0-41,23.81-78.36,60.66-95.27a8,8,0,0,1,6.68,14.54C60.15,61.59,40,93.27,40,128a88,88,0,0,0,176,0c0-34.73-20.15-66.41-51.34-80.73a8,8,0,0,1,6.68-14.54C208.19,49.64,232,87,232,128Z"
-						></path>
-					</svg>
 					<span>Creating Free Account!</span>
 				{:else}
 					Create Free Account!

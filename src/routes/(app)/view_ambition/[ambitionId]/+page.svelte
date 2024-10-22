@@ -18,17 +18,31 @@
 	import { ListPlus, MessageSquareDiff } from 'lucide-svelte';
 	import { enhance } from '$app/forms';
 	import { toast } from 'svoast';
-	import type { AmbitionTaskType } from '$lib/types/ambitionType';
+	import type { AmbitionNoteType, AmbitionTaskType, AmbitionType } from '$lib/types/ambitionType';
 	import { ChevronLeft } from 'svelte-radix';
 	import Trash_2 from 'lucide-svelte/icons/trash-2';
+	import type { ServerFormData } from '$lib/types/serverFormData';
+	import type { ActionData } from '../$types';
 
+	export let form: ActionData;
 	export let data: PageData;
 	// console.log('view ambitions page data: ', data);
 
-	const ambition = data.body;
+	$: if (form) {
+		console.log('form data: ', form);
+		if (!form.success) {
+			toast.error(form.message);
+			if (form.message === 'Error deleting Ambition') deleteButtonClicked = false;
+		} else {
+			toast.success(form.message);
+		}
+	}
+
+	const ambitionData: AmbitionType = data.body as AmbitionType;
 
 	const daysLeft = Math.floor(
-		(new Date(ambition.ambitionEndDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)
+		(new Date(ambitionData.ambitionEndDate).getTime() - new Date().getTime()) /
+			(1000 * 60 * 60 * 24)
 	);
 
 	let taskName: string = '';
@@ -36,38 +50,115 @@
 
 	let noteContent: string = '';
 
-	const ambitionCompletionDate =
-		ambition.ambitionCompletionDate === null
+	let ambitionCompletionDate =
+		ambitionData.ambitionCompletionDate === null
 			? 'Incomplete Ambition!'
-			: Date(ambition.ambitionCompletionDate).toLocaleDateString();
+			: new Date(ambitionData.ambitionCompletionDate).toLocaleDateString();
 
-	const ambitionStartDate = new Date(ambition.ambitionStartDate).toLocaleDateString();
-	const ambitionEndDate = new Date(ambition.ambitionEndDate).toLocaleDateString();
+	const ambitionStartDate: string = new Date(ambitionData.ambitionStartDate).toLocaleDateString();
+	const ambitionEndDate: string = new Date(ambitionData.ambitionEndDate).toLocaleDateString();
 
-	const ambitionTasks = ambition.ambitionTasks.map((task) => JSON.parse(task));
-	// const ambitionTags = JSON.parse(ambition.ambitionTags);
-	const ambitionNotes = ambition.ambitionNotes.map((note) => JSON.parse(note));
-	const ambitionStatus =
-		ambition.ambitionStatus[0].toUpperCase() + ambition.ambitionStatus.slice(1);
-	const ambitionPriority =
-		ambition.ambitionPriority[0].toUpperCase() + ambition.ambitionPriority.slice(1);
-	const ambitionCategory =
-		ambition.ambitionCategory[0].toUpperCase() + ambition.ambitionCategory.slice(1);
+	let ambitionTasks = ambitionData.ambitionTasks.map((task) => JSON.parse(task));
+	// const ambitionTags = JSON.parse(ambitionData.ambitionTags);
+	let ambitionNotes: AmbitionNoteType[] = ambitionData.ambitionNotes.map((note) =>
+		JSON.parse(note)
+	);
+	const ambitionStatus: string =
+		ambitionData.ambitionStatus[0].toUpperCase() + ambitionData.ambitionStatus.slice(1);
+	const ambitionPriority: string =
+		ambitionData.ambitionPriority[0].toUpperCase() + ambitionData.ambitionPriority.slice(1);
+	const ambitionCategory: string =
+		ambitionData.ambitionCategory[0].toUpperCase() + ambitionData.ambitionCategory.slice(1);
 
-	$: finishedAmbitionTasks = ambitionTasks.filter((task: AmbitionTaskType) => task.checked);
-	$: unfinishedAmbitionTasks = ambitionTasks.filter((task: AmbitionTaskType) => !task.checked);
-	let totalAmbitionTasks = ambitionTasks.length;
+	const finishedAmbitionTasks: AmbitionTaskType[] =
+		ambitionTasks.length > 0 ? ambitionTasks.filter((task) => task.checked) : [];
+	const unfinishedAmbitionTasks: AmbitionTaskType[] =
+		ambitionTasks.length > 0 ? ambitionTasks.filter((task) => !task.checked) : [];
+	let totalAmbitionTasks: number = ambitionTasks.length;
 
-	$: percentageCompleted = (finishedAmbitionTasks / totalAmbitionTasks) * 100;
+	const percentageCompleted: number =
+		ambitionStatus === 'Completed' && totalAmbitionTasks === 0
+			? 100
+			: totalAmbitionTasks === 0
+				? 0
+				: (finishedAmbitionTasks.length / totalAmbitionTasks) * 100;
 
 	let askForUpdation = false;
 	let askForCompleteUpdation = false;
 	let updateAmbitionEnabled = false;
+
+	let deleteButtonClicked = false;
+
+	let updatedAmbitionStatus: string = ambitionStatus;
+
+	async function submitAmbitionUpdates() {
+		const currentAmbitionStatus = ambitionData.ambitionStatus;
+		const currentAmbitionTasks = ambitionData.ambitionTasks;
+		const currentAmbitionNotes = ambitionData.ambitionNotes;
+
+		ambitionData.ambitionStatus = updatedAmbitionStatus;
+		ambitionData.ambitionTasks = ambitionTasks.filter((task) => JSON.stringify(task));
+		ambitionData.ambitionNotes = ambitionNotes.filter((note) => JSON.stringify(note));
+
+		try {
+			const response = await fetch('/api/updateAmbition', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(ambitionData)
+			});
+
+			console.log('Ambition updated successfully: ', await response.json());
+
+			// if (response.ok) {
+			// 	const data = await response.json();
+			// 	console.log('Ambition updated successfully: ', data);
+			// 	toast.success('Ambition updated successfully!');
+			// } else {
+			// 	ambitionData.ambitionStatus = currentAmbitionStatus;
+			// 	ambitionData.ambitionTasks = currentAmbitionTasks;
+			// 	ambitionData.ambitionNotes = currentAmbitionNotes;
+			// 	console.error('Error updating Ambition: ', response);
+			// 	toast.error('Error updating Ambition');
+			// }
+		} catch (error) {
+			console.error('Error updating Ambition: ', error);
+			toast.error('Error updating Ambition');
+		}
+	}
+
+	function handleNewTaskAddition() {
+		const newAmbitionTask = {
+			id: ambitionTasks.length,
+			name: taskName,
+			description: taskDescription,
+			checked: false
+		};
+
+		ambitionTasks = [...ambitionTasks, newAmbitionTask];
+
+		totalAmbitionTasks++;
+		taskName = '';
+		taskDescription = '';
+	}
+
+	function handleNewNoteAddition() {
+		const newAmbitionNote = {
+			id: ambitionNotes.length,
+			content: noteContent,
+			created_at: new Date().toISOString()
+		};
+
+		ambitionNotes = [...ambitionNotes, newAmbitionNote];
+
+		noteContent = '';
+	}
 </script>
 
 <svelte:head>
-	<title>{ambition.ambitionName} - AmbitiousYou!</title>
-	<meta name="description" content={ambition.ambitionDefinition} />
+	<title>{ambitionData.ambitionName} - AmbitiousYou!</title>
+	<meta name="description" content={ambitionData.ambitionDefinition} />
 </svelte:head>
 
 <!-- MODALS THAT ASK FOR PERMISSIONS TO MAKE CHANGES/UPDATE THE AMBITION AND CONFIRMATION -->
@@ -128,7 +219,7 @@
 						on:click|preventDefault={() => {
 							updateAmbitionEnabled = false;
 							askForCompleteUpdation = false;
-							// handleAmbitionUpdation();
+							submitAmbitionUpdates();
 						}}
 					>
 						Yes
@@ -143,7 +234,7 @@
 {#if !updateAmbitionEnabled}
 	<a
 		href="/all_ambitions"
-		class="flex justify-start items-center opacity-50 mb-5 hover:opacity-100 transition-all duration-300 ease-in-out"
+		class="inline-flex justify-start items-center opacity-50 mb-5 hover:opacity-100 active:opacity-30 transition-all duration-300 ease-in-out"
 		><ChevronLeft />Back</a
 	>
 {/if}
@@ -152,18 +243,18 @@
 	<header class="flex max-sm:flex-col justify-between items-center gap-5">
 		<div>
 			<h1 class="font-bold text-3xl max-sm:text-center">
-				{ambition.ambitionName}
+				{ambitionData.ambitionName}
 				<Badge
 					class="bg-[--custom-dark] hover:bg[--custom-light] text-white px-2 py-px -translate-y-1.5 rounded-full"
-					>{ambition.ambitionCategory.toUpperCase()}</Badge
+					>{ambitionData.ambitionCategory.toUpperCase()}</Badge
 				>
 			</h1>
 			<p class="text-muted-foreground text-md max-sm:text-center">
-				{ambition.ambitionDefinition}
+				{ambitionData.ambitionDefinition}
 			</p>
 		</div>
 		<div class="flex gap-2">
-			<!-- {#each JSON.parse(ambition.tags) as tag, idx}
+			<!-- {#each JSON.parse(ambitionData.tags) as tag, idx}
 				<Badge>{tag}</Badge>
 			{/each} -->
 			<button
@@ -187,12 +278,18 @@
 		<div class="w-full flex flex-col gap-10">
 			<div>
 				<!-- <h2 class="text-xl font-semibold mb-4">Time Left</h2> -->
-				<div class="border {daysLeft < 0 ? 'border-red-500' : ''} rounded-xl p-4">
+				<div
+					class="border {daysLeft < 0 && ambitionStatus !== 'Completed'
+						? 'border-red-500'
+						: ''} rounded-xl p-4"
+				>
 					<div class="rounded-lg space-y-5">
 						<div class="flex justify-between w-full border-b">
 							<strong>Days Left:</strong>
-							{#if daysLeft < 0}
+							{#if daysLeft < 0 && ambitionStatus !== 'Completed'}
 								<p class="text-red-500">Deadline passed</p>
+							{:else if daysLeft <= 0 && ambitionStatus === 'Completed'}
+								<p class="text-green-500">{ambitionStatus}!</p>
 							{:else}
 								<p>{daysLeft}</p>
 							{/if}
@@ -217,6 +314,7 @@
 				</div>
 			</div>
 
+			<!-- NOTES SECTION STARTS -->
 			<div>
 				<div class="flex flex-col gap-2 border p-4 rounded-xl">
 					<h1 class="font-bold text-xs">
@@ -264,12 +362,14 @@
 						>
 							<div class="space-y-4">
 								<Textarea
+									bind:value={noteContent}
 									name="note"
 									placeholder="Enter your new Note"
 									class="bg-yellow-200 dark:bg-yellow-900 dark:bg-opacity-20 bg-opacity-20"
 								/>
 								<Button
 									disabled={noteContent.length === 0}
+									on:click={handleNewNoteAddition}
 									type="submit"
 									class="bg-yellow-200 hover:bg-yellow-300 active:bg-yellow-400 text-black w-full flex place-items-center gap-5"
 								>
@@ -281,6 +381,7 @@
 					</div>
 				</div>
 			{/if}
+			<!-- NOTES SECTION ENDS -->
 		</div>
 		<!-- <div class="md:hidden w-full">
 			<Tabs.Root value="account" class="w-full">
@@ -294,6 +395,7 @@
 			</Tabs.Root>
 		</div> -->
 		<div class="w-full flex flex-col gap-10">
+			<!-- AMBITION TASKS SECTION STARTS -->
 			<div>
 				<h2 class="text-xl font-semibold mb-4">Tasks to Accomplish your Ambition</h2>
 				<div class=" border rounded-xl p-4">
@@ -307,7 +409,7 @@
 								>
 									{#if updateAmbitionEnabled}
 										<Checkbox
-											id={task.id}
+											id={typeof task.id !== 'string' ? task.id.toString() : task.id}
 											onCheckedChange={() => {
 												task.checked = !task.checked;
 											}}
@@ -318,7 +420,11 @@
 										<span class="text-muted-foreground text-xl">{idx + 1}</span>
 									{/if}
 									<Label
-										for={updateAmbitionEnabled ? task.id : ''}
+										for={updateAmbitionEnabled
+											? typeof task.id !== 'string'
+												? task.id.toString()
+												: task.id
+											: ''}
 										class="{task.checked ? 'line-through opacity-50' : ''} text-sm font-medium"
 									>
 										<h2 class="text-lg font-medium">{task.name}</h2>
@@ -337,7 +443,7 @@
 					<h2 class="text-xl font-semibold mb-4">Add a new Task</h2>
 					<div class=" border rounded-xl p-4">
 						<!-- ADD A NEW TASK TO AMBITION SECTION -->
-						<form
+						<!-- <form
 							action="?/addNewTaskForAmbition"
 							method="POST"
 							use:enhance={() => {
@@ -345,33 +451,37 @@
 									toast.error('Please fill in all the fields for adding a new task!');
 								}
 							}}
-						>
-							<div class="space-y-4">
-								<div>
-									<Label for="taskName" class="text-sm font-semibold">Name</Label>
-									<Input bind:value={taskName} name="taskName" placeholder="Enter task name" />
-								</div>
-								<div>
-									<Label for="taskDescription" class="text-sm font-semibold">Description</Label>
-									<Textarea
-										bind:value={taskDescription}
-										name="taskDescription"
-										placeholder="Enter task description"
-									/>
-								</div>
-								<Button
-									disabled={taskName.length === 0 || taskDescription.length === 0}
-									type="submit"
-									class="bg-[--custom-light] hover:bg-[--custom-light] hover:brightness-110 active:brightness-90 w-full flex place-items-center gap-5"
-								>
-									<ListPlus />
-									<p>Add Task</p>
-								</Button>
+						> -->
+						<div class="space-y-4">
+							<div>
+								<Label for="taskName" class="text-sm font-semibold">Name</Label>
+								<Input bind:value={taskName} name="taskName" placeholder="Enter task name" />
 							</div>
-						</form>
+							<div>
+								<Label for="taskDescription" class="text-sm font-semibold">Description</Label>
+								<Textarea
+									bind:value={taskDescription}
+									name="taskDescription"
+									placeholder="Enter task description"
+								/>
+							</div>
+							<Button
+								disabled={taskName.length === 0 || taskDescription.length === 0}
+								on:click={handleNewTaskAddition}
+								type="button"
+								class="bg-[--custom-light] hover:bg-[--custom-light] hover:brightness-110 active:brightness-90 w-full flex place-items-center gap-5"
+							>
+								<ListPlus />
+								<p>Add Task</p>
+							</Button>
+						</div>
+						<!-- </form> -->
 					</div>
 				</div>
 			{/if}
+			<!-- AMBITION TASKS SECTION ENDS -->
+
+			<!-- AMBITION DETAILS SECTION STARTS -->
 			<div class="max-w-full">
 				<h2 class="text-xl font-semibold mb-4">Ambition Details</h2>
 				<div class=" border rounded-xl p-4">
@@ -391,31 +501,50 @@
 							</li>
 							<li class="flex justify-between w-full border-b py-1">
 								<strong>Status:</strong>
-								<p class="flex place-items-center gap-2">
-									{#if ambition.ambitionStatus === 'completed'}
-										<CircleCheckBig color="#10b981" />
-									{:else if ambition.ambitionStatus === 'ongoing'}
-										<div class="animate-spin">
-											<LoaderPinwheel color="#3b82f6" />
-										</div>
-									{:else if ambition.ambitionStatus === 'future'}
-										<CalendarArrowUp color="#a855f7" />
-									{/if}
-									{ambitionStatus}
-								</p>
+								{#if updateAmbitionEnabled}
+									<select
+										name="ambitionStatus"
+										id="ambitionStatus"
+										bind:value={updatedAmbitionStatus}
+										on:select={() => {
+											if (updatedAmbitionStatus === 'Completed') {
+												ambitionData.ambitionCompletionDate = new Date().toISOString();
+											} else if (updatedAmbitionStatus === 'Ongoing') {
+												ambitionData.ambitionCompletionDate = null;
+											}
+										}}
+									>
+										<option value="Completed">Completed</option>
+										<option value="Ongoing">Ongoing</option>
+										<option value="Future">Future</option>
+									</select>
+								{:else}
+									<p class="flex place-items-center gap-2">
+										{#if updatedAmbitionStatus === 'Completed'}
+											<CircleCheckBig color="#10b981" />
+										{:else if updatedAmbitionStatus === 'Ongoing'}
+											<div class="animate-spin">
+												<LoaderPinwheel color="#3b82f6" />
+											</div>
+										{:else if updatedAmbitionStatus === 'Future'}
+											<CalendarArrowUp color="#a855f7" />
+										{/if}
+										{updatedAmbitionStatus}
+									</p>
+								{/if}
 							</li>
 							<li class="flex justify-between w-full border-b py-1">
 								<strong>Priority:</strong>
 								<p class="flex place-items-center gap-2">
-									{#if ambition.ambitionPriority === 'high'}
+									{#if ambitionPriority === 'High'}
 										<span class="border border-red-500 px-1 rounded-md text-red-500 text-sm"
 											>!!!</span
 										>
-									{:else if ambition.ambitionPriority === 'medium'}
+									{:else if ambitionPriority === 'Medium'}
 										<span class="border border-yellow-500 px-1 rounded-md text-yellow-500 text-sm"
 											>!!</span
 										>
-									{:else if ambition.ambitionPriority === 'low'}
+									{:else if ambitionPriority === 'Low'}
 										<span class="border border-green-500 px-1 rounded-md text-green-500 text-sm"
 											>!</span
 										>
@@ -433,14 +562,49 @@
 					</div>
 				</div>
 			</div>
+			<!-- AMBITION DETAILS SECTION ENDS -->
 		</div>
 	</section>
+
+	<!-- AMBITION DELETE BUTTON -->
 	{#if updateAmbitionEnabled}
-		<button
-			class="mb-20 flex gap-2 justify-center items-center rounded-md bg-red-200 w-fit px-4 py-2 text-red-500 hover:bg-red-500 hover:text-white transition-all duration-300 ease-in-out"
+		<form
+			action="?/deleteAmbition"
+			method="POST"
+			use:enhance={() => {
+				deleteButtonClicked = true;
+			}}
 		>
-			<Trash_2 />
-			Delete Ambition
-		</button>
+			<button
+				disabled={deleteButtonClicked}
+				type="submit"
+				class="mb-20 flex gap-2 justify-center items-center rounded-md bg-red-200 w-fit px-4 py-2 text-red-500 hover:bg-red-500 hover:text-white transition-all duration-300 ease-in-out"
+			>
+				{#if deleteButtonClicked}
+					<span class="animate-spin"
+						><svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							><path d="M12 2v4" /><path d="m16.2 7.8 2.9-2.9" /><path d="M18 12h4" /><path
+								d="m16.2 16.2 2.9 2.9"
+							/><path d="M12 18v4" /><path d="m4.9 19.1 2.9-2.9" /><path d="M2 12h4" /><path
+								d="m4.9 4.9 2.9 2.9"
+							/></svg
+						></span
+					>
+					Deleting Ambition
+				{:else}
+					<Trash_2 />
+					Delete Ambition
+				{/if}
+			</button>
+		</form>
 	{/if}
 </div>

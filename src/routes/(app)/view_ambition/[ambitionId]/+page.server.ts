@@ -3,9 +3,9 @@ import type { PageServerLoad, Actions } from './$types';
 import { SESSION_COOKIE } from '$lib/appwrite/appwrite';
 import { PUBLIC_APPWRITE_ENDPOINT, PUBLIC_APPWRITE_PROJECT_ID } from '$env/static/public';
 import { PRIVATE_APPWRITE_DATABASE_ID, PRIVATE_APPWRITE_COLLECTION_ID } from '$env/static/private';
-import { Client, Databases, Query } from 'node-appwrite';
+import { Client, Databases } from 'node-appwrite';
 import chalk from 'chalk';
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({ locals, params, cookies }) => {
 	confirmAuth(locals);
@@ -53,7 +53,7 @@ export const load: PageServerLoad = async ({ locals, params, cookies }) => {
 			ambitionId
 		);
 
-		console.log(chalk.bgWhiteBright.black('Ambitions List: '), documentListingResult);
+		// console.log(chalk.bgWhiteBright.black('Ambitions List: '), documentListingResult);
 
 		pageServerResponse = {
 			status: 200,
@@ -85,39 +85,90 @@ export const load: PageServerLoad = async ({ locals, params, cookies }) => {
 	return pageServerResponse;
 };
 
-export const actions = {
-	addNewTaskForAmbition: async ({ request }) => {
-		const requestData = await request.formData();
+export const actions: Actions = {
+	updateAmbition: async ({ params, locals, body, cookies }) => {
+		const { ambitionId } = params;
+		const requestData = body;
 
-		const taskName: FormDataEntryValue = requestData.get('taskName') as string;
-		const taskDescription: FormDataEntryValue = requestData.get('taskDescription') as string;
-
-		const ambitionTask = {
-			id: 0,
-			name: taskName,
-			description: taskDescription,
-			status: '',
-			checked: false,
-			created_at: new Date().toISOString(),
-			updated_at: new Date().toISOString()
-		};
-
-		console.log(requestData);
-		console.log(ambitionTask);
+		console.log(chalk.bgWhiteBright.black('Ambition ID:'), ambitionId);
+		console.log(chalk.bgWhiteBright.black('Request Data:'), requestData);
 	},
-	addNewNoteForAmbition: async ({ request }) => {
-		const requestData = await request.formData();
-
-		const noteContent: FormDataEntryValue = requestData.get('noteContent') as string;
-
-		const ambitionNode = {
-			id: 0,
-			content: noteContent,
-			created_at: new Date().toISOString(),
-			updated_at: new Date().toISOString()
+	deleteAmbition: async ({ params, locals, cookies }) => {
+		let pageServerResponse: {
+			status: number;
+			success: boolean;
+			message: string;
+			userData: object;
+			body: object;
+		} = {
+			status: 0,
+			success: true,
+			message: '',
+			userData: {},
+			body: {}
 		};
 
-		console.log(requestData);
-		console.log(ambitionNode);
+		const { ambitionId } = params;
+
+		// console.log(requestData);
+		console.log(chalk.bgWhiteBright.black('Ambition ID:'), ambitionId);
+
+		const sessionCookie: string | undefined = cookies.get(SESSION_COOKIE);
+
+		if (!sessionCookie) {
+			return {
+				status: 401,
+				success: false,
+				message: 'Unauthorized',
+				userData: locals.user,
+				body: {
+					ambitionId: ambitionId
+				}
+			};
+		}
+
+		const client = new Client()
+			.setEndpoint(PUBLIC_APPWRITE_ENDPOINT)
+			.setProject(PUBLIC_APPWRITE_PROJECT_ID)
+			.setSession(sessionCookie);
+
+		const databases = new Databases(client);
+
+		try {
+			const result = await databases.deleteDocument(
+				PRIVATE_APPWRITE_DATABASE_ID,
+				PRIVATE_APPWRITE_COLLECTION_ID,
+				ambitionId
+			);
+
+			console.log(chalk.bgGreenBright.black('Delete Ambition Result: '), result);
+
+			pageServerResponse = {
+				status: 204,
+				success: true,
+				message: 'Ambition Deleted',
+				userData: locals.user,
+				body: {
+					ambitionId: ambitionId
+				}
+			};
+		} catch (error) {
+			console.error(error);
+			pageServerResponse = {
+				status: 500,
+				success: false,
+				message: 'Error deleting Ambition',
+				userData: locals.user,
+				body: {
+					ambitionId: ambitionId
+				}
+			};
+		}
+
+		if (pageServerResponse.success) {
+			redirect(307, '/all_ambitions');
+		}
+
+		return pageServerResponse;
 	}
-} satisfies Actions;
+};

@@ -17,21 +17,49 @@
 	import type { PageServerData } from './$types';
 	import { ambitions } from '$lib/mockDB';
 	import { goto } from '$app/navigation';
+	import { browser } from '$app/environment';
+	import type { ServerFormData } from '$lib/types/serverFormData';
+	import type { AmbitionType } from '$lib/types/ambitionType';
 
 	const df = new DateFormatter('en-IN', { dateStyle: 'long' });
 
 	export let data: PageServerData;
-	export let form: FormData;
+	export let form: ServerFormData;
 
 	let submitButtonClicked = false;
 
 	const { user } = data;
+
+	let ambitionData: AmbitionType = {
+		ambitionName: '',
+		ambitionDefinition: '',
+		ambitionCategory: '',
+		ambitionPriority: '',
+		ambitionStatus: '',
+		ambitionStartDate: '',
+		ambitionEndDate: '',
+		ambitionTasks: [],
+		ambitionNotes: [],
+		userId: '',
+		userEmail: '',
+		ambitionType: '',
+		ambitionCompletionDate: null,
+		ambitionPercentageCompleted: 0,
+		ambitionTags: [],
+		$id: '',
+		$createdAt: '',
+		$updatedAt: '',
+		$permissions: [],
+		$databaseId: '',
+		$collectionId: ''
+	};
 
 	$: if (form) {
 		console.log(form);
 		if (!form.success) {
 			toast.error(form.message);
 			submitButtonClicked = false;
+			ambitionData = form.body;
 		} else {
 			toast.success(`${form.message} ${user.name.split(' ')[0]}!`);
 			submitButtonClicked = false;
@@ -86,6 +114,60 @@
 
 		noteContent = '';
 	}
+
+	function handleSubmit({ formData, cancel }: { formData: FormData; cancel: () => void }) {
+		console.log('Form submitted', formData);
+
+		const ambitionData = {
+			ambitionName: formData.get('ambitionName') as string,
+			ambitionDefinition: formData.get('ambitionDefinition') as string,
+			ambitionCategory: formData.get('ambitionCategory') as string,
+			ambitionPriority: formData.get('ambitionPriority') as string,
+			ambitionStatus: formData.get('ambitionStatus') as string,
+			ambitionStartDate: formData.get('ambitionStartDate') as string,
+			ambitionEndDate: formData.get('ambitionEndDate') as string,
+			ambitionTasks: JSON.parse(formData.get('ambitionTasks') as string),
+			ambitionNotes: JSON.parse(formData.get('ambitionNotes') as string),
+			userId: user.id,
+			userEmail: user.email,
+			ambitionType: 'personal',
+			ambitionCompletionDate: null,
+			ambitionPercentageCompleted: 0,
+			ambitionTags: [],
+			$id: '',
+			$createdAt: '',
+			$updatedAt: '',
+			$permissions: [],
+			$databaseId: '',
+			$collectionId: ''
+		};
+
+		console.log('FormData before submission', ambitionData);
+
+		if (
+			ambitionData.ambitionName === '' ||
+			ambitionData.ambitionDefinition === '' ||
+			ambitionData.ambitionCategory === '' ||
+			ambitionData.ambitionPriority === '' ||
+			ambitionData.ambitionStatus === ''
+		) {
+			cancel();
+			toast.warning('Please fill all the required fields!');
+			submitButtonClicked = false;
+			return;
+		} else if (ambitionData.ambitionStartDate === '' || ambitionData.ambitionEndDate === '') {
+			cancel();
+			toast.warning('Please select a timeline for your ambition!');
+			submitButtonClicked = false;
+			return;
+		} else if (ambitionTasks.length === 0) {
+			cancel();
+			toast.warning('Please add at least one task to your ambition!');
+			submitButtonClicked = false;
+		} else {
+			submitButtonClicked = true;
+		}
+	}
 </script>
 
 <svelte:head>
@@ -103,18 +185,15 @@
 	</header>
 	<Separator />
 	<div class="">
-		<form
-			method="POST"
-			action="?/add_ambition"
-			use:enhance={() => {
-				submitButtonClicked = true;
-			}}
-		>
+		<form method="POST" action="?/add_ambition" use:enhance={handleSubmit}>
 			<div class="flex flex-col gap-10">
 				<div class="flex flex-col gap-4">
 					<div class="flex flex-col gap-2">
-						<Label for="ambitionName" class="text-xl">Name your Ambition</Label>
+						<Label for="ambitionName" class="text-xl"
+							>Name your Ambition <sup class=" text-red-500">*</sup></Label
+						>
 						<Input
+							bind:value={ambitionData.ambitionName}
 							type="text"
 							id="ambitionName"
 							name="ambitionName"
@@ -124,8 +203,11 @@
 						/>
 					</div>
 					<div class="flex flex-col gap-2">
-						<Label for="ambitionDefinition" class="text-xl">Define your Ambition</Label>
+						<Label for="ambitionDefinition" class="text-xl"
+							>Define your Ambition <sup class=" text-red-500">*</sup></Label
+						>
 						<Textarea
+							bind:value={ambitionData.ambitionDefinition}
 							id="ambitionDefinition"
 							name="ambitionDefinition"
 							required
@@ -134,7 +216,9 @@
 					</div>
 					<div class="flex flex-wrap gap-4">
 						<div class="flex flex-col gap-2">
-							<Label for="ambitionCategory">Ambition Category</Label>
+							<Label for="ambitionCategory"
+								>Ambition Category <sup class=" text-red-500">*</sup></Label
+							>
 							<Select.Root name="ambitionCategory">
 								<Select.Trigger class="w-[180px]">
 									<Select.Value placeholder="Choose Category..." />
@@ -149,11 +233,13 @@
 									<Select.Item value="finance">Finance</Select.Item>
 									<Select.Item value="relationship">Relationship</Select.Item>
 								</Select.Content>
-								<Select.Input name="ambitionCategory" />
+								<Select.Input name="ambitionCategory" bind:value={ambitionData.ambitionCategory} />
 							</Select.Root>
 						</div>
 						<div class="flex flex-col gap-2">
-							<Label for="ambitionPriority">Ambition Priority</Label>
+							<Label for="ambitionPriority"
+								>Ambition Priority <sup class=" text-red-500">*</sup></Label
+							>
 							<Select.Root name="ambitionPriority">
 								<Select.Trigger class="w-[180px]">
 									<Select.Value placeholder="Choose Priority..." />
@@ -163,11 +249,11 @@
 									<Select.Item value="medium" class="text-yellow-500">Medium</Select.Item>
 									<Select.Item value="high" class="text-red-500">High</Select.Item>
 								</Select.Content>
-								<Select.Input name="ambitionPriority" />
+								<Select.Input name="ambitionPriority" bind:value={ambitionData.ambitionPriority} />
 							</Select.Root>
 						</div>
 						<div class="flex flex-col gap-2">
-							<Label for="ambitionStatus">Ambition Status</Label>
+							<Label for="ambitionStatus">Ambition Status <sup class=" text-red-500">*</sup></Label>
 							<Select.Root name="ambitionStatus">
 								<Select.Trigger class="w-[180px]">
 									<Select.Value placeholder="Choose Status..." />
@@ -177,13 +263,13 @@
 									<Select.Item value="ongoing" class="text-[#3b82f6]">Ongoing</Select.Item>
 									<Select.Item value="future" class="text-[#a855f7]">Future</Select.Item>
 								</Select.Content>
-								<Select.Input name="ambitionStatus" />
+								<Select.Input name="ambitionStatus" bind:value={ambitionData.ambitionStatus} />
 							</Select.Root>
 						</div>
 					</div>
 					<div class="grid gap-2">
 						<Label for="ambitionDeadline" class="text-xl">
-							<p>Timeline / Deadline</p>
+							<p>Timeline / Deadline <sup class=" text-red-500">*</sup></p>
 							<p class="text-muted-foreground text-sm">
 								I'll complete my ambition within this time frame
 							</p>
@@ -257,7 +343,9 @@
 					</div> -->
 					<div class="grid sm:grid-cols-2 gap-x-5">
 						<div class="col-span-2">
-							<Label class="text-xl">Tasks for this ambition</Label>
+							<Label class="text-xl"
+								>Tasks for this ambition <sup class=" text-red-500">*</sup></Label
+							>
 							<input
 								type="hidden"
 								name="ambitionTasks"
@@ -316,8 +404,8 @@
 									</div>
 									<Button
 										type="button"
-										class="w-full flex place-items-center gap-5 {taskName.length === 0 ||
-										taskDescription.length === 0
+										class="w-full flex place-items-center gap-5 bg-[--custom-light] hover:bg-[--custom-light] hover:brightness-110 active:brightness-90 {taskName.length ===
+											0 || taskDescription.length === 0
 											? 'cursor-not-allowed opacity-50'
 											: ''}"
 										on:click={handleAddAmbitionTask}
@@ -336,7 +424,9 @@
 							{:else}
 								<div class="max-h-52 space-y-4 overflow-y-auto overflow-x-hidden">
 									{#each ambitionTasks as task}
-										<div class="flex items-center space-x-3 p-4 border rounded-lg shadow-sm">
+										<div
+											class="flex items-center space-x-3 p-4 border rounded-lg shadow-sm border-[--custom-light]"
+										>
 											<Checkbox
 												id={task.id.toString()}
 												onCheckedChange={() => {
@@ -346,7 +436,7 @@
 												aria-labelledby="tasks-checkbox-label"
 											/>
 											<Label
-												class="{task.checked ? 'line-through opacity-50' : ''} text-sm font-medium"
+												class="{task.checked ? 'line-through opacity-50' : ''} text-sm font-medium "
 											>
 												<h2 class="text-lg font-medium">{task.name}</h2>
 												<p class="text-sm text-muted-foreground whitespace-pre-wrap">
@@ -428,18 +518,24 @@
 						disabled={submitButtonClicked}
 					>
 						{#if submitButtonClicked}
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="16"
-								height="16"
-								fill="#000"
-								viewBox="0 0 256 256"
-								class="animate-spin"
+							<span class="animate-spin"
+								><svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="24"
+									height="24"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									><path d="M12 2v4" /><path d="m16.2 7.8 2.9-2.9" /><path d="M18 12h4" /><path
+										d="m16.2 16.2 2.9 2.9"
+									/><path d="M12 18v4" /><path d="m4.9 19.1 2.9-2.9" /><path d="M2 12h4" /><path
+										d="m4.9 4.9 2.9 2.9"
+									/></svg
+								></span
 							>
-								<path
-									d="M232,128a104,104,0,0,1-208,0c0-41,23.81-78.36,60.66-95.27a8,8,0,0,1,6.68,14.54C60.15,61.59,40,93.27,40,128a88,88,0,0,0,176,0c0-34.73-20.15-66.41-51.34-80.73a8,8,0,0,1,6.68-14.54C208.19,49.64,232,87,232,128Z"
-								></path>
-							</svg>
 							<span>Remembering Ambition...</span>
 						{:else}
 							<span>Remember my Ambition!</span>
