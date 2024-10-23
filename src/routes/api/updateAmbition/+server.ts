@@ -30,8 +30,9 @@ export async function POST({ request, cookies }) {
 
 	if (!sessionCookie) {
 		console.log(chalk.bgRed.white('updateAmbition Error: '), 'No user session');
-		return new Error(
+		return new Response(
 			JSON.stringify({
+				status: 401,
 				success: false,
 				message: 'Unauthorized'
 			})

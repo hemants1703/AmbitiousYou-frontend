@@ -53,7 +53,11 @@
 			</Button>
 		</div>
 		<div>
-			<Button id="primaryButton" href="/new_ambition" class="w-full flex place-items-center gap-2">
+			<Button
+				id="primaryButton"
+				href="/create_new_ambition"
+				class="w-full flex place-items-center gap-2"
+			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"

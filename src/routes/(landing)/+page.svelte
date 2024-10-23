@@ -39,7 +39,6 @@
 	</BlurFade>
 	<BlurFade delay={1} class="text-center">
 		<a
-			id="primaryLink"
 			href="/features"
 			class="relative inline-flex overflow-hidden rounded-xl p-px text-xl shadow-lg hover:shadow-xl active:shadow-md active:translate-y-1"
 		>

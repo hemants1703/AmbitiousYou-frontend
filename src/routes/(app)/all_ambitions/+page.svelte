@@ -51,7 +51,11 @@
 			<p class="text-md font-light text-muted-foreground">
 				You can add new ambitions by clicking on the button below.
 			</p>
-			<Button id="primaryButton" href="/new_ambition" class="w-fit flex place-items-center gap-2">
+			<Button
+				id="primaryButton"
+				href="/create_new_ambition"
+				class="w-fit flex place-items-center gap-2"
+			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"

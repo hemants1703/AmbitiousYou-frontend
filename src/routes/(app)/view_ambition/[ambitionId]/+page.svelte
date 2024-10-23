@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { ambitions } from '$lib/mockDB';
 	import Badge from '$lib/components/ui/badge/badge.svelte';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Label } from '$lib/components/ui/label';
@@ -96,12 +97,23 @@
 		const currentAmbitionTasks = ambitionData.ambitionTasks;
 		const currentAmbitionNotes = ambitionData.ambitionNotes;
 
+		if (
+			currentAmbitionNotes === ambitionNotes &&
+			currentAmbitionTasks === ambitionTasks &&
+			currentAmbitionStatus === updatedAmbitionStatus
+		) {
+			toast.info('No changes made to the Ambition!');
+			return;
+		}
+
 		ambitionData.ambitionStatus = updatedAmbitionStatus;
 		ambitionData.ambitionTasks = ambitionTasks.filter((task) => JSON.stringify(task));
 		ambitionData.ambitionNotes = ambitionNotes.filter((note) => JSON.stringify(note));
 
+		console.log('Updating ambitions: ', ambitionData);
+
 		try {
-			const response = await fetch('/api/updateAmbition', {
+			let response = await fetch('/api/updateAmbition', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -109,19 +121,21 @@
 				body: JSON.stringify(ambitionData)
 			});
 
-			console.log('Ambition updated successfully: ', await response.json());
+			console.log('Ambition updated successfully: ', response);
 
-			// if (response.ok) {
-			// 	const data = await response.json();
-			// 	console.log('Ambition updated successfully: ', data);
-			// 	toast.success('Ambition updated successfully!');
-			// } else {
-			// 	ambitionData.ambitionStatus = currentAmbitionStatus;
-			// 	ambitionData.ambitionTasks = currentAmbitionTasks;
-			// 	ambitionData.ambitionNotes = currentAmbitionNotes;
-			// 	console.error('Error updating Ambition: ', response);
-			// 	toast.error('Error updating Ambition');
-			// }
+			response = await response.json();
+
+			if (response.success) {
+				const data = await response.json();
+				console.log('Ambition updated successfully: ', data);
+				toast.success('Ambition updated successfully!');
+			} else {
+				ambitionData.ambitionStatus = currentAmbitionStatus;
+				ambitionData.ambitionTasks = currentAmbitionTasks;
+				ambitionData.ambitionNotes = currentAmbitionNotes;
+				console.error('Error updating Ambition: ', response);
+				toast.error('Error updating Ambition');
+			}
 		} catch (error) {
 			console.error('Error updating Ambition: ', error);
 			toast.error('Error updating Ambition');

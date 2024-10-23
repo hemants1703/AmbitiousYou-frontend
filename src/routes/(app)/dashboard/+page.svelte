@@ -7,8 +7,8 @@
 
 	export let data: PageServerData;
 
-	console.log('dashboard user : ', data.user);
-	console.log('dashboard userData : ', data.userData);
+	// console.log('dashboard user : ', data.user);
+	// console.log('dashboard userData : ', data.userData);
 
 	const user = data.user;
 	const userData = data.userData;

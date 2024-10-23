@@ -3,7 +3,7 @@
 	import Dock from '$lib/components/svelte_magicui/Dock.svelte';
 	import DockIcon from '$lib/components/svelte_magicui/DockIcon.svelte';
 	import Separator from '$lib/components/ui/separator/separator.svelte';
-	let navs = [
+	let dockItems = [
 		{ label: 'Dashboard', icon: Home, href: '/dashboard' },
 		{
 			label: 'All Ambitions',
@@ -15,7 +15,7 @@
 </script>
 
 <Dock direction="middle" let:mouseX let:distance let:magnification>
-	{#each navs as item}
+	{#each dockItems as item}
 		<a href={item.href}>
 			<DockIcon {mouseX} {magnification} {distance}>
 				<Tooltip.Root openDelay={100}>
@@ -33,7 +33,7 @@
 	{/each}
 	<Separator orientation="vertical" class="h-full w-[0.6px]" />
 	<div>
-		<a href="/new_ambition">
+		<a href="/create_new_ambition">
 			<DockIcon {mouseX} {magnification} {distance}>
 				<Tooltip.Root openDelay={100}>
 					<Tooltip.Trigger
@@ -42,7 +42,7 @@
 						<svelte:component this={Plus} size={20} strokeWidth={1.2} />
 					</Tooltip.Trigger>
 					<Tooltip.Content sideOffset={8}>
-						<p>Add New Ambition</p>
+						<p>Create New Ambition</p>
 					</Tooltip.Content>
 				</Tooltip.Root>
 			</DockIcon>
