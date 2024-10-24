@@ -22,7 +22,6 @@
 	import type { AmbitionNoteType, AmbitionTaskType, AmbitionType } from '$lib/types/ambitionType';
 	import { ChevronLeft } from 'svelte-radix';
 	import Trash_2 from 'lucide-svelte/icons/trash-2';
-	import type { ServerFormData } from '$lib/types/serverFormData';
 	import type { ActionData } from '../$types';
 
 	export let form: ActionData;

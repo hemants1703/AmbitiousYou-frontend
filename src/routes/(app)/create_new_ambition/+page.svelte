@@ -14,17 +14,16 @@
 	import { ListPlus, MessageSquareDiff } from 'lucide-svelte';
 	import Checkbox from '$lib/components/ui/checkbox/checkbox.svelte';
 	import { toast } from 'svoast';
-	import type { PageServerData } from './$types';
+	import type { ActionData, PageServerData } from './$types';
 	import { ambitions } from '$lib/mockDB';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
-	import type { ServerFormData } from '$lib/types/serverFormData';
 	import type { AmbitionType } from '$lib/types/ambitionType';
 
 	const df = new DateFormatter('en-IN', { dateStyle: 'long' });
 
 	export let data: PageServerData;
-	export let form: ServerFormData;
+	export let form: ActionData;
 
 	let submitButtonClicked = false;
 

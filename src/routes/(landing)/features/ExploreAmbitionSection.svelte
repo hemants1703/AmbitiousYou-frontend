@@ -39,18 +39,27 @@
 		ambitionCompletionDate: new Date().toISOString()
 	};
 
+	// ambitionData = ambitionData[0];
+
+	console.log('AMBITION DATA:', ambitionData);
+
 	let ambitionCategory = ambitionData.ambitionCategory;
 	let ambitionStatus = ambitionData.ambitionStatus;
 	let ambitionPriority = ambitionData.ambitionPriority;
 	let ambitionTasks = ambitionData.ambitionTasks;
-	let ambitionNotes = ambitionData.ambitionNotes;
 	let ambitionCompletionDate = ambitionData.ambitionCompletionDate;
 
-	let updatedAmbitionStatus = ambitionStatus;
-	let updateAmbitionEnabled = false;
+	// Define missing variables
+	let daysLeft = 10; // Example value, replace with actual logic
+	let percentageCompleted =
+		(ambitionTasks.filter((task) => task.checked).length / ambitionTasks.length) * 100;
+	let finishedAmbitionTasks = ambitionTasks.filter((task) => task.checked);
+	let totalAmbitionTasks = ambitionTasks.length;
+
+	let unfinishedAmbitionTasks = ambitionTasks.filter((task) => !task.checked);
 </script>
 
-<div class="flex flex-col gap-10 pb-20 {updateAmbitionEnabled ? '' : 'select-none'}">
+<div class="flex flex-col gap-10 border rounded-xl p-4">
 	<header class="flex max-sm:flex-col justify-between items-center gap-5">
 		<div>
 			<h1 class="font-bold text-3xl max-sm:text-center">
@@ -110,28 +119,24 @@
 				<div class="flex flex-col gap-2 border p-4 rounded-xl">
 					<h1 class="font-bold text-xs">NOTES</h1>
 					<div class="flex flex-col space-y-4 max-h-96 overflow-y-auto">
-						{#if ambitionNotes.length === 0}
-							<p class="text-muted-foreground text-center">No notes added yet!</p>
-						{:else}
-							{#each ambitionNotes as note}
-								<div
-									class="flex flex-col gap-2 justify-between items-start bg-yellow-200 dark:bg-yellow-900 dark:bg-opacity-20 bg-opacity-20 border border-yellow-400 rounded-lg p-2"
-								>
-									<p class="text-md opacity-80">
-										{note.content}
-									</p>
-									<span class="text-muted-foreground opacity-50 text-xs self-end">
-										{new Intl.DateTimeFormat('en-US', {
-											year: 'numeric',
-											month: 'long',
-											day: 'numeric',
-											hour: '2-digit',
-											minute: '2-digit'
-										}).format(new Date(note.created_at))}
-									</span>
-								</div>
-							{/each}
-						{/if}
+						{#each ambitionData.ambitionNotes as note}
+							<div
+								class="flex flex-col gap-2 justify-between items-start bg-yellow-200 dark:bg-yellow-900 dark:bg-opacity-20 bg-opacity-20 border border-yellow-400 rounded-lg p-2"
+							>
+								<p class="text-md opacity-80">
+									{note.content}
+								</p>
+								<span class="text-muted-foreground opacity-50 text-xs self-end">
+									{new Intl.DateTimeFormat('en-US', {
+										year: 'numeric',
+										month: 'long',
+										day: 'numeric',
+										hour: '2-digit',
+										minute: '2-digit'
+									}).format(new Date(note.created_at))}
+								</span>
+							</div>
+						{/each}
 					</div>
 				</div>
 			</div>
@@ -154,7 +159,7 @@
 				<h2 class="text-xl font-semibold mb-4">Tasks to Accomplish your Ambition</h2>
 				<div class=" border rounded-xl p-4">
 					<div class="max-h-96 space-y-4 overflow-y-auto overflow-x-hidden">
-						{#each ambitionTasks as task, idx}
+						{#each ambitionData.ambitionTasks as task, idx}
 							<div
 								class="flex items-center space-x-3 p-4 border rounded-lg shadow-sm border-[--custom-light]"
 							>
@@ -196,37 +201,18 @@
 							</li>
 							<li class="flex justify-between w-full border-b py-1">
 								<strong>Status:</strong>
-								{#if updateAmbitionEnabled}
-									<select
-										name="ambitionStatus"
-										id="ambitionStatus"
-										bind:value={updatedAmbitionStatus}
-										on:select={() => {
-											if (updatedAmbitionStatus === 'Completed') {
-												ambitionData.ambitionCompletionDate = new Date().toISOString();
-											} else if (updatedAmbitionStatus === 'Ongoing') {
-												ambitionData.ambitionCompletionDate = null;
-											}
-										}}
-									>
-										<option value="Completed">Completed</option>
-										<option value="Ongoing">Ongoing</option>
-										<option value="Future">Future</option>
-									</select>
-								{:else}
-									<p class="flex place-items-center gap-2">
-										{#if updatedAmbitionStatus === 'Completed'}
-											<CircleCheckBig color="#10b981" />
-										{:else if updatedAmbitionStatus === 'Ongoing'}
-											<div class="animate-spin">
-												<LoaderPinwheel color="#3b82f6" />
-											</div>
-										{:else if updatedAmbitionStatus === 'Future'}
-											<CalendarArrowUp color="#a855f7" />
-										{/if}
-										{updatedAmbitionStatus}
-									</p>
-								{/if}
+								<p class="flex place-items-center gap-2">
+									{#if ambitionStatus === 'Completed'}
+										<CircleCheckBig color="#10b981" />
+									{:else if ambitionStatus === 'Ongoing'}
+										<div class="animate-spin">
+											<LoaderPinwheel color="#3b82f6" />
+										</div>
+									{:else if ambitionStatus === 'Future'}
+										<CalendarArrowUp color="#a855f7" />
+									{/if}
+									{ambitionStatus}
+								</p>
 							</li>
 							<li class="flex justify-between w-full border-b py-1">
 								<strong>Priority:</strong>

@@ -1,10 +1,9 @@
 import { createAdminClient, SESSION_COOKIE } from '$lib/appwrite/appwrite';
 import chalk from 'chalk';
-import type { PageServerLoad } from './$types';
+import type { ActionData, PageServerLoad } from './$types';
 import type { Actions } from './$types';
 import { redirect } from '@sveltejs/kit';
 import { greetUser, loggedInUser } from '$lib/store/userData';
-import type { ServerFormData } from '$lib/types/serverFormData';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
@@ -19,7 +18,7 @@ export const actions: Actions = {
 		const email: FormDataEntryValue = formData.get('email') as string;
 		const password: FormDataEntryValue = formData.get('password') as string;
 
-		let formResponse: ServerFormData = {};
+		let formResponse: ActionData = {};
 
 		if (!email || !password) {
 			return {

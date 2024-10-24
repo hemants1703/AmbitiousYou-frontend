@@ -5,6 +5,7 @@
 	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select/index.js';
 	import ExploreAmbitionSection from './ExploreAmbitionSection.svelte';
+	import type { AmbitionType } from '$lib/types/ambitionType';
 
 	const ambitionTypes = exampleAmbitionsData.map((exampleAmbition) => ({
 		value: exampleAmbition.category,
@@ -17,7 +18,9 @@
 		(exampleAmbition) => exampleAmbition.category === selectedType
 	)[0].ambitions;
 
-	$: console.log(ambitionData);
+	$: console.log('Ambition DATA: ', ambitionData);
+
+	let selectedAmbition: any = ambitionData[0];
 
 	let sampleAmbitionTasks = [
 		{
@@ -78,7 +81,7 @@
 			helps you reduce your mental overload by letting you manage all your short-term and long-term ambitions
 			or goals in life so that you can work hard towards all your goals one at a time and eventually
 			achieve every single one of them instead of just keeping them in your mind and eventually forgetting
-			about them.
+			about them. AmbitiousYou helps you become a <i>superhuman!</i>
 		</p>
 	</section>
 	<section class="mt-20 flex flex-col gap-5 select-none">
@@ -106,14 +109,22 @@
 		<div class="border rounded-2xl p-2">
 			<div class="flex flex-col gap-2">
 				{#each ambitionData as exampleAmbition}
-					<AmbitionCard
-						ambitionName={exampleAmbition.name}
-						ambitionDefinition={exampleAmbition.definition}
-						ambitionStatus={exampleAmbition.status}
-						customTruncationClass="sm:max-w-96 lg:max-w-3xl md:max-w-2xl"
-					/>
+					<button
+						type="button"
+						on:click={() => {
+							selectedAmbition = exampleAmbition;
+							// console.log('Selected Ambition:', selectedAmbition);
+						}}
+					>
+						<AmbitionCard
+							ambitionName={exampleAmbition.ambitionName}
+							ambitionDefinition={exampleAmbition.ambitionDefinition}
+							ambitionStatus={exampleAmbition.ambitionStatus.toLowerCase()}
+							customTruncationClass="sm:max-w-96 lg:max-w-3xl md:max-w-2xl"
+						/>
+					</button>
 				{/each}
-				<!-- <ExploreAmbitionSection {ambitionData} /> -->
+				<ExploreAmbitionSection ambitionData={selectedAmbition} />
 			</div>
 		</div>
 	</section>
