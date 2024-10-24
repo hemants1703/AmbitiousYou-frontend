@@ -9,6 +9,10 @@
 		ambitionCategory: 'category',
 		ambitionStatus: 'Completed',
 		ambitionPriority: 'High',
+		ambitionStartDate: new Date().toISOString(),
+		ambitionEndDate: new Date().toISOString(),
+		ambitionCompletionDate: new Date().toISOString(),
+		percentageCompleted: 50,
 		ambitionTasks: [
 			{
 				name: 'Task 1',
@@ -35,28 +39,16 @@
 				content: 'This is another note.',
 				created_at: new Date().toISOString()
 			}
-		],
-		ambitionCompletionDate: new Date().toISOString()
+		]
 	};
 
 	// ambitionData = ambitionData[0];
 
-	console.log('AMBITION DATA:', ambitionData);
+	// console.log('AMBITION DATA FROM ExploreAmbitionSection Component:', ambitionData);
 
-	let ambitionCategory = ambitionData.ambitionCategory;
-	let ambitionStatus = ambitionData.ambitionStatus;
-	let ambitionPriority = ambitionData.ambitionPriority;
-	let ambitionTasks = ambitionData.ambitionTasks;
-	let ambitionCompletionDate = ambitionData.ambitionCompletionDate;
-
-	// Define missing variables
-	let daysLeft = 10; // Example value, replace with actual logic
-	let percentageCompleted =
-		(ambitionTasks.filter((task) => task.checked).length / ambitionTasks.length) * 100;
-	let finishedAmbitionTasks = ambitionTasks.filter((task) => task.checked);
-	let totalAmbitionTasks = ambitionTasks.length;
-
-	let unfinishedAmbitionTasks = ambitionTasks.filter((task) => !task.checked);
+	let daysLeft = new Date(
+		new Date(ambitionData.ambitionEndDate) - new Date(ambitionData.ambitionStartDate)
+	).toUTCString();
 </script>
 
 <div class="flex flex-col gap-10 border rounded-xl p-4">
@@ -78,42 +70,67 @@
 		<div class="w-full flex flex-col gap-10">
 			<div>
 				<!-- <h2 class="text-xl font-semibold mb-4">Time Left</h2> -->
-				<div
-					class="border {daysLeft < 0 && ambitionStatus !== 'Completed'
-						? 'border-red-500'
-						: ''} rounded-xl p-4"
-				>
+				<div class="border rounded-xl p-4">
 					<div class="rounded-lg space-y-5">
-						<!-- <div class="flex justify-between w-full border-b">
-							<strong>Days Left:</strong>
-							{#if daysLeft < 0 && ambitionStatus !== 'Completed'}
-								<p class="text-red-500">Deadline passed</p>
-							{:else if daysLeft <= 0 && ambitionStatus === 'Completed'}
-								<p class="text-green-500">{ambitionStatus}!</p>
-							{:else}
-								<p>{daysLeft}</p>
-							{/if}
-						</div> -->
 						<div class="flex justify-between w-full border-b">
 							<strong>Percentage Completed:</strong>
-							<p>{percentageCompleted}%</p>
+							<p>{ambitionData.percentageCompleted}%</p>
 						</div>
 						<div class="flex justify-between w-full border-b">
 							<strong>Unfinished Tasks:</strong>
-							<p>{unfinishedAmbitionTasks.length}</p>
+							<p>{ambitionData.ambitionTasks.filter((task) => !task.checked).length}</p>
 						</div>
 						<div class="flex justify-between w-full border-b">
 							<strong>Finished Tasks:</strong>
-							<p>{finishedAmbitionTasks.length}</p>
+							<p>{ambitionData.ambitionTasks.filter((task) => task.checked).length}</p>
 						</div>
 						<div class="flex justify-between w-full border-b">
 							<strong>Total Tasks:</strong>
-							<p>{totalAmbitionTasks}</p>
+							<p>{ambitionData.ambitionTasks.length}</p>
 						</div>
 					</div>
 				</div>
 			</div>
 
+			<!-- AMBITION TASKS SECTION STARTS -->
+			<div>
+				<h2 class="text-xl font-semibold mb-4">Tasks to Accomplish your Ambition</h2>
+				<div class=" border rounded-xl p-4">
+					<div class="max-h-96 space-y-4 overflow-y-auto overflow-x-hidden">
+						{#each ambitionData.ambitionTasks as task, idx}
+							<div
+								class="flex items-center space-x-3 p-4 border rounded-lg shadow-sm border-[--custom-light]"
+							>
+								<span class="text-muted-foreground text-xl">{idx + 1}</span>
+								<Label
+									for={idx.toString()}
+									class="{task.checked ? 'line-through opacity-50' : ''} text-sm font-medium"
+								>
+									<h2 class="text-lg font-medium">{task.name}</h2>
+									<p class="text-sm text-muted-foreground whitespace-pre-wrap">
+										{task.description}
+									</p>
+								</Label>
+							</div>
+						{/each}
+					</div>
+				</div>
+			</div>
+
+			<!-- AMBITION TASKS SECTION ENDS -->
+		</div>
+		<!-- <div class="md:hidden w-full">
+			<Tabs.Root value="account" class="w-full">
+				<Tabs.List>
+					<Tabs.Trigger value="account">Account</Tabs.Trigger>
+					<Tabs.Trigger value="password">Password</Tabs.Trigger>
+					<Tabs.Trigger value="password">Password</Tabs.Trigger>
+				</Tabs.List>
+				<Tabs.Content value="account">Make changes to your account here.</Tabs.Content>
+				<Tabs.Content value="password">Change your password here.</Tabs.Content>
+			</Tabs.Root>
+		</div> -->
+		<div class="w-full flex flex-col gap-10">
 			<!-- NOTES SECTION STARTS -->
 			<div>
 				<div class="flex flex-col gap-2 border p-4 rounded-xl">
@@ -141,45 +158,6 @@
 				</div>
 			</div>
 			<!-- NOTES SECTION ENDS -->
-		</div>
-		<!-- <div class="md:hidden w-full">
-			<Tabs.Root value="account" class="w-full">
-				<Tabs.List>
-					<Tabs.Trigger value="account">Account</Tabs.Trigger>
-					<Tabs.Trigger value="password">Password</Tabs.Trigger>
-					<Tabs.Trigger value="password">Password</Tabs.Trigger>
-				</Tabs.List>
-				<Tabs.Content value="account">Make changes to your account here.</Tabs.Content>
-				<Tabs.Content value="password">Change your password here.</Tabs.Content>
-			</Tabs.Root>
-		</div> -->
-		<div class="w-full flex flex-col gap-10">
-			<!-- AMBITION TASKS SECTION STARTS -->
-			<div>
-				<h2 class="text-xl font-semibold mb-4">Tasks to Accomplish your Ambition</h2>
-				<div class=" border rounded-xl p-4">
-					<div class="max-h-96 space-y-4 overflow-y-auto overflow-x-hidden">
-						{#each ambitionData.ambitionTasks as task, idx}
-							<div
-								class="flex items-center space-x-3 p-4 border rounded-lg shadow-sm border-[--custom-light]"
-							>
-								<span class="text-muted-foreground text-xl">{idx + 1}</span>
-								<Label
-									for={idx.toString()}
-									class="{task.checked ? 'line-through opacity-50' : ''} text-sm font-medium"
-								>
-									<h2 class="text-lg font-medium">{task.name}</h2>
-									<p class="text-sm text-muted-foreground whitespace-pre-wrap">
-										{task.description}
-									</p>
-								</Label>
-							</div>
-						{/each}
-					</div>
-				</div>
-			</div>
-
-			<!-- AMBITION TASKS SECTION ENDS -->
 
 			<!-- AMBITION DETAILS SECTION STARTS -->
 			<div class="max-w-full">
@@ -189,55 +167,55 @@
 						<ul class="space-y-5">
 							<li class="flex justify-between w-full border-b py-1">
 								<strong>Start Date:</strong>
-								{new Date(new Date().setDate(new Date().getDate() - 10)).toLocaleDateString()}
+								{ambitionData.ambitionStartDate}
 							</li>
 							<li class="flex justify-between w-full border-b py-1">
 								<strong>End Date:</strong>
-								{new Date(new Date().setDate(new Date().getDate() + 10)).toLocaleDateString()}
+								{ambitionData.ambitionEndDate}
 							</li>
 							<li class="flex justify-between w-full border-b py-1">
 								<strong>Completion Date:</strong>
-								{new Date().toLocaleDateString()}
+								{ambitionData.ambitionCompletionDate ?? 'Not Completed Yet'}
 							</li>
 							<li class="flex justify-between w-full border-b py-1">
 								<strong>Status:</strong>
 								<p class="flex place-items-center gap-2">
-									{#if ambitionStatus === 'Completed'}
+									{#if ambitionData.ambitionStatus === 'Completed'}
 										<CircleCheckBig color="#10b981" />
-									{:else if ambitionStatus === 'Ongoing'}
+									{:else if ambitionData.ambitionStatus === 'Ongoing'}
 										<div class="animate-spin">
 											<LoaderPinwheel color="#3b82f6" />
 										</div>
-									{:else if ambitionStatus === 'Future'}
+									{:else if ambitionData.ambitionStatus === 'Future'}
 										<CalendarArrowUp color="#a855f7" />
 									{/if}
-									{ambitionStatus}
+									{ambitionData.ambitionStatus}
 								</p>
 							</li>
 							<li class="flex justify-between w-full border-b py-1">
 								<strong>Priority:</strong>
 								<p class="flex place-items-center gap-2">
-									{#if ambitionPriority === 'High'}
+									{#if ambitionData.ambitionPriority === 'High'}
 										<span class="border border-red-500 px-1 rounded-md text-red-500 text-sm"
 											>!!!</span
 										>
-									{:else if ambitionPriority === 'Medium'}
+									{:else if ambitionData.ambitionPriority === 'Medium'}
 										<span class="border border-yellow-500 px-1 rounded-md text-yellow-500 text-sm"
 											>!!</span
 										>
-									{:else if ambitionPriority === 'Low'}
+									{:else if ambitionData.ambitionPriority === 'Low'}
 										<span class="border border-green-500 px-1 rounded-md text-green-500 text-sm"
 											>!</span
 										>
 									{/if}
 									<span>
-										{ambitionPriority}
+										{ambitionData.ambitionPriority}
 									</span>
 								</p>
 							</li>
 							<li class="flex justify-between w-full border-b py-1">
 								<strong>Category:</strong>
-								{ambitionCategory}
+								{ambitionData.ambitionCategory}
 							</li>
 						</ul>
 					</div>

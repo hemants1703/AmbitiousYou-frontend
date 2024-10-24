@@ -514,7 +514,7 @@ const exampleAmbitionsData = [
 				ambitionStatus: 'Completed',
 				ambitionPriority: 'High',
 				ambitionCategory: 'Business',
-				ambitionPercentageCompleted: 100,
+				percentageCompleted: 100,
 				ambitionTasks: [
 					{
 						id: 1,
@@ -563,7 +563,7 @@ const exampleAmbitionsData = [
 				ambitionStatus: 'Ongoing',
 				ambitionPriority: 'Medium',
 				ambitionCategory: 'Business Growth',
-				ambitionPercentageCompleted: 50,
+				percentageCompleted: 50,
 				ambitionTasks: [
 					{
 						id: 1,
@@ -613,7 +613,7 @@ const exampleAmbitionsData = [
 				ambitionStatus: 'Future',
 				ambitionPriority: 'High',
 				ambitionCategory: 'Branding',
-				ambitionPercentageCompleted: 0,
+				percentageCompleted: 0,
 				ambitionTasks: [
 					{
 						id: 1,
@@ -668,7 +668,7 @@ const exampleAmbitionsData = [
 				ambitionStatus: 'Completed',
 				ambitionPriority: 'High',
 				ambitionCategory: 'Business',
-				ambitionPercentageCompleted: 100,
+				percentageCompleted: 100,
 				ambitionTasks: [
 					{
 						id: 1,
@@ -718,7 +718,7 @@ const exampleAmbitionsData = [
 				ambitionStatus: 'Ongoing',
 				ambitionPriority: 'Medium',
 				ambitionCategory: 'Income Generation',
-				ambitionPercentageCompleted: 40,
+				percentageCompleted: 40,
 				ambitionTasks: [
 					{
 						id: 1,
@@ -769,7 +769,7 @@ const exampleAmbitionsData = [
 				ambitionStatus: 'Future',
 				ambitionPriority: 'High',
 				ambitionCategory: 'Branding',
-				ambitionPercentageCompleted: 0,
+				percentageCompleted: 0,
 				ambitionTasks: [
 					{
 						id: 1,
@@ -825,7 +825,7 @@ const exampleAmbitionsData = [
 				ambitionStatus: 'Completed',
 				ambitionPriority: 'High',
 				ambitionCategory: 'Skills Development',
-				ambitionPercentageCompleted: 100,
+				percentageCompleted: 100,
 				ambitionTasks: [
 					{
 						id: 1,
@@ -875,7 +875,7 @@ const exampleAmbitionsData = [
 				ambitionStatus: 'Ongoing',
 				ambitionPriority: 'Medium',
 				ambitionCategory: 'Community Engagement',
-				ambitionPercentageCompleted: 60,
+				percentageCompleted: 60,
 				ambitionTasks: [
 					{
 						id: 1,
@@ -926,7 +926,7 @@ const exampleAmbitionsData = [
 				ambitionStatus: 'Future',
 				ambitionPriority: 'High',
 				ambitionCategory: 'Product Development',
-				ambitionPercentageCompleted: 0,
+				percentageCompleted: 0,
 				ambitionTasks: [
 					{
 						id: 1,
@@ -980,7 +980,7 @@ const exampleAmbitionsData = [
 				ambitionStatus: 'Completed',
 				ambitionPriority: 'High',
 				ambitionCategory: 'Academic',
-				ambitionPercentageCompleted: 100,
+				percentageCompleted: 100,
 				ambitionTasks: [
 					{
 						id: 1,
@@ -1030,7 +1030,7 @@ const exampleAmbitionsData = [
 				ambitionStatus: 'Ongoing',
 				ambitionPriority: 'Medium',
 				ambitionCategory: 'Career Development',
-				ambitionPercentageCompleted: 60,
+				percentageCompleted: 60,
 				ambitionTasks: [
 					{
 						id: 1,
@@ -1080,7 +1080,7 @@ const exampleAmbitionsData = [
 				ambitionStatus: 'Future',
 				ambitionPriority: 'High',
 				ambitionCategory: 'Career',
-				ambitionPercentageCompleted: 0,
+				percentageCompleted: 0,
 				ambitionTasks: [
 					{
 						id: 1,

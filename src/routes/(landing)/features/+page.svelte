@@ -6,6 +6,7 @@
 	import * as Select from '$lib/components/ui/select/index.js';
 	import ExploreAmbitionSection from './ExploreAmbitionSection.svelte';
 	import type { AmbitionType } from '$lib/types/ambitionType';
+	import ambitiousQuotes from './ambitiousQuotes';
 
 	const ambitionTypes = exampleAmbitionsData.map((exampleAmbition) => ({
 		value: exampleAmbition.category,
@@ -18,7 +19,7 @@
 		(exampleAmbition) => exampleAmbition.category === selectedType
 	)[0].ambitions;
 
-	$: console.log('Ambition DATA: ', ambitionData);
+	// $: console.log('Ambition DATA: ', ambitionData);
 
 	let selectedAmbition: any = ambitionData;
 
@@ -62,6 +63,8 @@
 			created_at: new Date(new Date().setDate(new Date().getDate() - 1))
 		}
 	];
+
+	const randomQuote: number = Math.floor(Math.random() * ambitiousQuotes.length);
 </script>
 
 <svelte:head>
@@ -70,21 +73,36 @@
 
 <div class="max-w-5xl">
 	<section>
-		<div class="flex flex-col justify-center items-center gap-10 mb-20">
+		<!-- <div class="flex flex-col justify-center items-center gap-10 mb-20">
 			<h1 class="font-bold italic text-4xl text-center">Focus is saying no to 1,000 good ideas.</h1>
 			<h2 class="text-2xl">— Steve Jobs</h2>
+		</div> -->
+		<div class="flex flex-col justify-center items-center gap-10 mb-20">
+			<h1 class="font-normal italic text-4xl text-center">
+				{@html ambitiousQuotes[randomQuote].quote}
+			</h1>
+			<h2 class="text-2xl">— {ambitiousQuotes[randomQuote].author}</h2>
 		</div>
-		<h1 class="text-2xl font-bold mb-4">Features</h1>
-		<p>
-			<strong>AmbitiousYou</strong> is developed for those who are quite ambitious in life or are
-			quite a busy personnel, <strong>AmbitiousYou</strong>{' '}
-			helps you reduce your mental overload by letting you manage all your short-term and long-term ambitions
-			or goals in life so that you can work hard towards all your goals one at a time and eventually
-			achieve every single one of them instead of just keeping them in your mind and eventually forgetting
-			about them. AmbitiousYou helps you become a <i>superhuman!</i>
-		</p>
+		<div>
+			<h1 class="text-2xl font-bold mb-4">Features</h1>
+			<p>
+				<strong>AmbitiousYou</strong> is developed for those who are quite ambitious in life or are
+				quite a busy personnel, <strong>AmbitiousYou</strong>{' '}
+				helps you reduce your mental overload by letting you manage all your short-term and long-term
+				ambitions or goals in life so that you can work hard towards all your goals one at a time and
+				eventually achieve every single one of them instead of just keeping them in your mind and eventually
+				forgetting about them. AmbitiousYou helps you become a <i>superhuman!</i>
+			</p>
+		</div>
 	</section>
-	<section class="mt-20 flex flex-col gap-5 select-none">
+	<section class="mt-10 flex flex-col gap-5 select-none">
+		<h1 class="font-bold text-5xl">Explore AmbitiousYou!</h1>
+		<p>
+			Get to explore the actual application AmbitiousYou in an interactive way!<br /> Yes, not just some
+			random screenshots, explore the real application with some real world use cases for some of the
+			ambitious people just like you!
+		</p>
+		<p>Interact with the app below with the dropdown and the ambitions to explore AmbitiousYou!</p>
 		<div>
 			<span>Select a use case type to explore AmbitiousYou</span>
 			<Select.Root
@@ -128,7 +146,8 @@
 			</div>
 		</div>
 	</section>
-	<section class="mt-20 flex max-md:flex-col gap-20 select-none">
+	<h1 class="font-bold mt-20 text-5xl">AmbitiousYou Terminologies</h1>
+	<section class="mt-10 flex max-md:flex-col gap-20 select-none">
 		<div>
 			<h1 class="font-bold text-5xl">Ambitions</h1>
 			<p class="font-normal text-xl mt-5">

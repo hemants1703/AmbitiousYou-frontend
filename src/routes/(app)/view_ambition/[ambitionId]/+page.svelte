@@ -72,8 +72,6 @@
 
 	const finishedAmbitionTasks: AmbitionTaskType[] =
 		ambitionTasks.length > 0 ? ambitionTasks.filter((task) => task.checked) : [];
-	const unfinishedAmbitionTasks: AmbitionTaskType[] =
-		ambitionTasks.length > 0 ? ambitionTasks.filter((task) => !task.checked) : [];
 	let totalAmbitionTasks: number = ambitionTasks.length;
 
 	const percentageCompleted: number =
@@ -313,15 +311,15 @@
 						</div>
 						<div class="flex justify-between w-full border-b">
 							<strong>Unfinished Tasks:</strong>
-							<p>{unfinishedAmbitionTasks.length}</p>
+							<p>{ambitionData.ambitionTasks.filter((task) => !task.checked).length}</p>
 						</div>
 						<div class="flex justify-between w-full border-b">
 							<strong>Finished Tasks:</strong>
-							<p>{finishedAmbitionTasks.length}</p>
+							<p>{ambitionData.ambitionTasks.filter((task) => task.checked).length}</p>
 						</div>
 						<div class="flex justify-between w-full border-b">
 							<strong>Total Tasks:</strong>
-							<p>{totalAmbitionTasks}</p>
+							<p>{ambitionData.ambitionTasks.length}</p>
 						</div>
 					</div>
 				</div>
