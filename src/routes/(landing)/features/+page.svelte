@@ -20,7 +20,7 @@
 
 	$: console.log('Ambition DATA: ', ambitionData);
 
-	let selectedAmbition: any = ambitionData[0];
+	let selectedAmbition: any = ambitionData;
 
 	let sampleAmbitionTasks = [
 		{
