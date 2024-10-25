@@ -4,6 +4,7 @@
 	import type { ActionData } from '../signup/$types';
 	import { Eye } from 'lucide-svelte';
 	import { EyeClosed } from 'svelte-radix';
+	import MetaTags from '$lib/components/MetaTags.svelte';
 
 	export let form: ActionData;
 
@@ -31,6 +32,12 @@
 
 <svelte:head>
 	<title>Login to your AmbitiousYou account</title>
+	<MetaTags
+		metaOgTitle="Login to your AmbitiousYou account"
+		metaOgDescription="Create an account to get started"
+		metaOgImage="/images/og-image.jpg"
+		metaOgUrl="https://ambitiousyou.pro/login"
+	/>
 </svelte:head>
 
 <div

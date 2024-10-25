@@ -1,18 +1,16 @@
 <script>
+	import MetaTags from '$lib/components/MetaTags.svelte';
 	import BlurFade from '$lib/components/svelte_magicui/BlurFade.svelte';
 </script>
 
 <svelte:head>
 	<title>AmbitiousYou</title>
-	<meta name="description" content="AmbitiousYou" />
-	<meta name="keywords" content="AmbitiousYou" />
-	<meta name="author" content="AmbitiousYou" />
-	<meta name="robots" content="index, follow" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<meta name="theme-color" content="#000000" />
-	<link rel="icon" type="image/png" href="/favicon.png" />
-	<link rel="apple-touch-icon" href="/favicon.png" />
-	<link rel="manifest" href="/manifest.json" />
+	<MetaTags
+		metaOgTitle="AmbitiousYou"
+		metaOgDescription="Manage all your ambitions at a single place!"
+		metaOgImage="https://ambitiousyou.pro/og-image.png"
+		metaOgUrl="https://ambitiousyou.pro"
+	/>
 </svelte:head>
 
 <div class="flex flex-col gap-8 justify-center items-center">

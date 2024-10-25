@@ -6,7 +6,7 @@ import { PRIVATE_APPWRITE_DATABASE_ID, PRIVATE_APPWRITE_COLLECTION_ID } from '$e
 import { SESSION_COOKIE } from '$lib/appwrite/appwrite';
 import chalk from 'chalk';
 
-export const load: PageServerLoad = async ({ locals, fetch, cookies }) => {
+export const load: PageServerLoad = async ({ locals, cookies }) => {
 	confirmAuth(locals);
 
 	let pageServerResponse = {};
@@ -60,12 +60,5 @@ export const load: PageServerLoad = async ({ locals, fetch, cookies }) => {
 		};
 	}
 
-	// const response = await fetch('/api/mock', {
-	// 	method: 'GET',
-	// 	headers: {
-	// 		'content-type': 'application/json'
-	// 	}
-	// });
-	// const data = await response.json();
 	return pageServerResponse;
 };

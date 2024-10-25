@@ -7,6 +7,7 @@
 	import ExploreAmbitionSection from './ExploreAmbitionSection.svelte';
 	import type { AmbitionType } from '$lib/types/ambitionType';
 	import ambitiousQuotes from './ambitiousQuotes';
+	import MetaTags from '$lib/components/MetaTags.svelte';
 
 	const ambitionTypes = exampleAmbitionsData.map((exampleAmbition) => ({
 		value: exampleAmbition.category,
@@ -68,10 +69,16 @@
 </script>
 
 <svelte:head>
-	<title>Features of AmbitiousYou!</title>
+	<title>Features of AmbitiousYou! - Explore AmbitiousYou</title>
+	<MetaTags
+		metaOgTitle="Features of AmbitiousYou! - Explore AmbitiousYou"
+		metaOgDescription="Explore the features of AmbitiousYou, a goal management application that helps you manage your ambitions and achieve your goals. Learn how AmbitiousYou can help you track your progress, set tasks, add notes, and more."
+		metaOgUrl="https://ambitiousyou.pro/features"
+		metaOgImage="https://ambitiousyou.pro/og-image.png"
+	/>
 </svelte:head>
 
-<div class="max-w-5xl">
+<div class="max-w-5xl select-none">
 	<section>
 		<!-- <div class="flex flex-col justify-center items-center gap-10 mb-20">
 			<h1 class="font-bold italic text-4xl text-center">Focus is saying no to 1,000 good ideas.</h1>
@@ -95,7 +102,7 @@
 			</p>
 		</div>
 	</section>
-	<section class="mt-10 flex flex-col gap-5 select-none">
+	<section class="mt-10 flex flex-col gap-5">
 		<h1 class="font-bold text-5xl">Explore AmbitiousYou!</h1>
 		<p>
 			Get to explore the actual application AmbitiousYou in an interactive way!<br /> Yes, not just some
@@ -147,7 +154,7 @@
 		</div>
 	</section>
 	<h1 class="font-bold mt-20 text-5xl">AmbitiousYou Terminologies</h1>
-	<section class="mt-10 flex max-md:flex-col gap-20 select-none">
+	<section class="mt-10 flex max-md:flex-col gap-20">
 		<div>
 			<h1 class="font-bold text-5xl">Ambitions</h1>
 			<p class="font-normal text-xl mt-5">
@@ -183,7 +190,7 @@
 			</div>
 		</div>
 	</section>
-	<section class="mt-20 flex max-md:flex-col gap-20 select-none">
+	<section class="mt-20 flex max-md:flex-col-reverse gap-20">
 		<div class="w-full flex justify-center items-center">
 			<div class="flex flex-col gap-5 min-w-96">
 				<div>
@@ -219,12 +226,12 @@
 				helps you keep track of your progress on each ambition and work hard towards achieving them.
 				You can also mark the tasks as completed once you have completed them so that you can track
 				your progress on each ambition. <span class="text-sm italic"
-					>(some of the features are still in development)
+					>(some additional features are in development)
 				</span>
 			</p>
 		</div>
 	</section>
-	<section class="mt-20 flex max-md:flex-col gap-20 select-none">
+	<section class="mt-20 flex max-md:flex-col gap-20">
 		<div>
 			<h1 class="font-bold text-5xl">Ambition Notes</h1>
 			<p class="font-normal text-xl mt-5">
@@ -264,7 +271,7 @@
 			</div>
 		</div>
 	</section>
-	<section class="mt-20 flex max-md:flex-col-reverse gap-20 select-none">
+	<section class="mt-20 flex max-md:flex-col-reverse gap-20">
 		<div>
 			<div class="max-w-full min-w-96">
 				<h2 class="text-xl font-semibold mb-4">Ambition Details</h2>
@@ -318,7 +325,7 @@
 			</p>
 		</div>
 	</section>
-	<section class="mt-20 flex max-md:flex-col gap-20 select-none">
+	<section class="mt-20 flex max-md:flex-col gap-20">
 		<div>
 			<h1 class="font-bold text-5xl">Ambition Stats</h1>
 			<p class="font-normal text-xl mt-5">
@@ -355,6 +362,40 @@
 					</div>
 				</div>
 			</div>
+		</div>
+	</section>
+	<section class="mt-20 flex flex-col">
+		<h1 class="font-bold text-5xl">AmbitiousYou Features at a glance!</h1>
+		<p class="font-normal text-xl mt-5">
+			<strong>AmbitiousYou</strong> provides a wide range of features to help you manage your ambitions
+			and achieve your goals. Some of the key features include:
+		</p>
+		<ul class="list-disc list-inside mt-5">
+			<li>Track your progress on each ambition</li>
+			<li>Add tasks to each ambition and mark them as completed</li>
+			<li>Add notes to each ambition to keep track of your thoughts and ideas</li>
+			<li>Set start and end dates for each ambition</li>
+			<li>Set priority levels for each ambition</li>
+			<li>View detailed statistics on your progress and achievements</li>
+			<!-- <li>Get reminders and notifications for upcoming tasks and deadlines</li> -->
+			<!-- <li>Customize the app to suit your preferences and workflow</li> -->
+		</ul>
+	</section>
+	<section class="mt-20 flex flex-col">
+		<div
+			class="flex flex-col items-center justify-center animate-gradient text-white py-20 rounded-lg shadow-lg px-4 sm:px-8"
+		>
+			<h1 class="text-3xl sm:text-4xl font-bold mb-4 text-center">Join AmbitiousYou Today!</h1>
+			<p class="text-lg sm:text-xl mb-8 text-center max-w-2xl">
+				Unlock your full potential and start achieving your ambitions with AmbitiousYou. Create a
+				free account now and take the first step towards your dreams!
+			</p>
+			<a
+				href="/signup"
+				class="bg-white text-[#176B87] font-semibold py-3 px-6 rounded-2xl shadow-md hover:bg-gray-100 transition duration-300"
+			>
+				Create Your Free Account Now!
+			</a>
 		</div>
 	</section>
 </div>

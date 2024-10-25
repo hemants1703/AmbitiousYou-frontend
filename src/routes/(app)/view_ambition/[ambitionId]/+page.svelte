@@ -84,6 +84,8 @@
 	let askForUpdation = false;
 	let askForCompleteUpdation = false;
 	let updateAmbitionEnabled = false;
+	let askBeforeDeletion = false;
+	let deletingAnimation = false;
 
 	let deleteButtonClicked = false;
 
@@ -241,6 +243,70 @@
 	</div>
 {/if}
 
+{#if askBeforeDeletion}
+	<div class="fixed inset-0 bg-background bg-opacity-90 z-10">
+		<div class="animate-dropDown fixed inset-0 flex justify-center items-center">
+			<div class="border bg-background p-5 max-sm:mx-10 rounded-lg shadow-lg max-w-lg">
+				<h1 class="text-xl font-bold flex gap-2">
+					Are you sure you want to delete this Ambition?
+					<CircleHelp class="text-red-500 w-8 h-8" />
+				</h1>
+				<h2 class="text-muted-foreground text-sm mt-2">
+					Deleting Ambitions will remove all the tasks, notes, and details associated with this
+					Ambition. This action is irreversible!
+				</h2>
+				<div class="flex justify-end gap-2 mt-5">
+					<button
+						class="hover:bg-[--custom-dark] px-4 py-1 text-white rounded-lg"
+						on:click|preventDefault={() => {
+							askBeforeDeletion = false;
+							deleteButtonClicked = false;
+						}}
+					>
+						No
+					</button>
+					<form
+						action="?/deleteAmbition"
+						method="POST"
+						use:enhance={() => {
+							deleteButtonClicked = true;
+							deletingAnimation = true;
+						}}
+					>
+						<button
+							class="flex gap-2 justify-center items-center bg-red-200 hover:bg-red-500 hover:text-white active:bg-red-700 text-red-500 px-4 py-1 rounded-lg"
+						>
+							{#if deletingAnimation}
+								<span class="animate-spin"
+									><svg
+										xmlns="http://www.w3.org/2000/svg"
+										width="24"
+										height="24"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										><path d="M12 2v4" /><path d="m16.2 7.8 2.9-2.9" /><path d="M18 12h4" /><path
+											d="m16.2 16.2 2.9 2.9"
+										/><path d="M12 18v4" /><path d="m4.9 19.1 2.9-2.9" /><path d="M2 12h4" /><path
+											d="m4.9 4.9 2.9 2.9"
+										/></svg
+									></span
+								>
+								Deleting Ambition...
+							{:else}
+								Yes
+							{/if}
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+{/if}
+
 <!-- BACK BUTTON -->
 {#if !updateAmbitionEnabled}
 	<a
@@ -290,7 +356,7 @@
 			<div>
 				<!-- <h2 class="text-xl font-semibold mb-4">Time Left</h2> -->
 				<div
-					class="border {daysLeft < 0 && ambitionStatus !== 'Completed'
+					class="border {daysLeft < 0 && ambitionData.ambitionStatus !== 'Completed'
 						? 'border-red-500'
 						: ''} rounded-xl p-4"
 				>
@@ -512,37 +578,18 @@
 							</li>
 							<li class="flex justify-between w-full border-b py-1">
 								<strong>Status:</strong>
-								{#if updateAmbitionEnabled}
-									<select
-										name="ambitionStatus"
-										id="ambitionStatus"
-										bind:value={updatedAmbitionStatus}
-										on:select={() => {
-											if (updatedAmbitionStatus === 'Completed') {
-												ambitionData.ambitionCompletionDate = new Date().toISOString();
-											} else if (updatedAmbitionStatus === 'Ongoing') {
-												ambitionData.ambitionCompletionDate = null;
-											}
-										}}
-									>
-										<option value="Completed">Completed</option>
-										<option value="Ongoing">Ongoing</option>
-										<option value="Future">Future</option>
-									</select>
-								{:else}
-									<p class="flex place-items-center gap-2">
-										{#if updatedAmbitionStatus === 'Completed'}
-											<CircleCheckBig color="#10b981" />
-										{:else if updatedAmbitionStatus === 'Ongoing'}
-											<div class="animate-spin">
-												<LoaderPinwheel color="#3b82f6" />
-											</div>
-										{:else if updatedAmbitionStatus === 'Future'}
-											<CalendarArrowUp color="#a855f7" />
-										{/if}
-										{updatedAmbitionStatus}
-									</p>
-								{/if}
+								<p class="flex place-items-center gap-2">
+									{#if updatedAmbitionStatus === 'Completed'}
+										<CircleCheckBig color="#10b981" />
+									{:else if updatedAmbitionStatus === 'Ongoing'}
+										<div class="animate-spin">
+											<LoaderPinwheel color="#3b82f6" />
+										</div>
+									{:else if updatedAmbitionStatus === 'Future'}
+										<CalendarArrowUp color="#a855f7" />
+									{/if}
+									{updatedAmbitionStatus}
+								</p>
 							</li>
 							<li class="flex justify-between w-full border-b py-1">
 								<strong>Priority:</strong>
@@ -579,43 +626,39 @@
 
 	<!-- AMBITION DELETE BUTTON -->
 	{#if updateAmbitionEnabled}
-		<form
-			action="?/deleteAmbition"
-			method="POST"
-			use:enhance={() => {
+		<button
+			on:click={() => {
 				deleteButtonClicked = true;
+				askBeforeDeletion = true;
 			}}
+			disabled={deleteButtonClicked}
+			type="submit"
+			class="mb-20 flex gap-2 justify-center items-center rounded-md bg-red-200 w-fit px-4 py-2 text-red-500 hover:bg-red-500 hover:text-white transition-all duration-300 ease-in-out"
 		>
-			<button
-				disabled={deleteButtonClicked}
-				type="submit"
-				class="mb-20 flex gap-2 justify-center items-center rounded-md bg-red-200 w-fit px-4 py-2 text-red-500 hover:bg-red-500 hover:text-white transition-all duration-300 ease-in-out"
-			>
-				{#if deleteButtonClicked}
-					<span class="animate-spin"
-						><svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							><path d="M12 2v4" /><path d="m16.2 7.8 2.9-2.9" /><path d="M18 12h4" /><path
-								d="m16.2 16.2 2.9 2.9"
-							/><path d="M12 18v4" /><path d="m4.9 19.1 2.9-2.9" /><path d="M2 12h4" /><path
-								d="m4.9 4.9 2.9 2.9"
-							/></svg
-						></span
-					>
-					Deleting Ambition
-				{:else}
-					<Trash_2 />
-					Delete Ambition
-				{/if}
-			</button>
-		</form>
+			{#if deleteButtonClicked}
+				<span class="animate-spin"
+					><svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						><path d="M12 2v4" /><path d="m16.2 7.8 2.9-2.9" /><path d="M18 12h4" /><path
+							d="m16.2 16.2 2.9 2.9"
+						/><path d="M12 18v4" /><path d="m4.9 19.1 2.9-2.9" /><path d="M2 12h4" /><path
+							d="m4.9 4.9 2.9 2.9"
+						/></svg
+					></span
+				>
+				Deleting Ambition
+			{:else}
+				<Trash_2 />
+				Delete Ambition
+			{/if}
+		</button>
 	{/if}
 </div>

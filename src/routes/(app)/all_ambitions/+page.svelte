@@ -25,11 +25,6 @@
 	// console.log('PageServerData documents: ', data.body.documents);
 
 	let updatedAmbitions = data.body === null ? [] : data.body.documents;
-	// updatedAmbitions = updatedAmbitions.reverse();
-
-	afterUpdate(() => {
-		updatedAmbitions = updatedAmbitions.reverse();
-	});
 
 	// let selectedStatus: string | unknown = '';
 	// let selectedCategory: string | unknown = '';
@@ -135,11 +130,7 @@
 						<a href={`/view_ambition/${ambition.$id}`}>
 							<MagicCard
 								class="cursor-pointer w-full flex-col items-start justify-start shadow-sm whitespace-nowrap group active:scale-[0.99] transition-all duration-100"
-								gradientColor={ambition.ambitionStatus === 'completed'
-									? 'var(--custom-completed)'
-									: ambition.ambitionStatus === 'ongoing'
-										? 'var(--custom-ongoing)'
-										: 'var(--custom-future)'}
+								gradientColor={`var(--custom-${ambition.ambitionStatus})`}
 								gradientSize={300}
 							>
 								<div

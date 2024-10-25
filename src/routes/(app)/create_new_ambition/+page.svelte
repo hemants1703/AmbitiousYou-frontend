@@ -18,7 +18,7 @@
 	import { ambitions } from '$lib/mockDB';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
-	import type { AmbitionType } from '$lib/types/ambitionType';
+	import type { AmbitionNoteType, AmbitionTaskType, AmbitionType } from '$lib/types/ambitionType';
 
 	const df = new DateFormatter('en-IN', { dateStyle: 'long' });
 
@@ -72,17 +72,12 @@
 
 	let taskName: string = '';
 	let taskDescription: string = '';
-	let ambitionTasks: {
-		id: number;
-		name: string;
-		description: string;
-		checked: boolean;
-	}[] = [];
+	let ambitionTasks: AmbitionTaskType[] = [];
 
 	function handleAddAmbitionTask() {
 		if (taskName === '' || taskDescription === '') return;
 
-		const newTask = {
+		const newTask: AmbitionTaskType = {
 			id: ambitionTasks.length + 1,
 			name: taskName,
 			description: taskDescription,
@@ -95,16 +90,12 @@
 	}
 
 	let noteContent: string = '';
-	let ambitionNotes: {
-		id: number;
-		content: string;
-		created_at: Date;
-	}[] = [];
+	let ambitionNotes: AmbitionNoteType[] = [];
 
 	function handleAddAmbitionNote() {
 		if (noteContent === '') return;
 
-		const newNote = {
+		const newNote: AmbitionNoteType = {
 			id: ambitionNotes.length + 1,
 			content: noteContent,
 			created_at: new Date()
@@ -115,7 +106,7 @@
 	}
 
 	function handleSubmit({ formData, cancel }: { formData: FormData; cancel: () => void }) {
-		console.log('Form submitted', formData);
+		// console.log('Form submitted', formData);
 
 		const ambitionData = {
 			ambitionName: formData.get('ambitionName') as string,
@@ -141,14 +132,30 @@
 			$collectionId: ''
 		};
 
-		console.log('FormData before submission', ambitionData);
+		if (ambitionTasks.length > 0) {
+			const totalAmbitionTasks = ambitionTasks.length;
+			const totalCompletedAmbitions = ambitionTasks.filter((task) => task.checked).length;
+
+			if (totalCompletedAmbitions <= 0) {
+				formData.set('ambitionStatus', 'future');
+			}
+
+			if (totalCompletedAmbitions > 0 && totalCompletedAmbitions < totalAmbitionTasks) {
+				formData.set('ambitionStatus', 'ongoing');
+			}
+
+			if (totalCompletedAmbitions === totalAmbitionTasks) {
+				formData.set('ambitionStatus', 'completed');
+			}
+		}
+
+		// console.log('FormData before submission', ambitionData);
 
 		if (
 			ambitionData.ambitionName === '' ||
 			ambitionData.ambitionDefinition === '' ||
 			ambitionData.ambitionCategory === '' ||
-			ambitionData.ambitionPriority === '' ||
-			ambitionData.ambitionStatus === ''
+			ambitionData.ambitionPriority === ''
 		) {
 			cancel();
 			toast.warning('Please fill all the required fields!');
@@ -251,7 +258,9 @@
 								<Select.Input name="ambitionPriority" bind:value={ambitionData.ambitionPriority} />
 							</Select.Root>
 						</div>
-						<div class="flex flex-col gap-2">
+						<!-- AMBITION STATUS IS DECIDED BY THE STATES OF THE AMBITION TASKS -->
+						<!-- <input type="hidden" name="ambitionStatus" bind:value={ambitionStatusInput} />s -->
+						<!-- <div class="flex flex-col gap-2">
 							<Label for="ambitionStatus">Ambition Status <sup class=" text-red-500">*</sup></Label>
 							<Select.Root name="ambitionStatus">
 								<Select.Trigger class="w-[180px]">
@@ -264,7 +273,7 @@
 								</Select.Content>
 								<Select.Input name="ambitionStatus" bind:value={ambitionData.ambitionStatus} />
 							</Select.Root>
-						</div>
+						</div> -->
 					</div>
 					<div class="grid gap-2">
 						<Label for="ambitionDeadline" class="text-xl">

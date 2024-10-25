@@ -60,7 +60,8 @@ const config = {
 				shake: 'shake 0.5s cubic-bezier(.36,.07,.19,.97) forwards',
 				fadeOut: 'fadeOut 1s ease-in-out forwards',
 				dropDown: 'dropDown 0.5s cubic-bezier(.36,.07,.19,.97) forwards',
-				dropDownReverse: 'dropDown 0.5s cubic-bezier(.36,.07,.19,.97) reverse forwards'
+				dropDownReverse: 'dropDown 0.5s cubic-bezier(.36,.07,.19,.97) reverse forwards',
+				gradient: 'gradient 60s ease-in-out infinite'
 			},
 			keyframes: {
 				shake: {
@@ -80,6 +81,18 @@ const config = {
 				dropDownReverse: {
 					'0%': { transform: 'translateY(0)', opacity: 1 },
 					'100%': { transform: 'translateY(-100%)', opacity: 0 }
+				},
+				gradient: {
+					'0%, 100%': {
+						backgroundSize: '200% 200%',
+						backgroundPosition: 'left center',
+						backgroundImage: 'linear-gradient(270deg, #64CCC5, #176B87)'
+					},
+					'50%': {
+						backgroundSize: '200% 200%',
+						backgroundPosition: 'right center',
+						backgroundImage: 'linear-gradient(270deg, #176B87, #64CCC5)'
+					}
 				}
 			}
 		}

@@ -4,6 +4,7 @@
 	import { enhance } from '$app/forms';
 	import { Eye } from 'lucide-svelte';
 	import { EyeClosed } from 'svelte-radix';
+	import MetaTags from '$lib/components/MetaTags.svelte';
 
 	export let form: ActionData;
 	$: console.log('Signup form response from server:', form);
@@ -51,6 +52,12 @@
 
 <svelte:head>
 	<title>Signup on AmbitiousYou!</title>
+	<MetaTags
+		metaOgTitle="Signup on AmbitiousYou!"
+		metaOgDescription="Create an account to get started on AmbitiousYou!"
+		metaOgImage="/images/og/signup.png"
+		metaOgUrl="https://ambitiousyou.in/auth/signup"
+	/>
 </svelte:head>
 
 <div

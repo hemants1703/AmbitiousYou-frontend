@@ -9,9 +9,9 @@
 		ambitionCategory: 'category',
 		ambitionStatus: 'Completed',
 		ambitionPriority: 'High',
-		ambitionStartDate: new Date().toISOString(),
-		ambitionEndDate: new Date().toISOString(),
-		ambitionCompletionDate: new Date().toISOString(),
+		ambitionStartDate: new Date().toISOString().split('T')[0],
+		ambitionEndDate: new Date().toISOString().split('T')[0],
+		ambitionCompletionDate: new Date().toISOString().split('T')[0],
 		percentageCompleted: 50,
 		ambitionTasks: [
 			{
@@ -45,10 +45,6 @@
 	// ambitionData = ambitionData[0];
 
 	// console.log('AMBITION DATA FROM ExploreAmbitionSection Component:', ambitionData);
-
-	let daysLeft = new Date(
-		new Date(ambitionData.ambitionEndDate) - new Date(ambitionData.ambitionStartDate)
-	).toUTCString();
 </script>
 
 <div class="flex flex-col gap-10 border rounded-xl p-4">
