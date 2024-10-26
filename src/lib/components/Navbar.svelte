@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ThemeToggler from './ThemeToggler.svelte';
 	import { page } from '$app/stores';
+	import { afterUpdate } from 'svelte';
 
 	let pagePathname = $page.url.pathname;
 
@@ -12,6 +13,10 @@
 		navbarMenu.classList.toggle('max-sm:animate-dropDown');
 		navbarToggled = !navbarToggled;
 	}
+
+	afterUpdate(() => {
+		pagePathname = $page.url.pathname;
+	});
 </script>
 
 <nav class="flex justify-center items-center w-full h-fit">
