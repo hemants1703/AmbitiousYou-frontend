@@ -32,7 +32,7 @@ export const actions: Actions = {
 	// 	// Redirect to the sign up page.
 	// 	redirect(302, '/signup');
 	// },
-	deleteAccount: async ({ locals }) => {
+	deleteAccount: async ({ locals, cookies }) => {
 		const client = new Client()
 			.setEndpoint(PUBLIC_APPWRITE_ENDPOINT) // Your API Endpoint
 			.setProject(PUBLIC_APPWRITE_PROJECT_ID) // Your project ID
@@ -134,6 +134,8 @@ export const actions: Actions = {
 				}
 			};
 		}
+
+		cookies.delete(SESSION_COOKIE, { path: '/' });
 
 		// if (serverActionResponse.success) {
 		redirect(308, '/');

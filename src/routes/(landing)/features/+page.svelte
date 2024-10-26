@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { CircleCheckBig } from 'lucide-svelte';
+	import { CircleCheckBig, LoaderPinwheel, CalendarArrowUp } from 'lucide-svelte';
 	import AmbitionCard from './AmbitionCard.svelte';
 	import exampleAmbitionsData from './exampleAmbitionsData';
 	import { Label } from '$lib/components/ui/label';
@@ -102,7 +102,7 @@
 			</p>
 		</div>
 	</section>
-	<section class="mt-10 flex flex-col gap-5">
+	<section class=" mt-10 flex flex-col gap-5">
 		<h1 class="font-bold text-5xl">Explore AmbitiousYou!</h1>
 		<p>
 			Get to explore the actual application AmbitiousYou in an interactive way!<br /> Yes, not just some
@@ -131,7 +131,7 @@
 				<!-- <Select.Input name="ambitionType" bind:value={selectedType} /> -->
 			</Select.Root>
 		</div>
-		<div class="border rounded-2xl p-2">
+		<div class="border shadow-md rounded-2xl p-2">
 			<div class="flex flex-col gap-2">
 				{#each ambitionData as exampleAmbition}
 					<button
@@ -154,7 +154,7 @@
 		</div>
 	</section>
 	<h1 class="font-bold mt-20 text-5xl">AmbitiousYou Terminologies</h1>
-	<section class="mt-10 flex max-md:flex-col gap-20">
+	<section class=" mt-10 flex max-md:flex-col gap-20">
 		<div>
 			<h1 class="font-bold text-5xl">Ambitions</h1>
 			<p class="font-normal text-xl mt-5">
@@ -190,12 +190,60 @@
 			</div>
 		</div>
 	</section>
-	<section class="mt-20 flex max-md:flex-col-reverse gap-20">
+	<section class=" mt-20 flex flex-col gap-10">
+		<h1 class="font-bold text-5xl">Ambition Progress/Status</h1>
+		<div class="flex w-full justify-items-center items-center max-md:flex-col gap-10 text-center">
+			<div
+				class="flex justify-center items-center flex-col border-2 shadow-lg rounded-lg p-4 max-w-80 min-h-80"
+			>
+				<div class="flex justify-center items-center">
+					<CalendarArrowUp color="#a855f7" size="64" />
+				</div>
+				<div class="flex flex-col gap-2 mt-8">
+					<p>FUTURE</p>
+					<p class="text-muted-foreground">
+						By default, any ambition whose tasks are incomplete are set for future, The ambition is
+						planned for the future and has not started yet.
+					</p>
+				</div>
+			</div>
+			<div
+				class="flex justify-center items-center flex-col border-2 shadow-lg rounded-lg p-4 max-w-80 min-h-80"
+			>
+				<div class="animate-spin w-full h-fit flex justify-center items-center">
+					<LoaderPinwheel color="#3b82f6" size="64" />
+				</div>
+
+				<div class="flex flex-col gap-2 mt-8">
+					<p>ONGOING</p>
+					<p class="text-muted-foreground">
+						When you start working on the tasks of an ambition, the ambition is set to ongoing. The
+						ambition is in progress and you are actively working on it.
+					</p>
+				</div>
+			</div>
+			<div
+				class="flex justify-center items-center flex-col border-2 shadow-lg rounded-lg p-4 max-w-80 min-h-80"
+			>
+				<div class="flex justify-center items-center">
+					<CircleCheckBig color="#10b981" size="64" />
+				</div>
+				<div class="flex flex-col gap-2 mt-8">
+					<p>COMPLETED</p>
+					<p class="text-muted-foreground">
+						When you complete all the tasks of an ambition, the ambition is set to completed. The
+						ambition is successfully achieved and you have accomplished your goal.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class=" mt-20 flex max-md:flex-col-reverse gap-20">
 		<div class="w-full flex justify-center items-center">
 			<div class="flex flex-col gap-5 min-w-96">
 				<div>
 					<h2 class="text-xl font-semibold mb-4">Tasks to Accomplish your Ambition</h2>
-					<div class=" border rounded-xl p-4">
+					<div class="border shadow-lg rounded-xl p-4">
 						<div class="max-h-96 space-y-4 overflow-y-auto overflow-x-hidden">
 							{#each sampleAmbitionTasks as task, idx}
 								<div
@@ -231,7 +279,7 @@
 			</p>
 		</div>
 	</section>
-	<section class="mt-20 flex max-md:flex-col gap-20">
+	<section class=" mt-20 flex max-md:flex-col gap-20">
 		<div>
 			<h1 class="font-bold text-5xl">Ambition Notes</h1>
 			<p class="font-normal text-xl mt-5">
@@ -244,7 +292,7 @@
 		<div class="w-full flex justify-center items-center">
 			<div class="flex flex-col gap-5 min-w-96">
 				<div>
-					<div class="flex flex-col gap-2 border p-4 rounded-xl">
+					<div class="flex flex-col gap-2 border shadow-lg p-4 rounded-xl">
 						<h1 class="font-bold text-xs">NOTES</h1>
 						<div class="flex flex-col space-y-4 max-h-96 overflow-y-auto">
 							{#each sampleAmbitionNotes as note}
@@ -271,11 +319,11 @@
 			</div>
 		</div>
 	</section>
-	<section class="mt-20 flex max-md:flex-col-reverse gap-20">
+	<section class=" mt-20 flex max-md:flex-col-reverse gap-20">
 		<div>
 			<div class="max-w-full min-w-96">
 				<h2 class="text-xl font-semibold mb-4">Ambition Details</h2>
-				<div class=" border rounded-xl p-4">
+				<div class="border shadow-lg rounded-xl p-4">
 					<div class="rounded-lg space-y-10">
 						<ul class="space-y-5">
 							<li class="flex justify-between w-full border-b py-1">
@@ -325,7 +373,7 @@
 			</p>
 		</div>
 	</section>
-	<section class="mt-20 flex max-md:flex-col gap-20">
+	<section class=" mt-20 flex max-md:flex-col gap-20">
 		<div>
 			<h1 class="font-bold text-5xl">Ambition Stats</h1>
 			<p class="font-normal text-xl mt-5">
@@ -336,7 +384,7 @@
 		</div>
 		<div class="w-full flex justify-center items-center">
 			<div class="flex flex-col gap-5 min-w-96">
-				<div class="border rounded-xl p-4">
+				<div class="border shadow-xl rounded-xl p-4">
 					<div class="rounded-lg space-y-5">
 						<div class="flex justify-between w-full border-b">
 							<strong>Days Left:</strong>
@@ -364,7 +412,7 @@
 			</div>
 		</div>
 	</section>
-	<section class="mt-20 flex flex-col">
+	<section class=" mt-20 flex flex-col">
 		<h1 class="font-bold text-5xl">AmbitiousYou Features at a glance!</h1>
 		<p class="font-normal text-xl mt-5">
 			<strong>AmbitiousYou</strong> provides a wide range of features to help you manage your ambitions
@@ -381,7 +429,7 @@
 			<!-- <li>Customize the app to suit your preferences and workflow</li> -->
 		</ul>
 	</section>
-	<section class="mt-20 flex flex-col">
+	<section class=" mt-20 flex flex-col">
 		<div
 			class="flex flex-col items-center justify-center animate-gradient text-white py-20 rounded-lg shadow-lg px-4 sm:px-8"
 		>
