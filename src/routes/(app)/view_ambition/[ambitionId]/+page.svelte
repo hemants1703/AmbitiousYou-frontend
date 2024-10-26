@@ -23,6 +23,7 @@
 	import { ChevronLeft } from 'svelte-radix';
 	import Trash_2 from 'lucide-svelte/icons/trash-2';
 	import type { ActionData } from '../$types';
+	import { afterUpdate } from 'svelte';
 
 	export let form: ActionData;
 	export let data: PageData;
@@ -50,7 +51,7 @@
 
 	let noteContent: string = '';
 
-	let ambitionCompletionDate =
+	let ambitionCompletionDate: string | null =
 		ambitionData.ambitionCompletionDate === null
 			? 'Incomplete Ambition!'
 			: new Date(ambitionData.ambitionCompletionDate).toLocaleDateString();
@@ -74,18 +75,19 @@
 		ambitionTasks.length > 0 ? ambitionTasks.filter((task) => task.checked) : [];
 	let totalAmbitionTasks: number = ambitionTasks.length;
 
-	const percentageCompleted: number =
+	let percentageCompleted: number =
 		ambitionStatus === 'Completed' && totalAmbitionTasks === 0
 			? 100
 			: totalAmbitionTasks === 0
 				? 0
-				: (finishedAmbitionTasks.length / totalAmbitionTasks) * 100;
+				: Math.floor((finishedAmbitionTasks.length / totalAmbitionTasks) * 100);
 
 	let askForUpdation = false;
 	let askForCompleteUpdation = false;
 	let updateAmbitionEnabled = false;
 	let askBeforeDeletion = false;
 	let deletingAnimation = false;
+	let updatingAmbition = false;
 
 	let deleteButtonClicked = false;
 
@@ -105,11 +107,18 @@
 			return;
 		}
 
+		if (updatedAmbitionStatus === 'Completed') {
+			ambitionCompletionDate = new Date().toLocaleDateString();
+		} else {
+			ambitionCompletionDate = null;
+		}
+
 		ambitionData.ambitionStatus = updatedAmbitionStatus;
 		ambitionData.ambitionTasks = ambitionTasks.filter((task) => JSON.stringify(task));
 		ambitionData.ambitionNotes = ambitionNotes.filter((note) => JSON.stringify(note));
+		ambitionData.ambitionCompletionDate = ambitionCompletionDate;
 
-		console.log('Updating ambitions: ', ambitionData);
+		// console.log('Updating ambitions: ', ambitionData);
 
 		try {
 			let response = await fetch('/api/updateAmbition', {
@@ -120,13 +129,13 @@
 				body: JSON.stringify(ambitionData)
 			});
 
-			console.log('Ambition updated successfully: ', response);
+			// console.log('Ambition updated successfully: ', response);
 
-			response = await response.json();
+			// response = await response.json();
 
-			if (response.success) {
+			if (response.ok) {
 				const data = await response.json();
-				console.log('Ambition updated successfully: ', data);
+				// console.log('Ambition updated successfully: ', data);
 				toast.success('Ambition updated successfully!');
 			} else {
 				ambitionData.ambitionStatus = currentAmbitionStatus;
@@ -139,6 +148,9 @@
 			console.error('Error updating Ambition: ', error);
 			toast.error('Error updating Ambition');
 		}
+
+		askForCompleteUpdation = false;
+		updatingAmbition = false;
 	}
 
 	function handleNewTaskAddition() {
@@ -167,6 +179,24 @@
 
 		noteContent = '';
 	}
+
+	function updateAmbitionDetails() {
+		const totalAmbitionTasks = ambitionTasks.length;
+		const finishedAmbitionTasks = ambitionTasks.filter((task) => task.checked);
+
+		if (finishedAmbitionTasks.length === totalAmbitionTasks) {
+			ambitionCompletionDate = new Date().toLocaleDateString();
+			updatedAmbitionStatus = 'completed';
+		} else if (finishedAmbitionTasks.length === 0) {
+			ambitionCompletionDate = 'Incomplete Ambition!';
+			updatedAmbitionStatus = 'future';
+		} else {
+			ambitionCompletionDate = 'Incomplete Ambition!';
+			updatedAmbitionStatus = 'ongoing';
+		}
+
+		percentageCompleted = Math.floor((finishedAmbitionTasks.length / totalAmbitionTasks) * 100);
+	}
 </script>
 
 <svelte:head>
@@ -189,7 +219,7 @@
 				</h2>
 				<div class="flex justify-end gap-2 mt-5">
 					<button
-						class="hover:bg-[--custom-dark] px-4 py-1 text-white rounded-lg"
+						class="hover:bg-[--custom-dark] px-4 py-1 text-foreground rounded-lg"
 						on:click|preventDefault={() => (askForUpdation = false)}
 					>
 						No
@@ -222,20 +252,43 @@
 				</h2>
 				<div class="flex justify-end gap-2 mt-5">
 					<button
-						class="hover:bg-[--custom-dark] px-4 py-1 text-white rounded-lg"
+						class="hover:bg-[--custom-dark] px-4 py-1 text-foreground rounded-lg"
 						on:click|preventDefault={() => (askForCompleteUpdation = false)}
 					>
 						No
 					</button>
 					<button
-						class="bg-[--custom-light] hover:bg-[--custom-light] hover:brightness-110 active:brightness-90 text-black px-4 py-1 rounded-lg"
+						class="flex justify-center items-center gap-2 bg-[--custom-light] hover:bg-[--custom-light] hover:brightness-110 active:brightness-90 text-black px-4 py-1 rounded-lg"
 						on:click|preventDefault={() => {
 							updateAmbitionEnabled = false;
-							askForCompleteUpdation = false;
+
+							updatingAmbition = true;
 							submitAmbitionUpdates();
 						}}
 					>
-						Yes
+						{#if updatingAmbition}
+							<span class="animate-spin"
+								><svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="24"
+									height="24"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									><path d="M12 2v4" /><path d="m16.2 7.8 2.9-2.9" /><path d="M18 12h4" /><path
+										d="m16.2 16.2 2.9 2.9"
+									/><path d="M12 18v4" /><path d="m4.9 19.1 2.9-2.9" /><path d="M2 12h4" /><path
+										d="m4.9 4.9 2.9 2.9"
+									/></svg
+								></span
+							>
+							Updating Ambition...
+						{:else}
+							Update
+						{/if}
 					</button>
 				</div>
 			</div>
@@ -257,7 +310,7 @@
 				</h2>
 				<div class="flex justify-end gap-2 mt-5">
 					<button
-						class="hover:bg-[--custom-dark] px-4 py-1 text-white rounded-lg"
+						class="hover:bg-[--custom-dark] px-4 py-1 text-foreground rounded-lg"
 						on:click|preventDefault={() => {
 							askBeforeDeletion = false;
 							deleteButtonClicked = false;
@@ -377,15 +430,15 @@
 						</div>
 						<div class="flex justify-between w-full border-b">
 							<strong>Unfinished Tasks:</strong>
-							<p>{ambitionData.ambitionTasks.filter((task) => !task.checked).length}</p>
+							<p>{ambitionTasks.filter((task) => !task.checked).length}</p>
 						</div>
 						<div class="flex justify-between w-full border-b">
 							<strong>Finished Tasks:</strong>
-							<p>{ambitionData.ambitionTasks.filter((task) => task.checked).length}</p>
+							<p>{ambitionTasks.filter((task) => task.checked).length}</p>
 						</div>
 						<div class="flex justify-between w-full border-b">
 							<strong>Total Tasks:</strong>
-							<p>{ambitionData.ambitionTasks.length}</p>
+							<p>{ambitionTasks.length}</p>
 						</div>
 					</div>
 				</div>
@@ -403,7 +456,9 @@
 						{:else}
 							{#each ambitionNotes as note}
 								<div
-									class="flex flex-col gap-2 justify-between items-start bg-yellow-200 dark:bg-yellow-900 dark:bg-opacity-20 bg-opacity-20 border border-yellow-400 rounded-lg p-2"
+									class="{updateAmbitionEnabled
+										? 'animate-ambitionEditModeAnimation'
+										: ''} flex flex-col gap-2 justify-between items-start bg-yellow-200 dark:bg-yellow-900 dark:bg-opacity-20 bg-opacity-20 border border-yellow-400 rounded-lg p-2"
 								>
 									<p class="text-md opacity-80">
 										{note.content}
@@ -482,13 +537,16 @@
 						{:else}
 							{#each ambitionTasks as task, idx}
 								<div
-									class="flex items-center space-x-3 p-4 border rounded-lg shadow-sm border-[--custom-light]"
+									class="{updateAmbitionEnabled
+										? 'animate-ambitionEditModeAnimation'
+										: ''} flex items-center space-x-3 p-4 border rounded-lg shadow-sm border-[--custom-light]"
 								>
 									{#if updateAmbitionEnabled}
 										<Checkbox
 											id={typeof task.id !== 'string' ? task.id.toString() : task.id}
 											onCheckedChange={() => {
 												task.checked = !task.checked;
+												updateAmbitionDetails();
 											}}
 											checked={task.checked}
 											aria-labelledby="ambitionTasks-checkbox-label"
@@ -579,16 +637,16 @@
 							<li class="flex justify-between w-full border-b py-1">
 								<strong>Status:</strong>
 								<p class="flex place-items-center gap-2">
-									{#if updatedAmbitionStatus === 'Completed'}
+									{#if updatedAmbitionStatus.toUpperCase() === 'Completed'.toUpperCase()}
 										<CircleCheckBig color="#10b981" />
-									{:else if updatedAmbitionStatus === 'Ongoing'}
+									{:else if updatedAmbitionStatus.toUpperCase() === 'Ongoing'.toUpperCase()}
 										<div class="animate-spin">
 											<LoaderPinwheel color="#3b82f6" />
 										</div>
-									{:else if updatedAmbitionStatus === 'Future'}
+									{:else if updatedAmbitionStatus.toUpperCase() === 'Future'.toUpperCase()}
 										<CalendarArrowUp color="#a855f7" />
 									{/if}
-									{updatedAmbitionStatus}
+									{updatedAmbitionStatus.toUpperCase()}
 								</p>
 							</li>
 							<li class="flex justify-between w-full border-b py-1">

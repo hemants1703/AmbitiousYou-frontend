@@ -61,7 +61,8 @@ const config = {
 				fadeOut: 'fadeOut 1s ease-in-out forwards',
 				dropDown: 'dropDown 0.5s cubic-bezier(.36,.07,.19,.97) forwards',
 				dropDownReverse: 'dropDown 0.5s cubic-bezier(.36,.07,.19,.97) reverse forwards',
-				gradient: 'gradient 60s ease-in-out infinite'
+				gradient: 'gradient 60s ease-in-out infinite',
+				ambitionEditModeAnimation: 'ambitionEditModeAnimation 1s ease-in-out infinite'
 			},
 			keyframes: {
 				shake: {
@@ -93,6 +94,10 @@ const config = {
 						backgroundPosition: 'right center',
 						backgroundImage: 'linear-gradient(270deg, #176B87, #64CCC5)'
 					}
+				},
+				ambitionEditModeAnimation: {
+					'0%, 100%': { filter: 'brightness(1)' },
+					'50%': { filter: 'brightness(1.2)' }
 				}
 			}
 		}

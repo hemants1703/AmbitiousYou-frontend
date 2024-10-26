@@ -86,13 +86,6 @@ export const load: PageServerLoad = async ({ locals, params, cookies }) => {
 };
 
 export const actions: Actions = {
-	updateAmbition: async ({ params, locals, body, cookies }) => {
-		const { ambitionId } = params;
-		const requestData = body;
-
-		console.log(chalk.bgWhiteBright.black('Ambition ID:'), ambitionId);
-		console.log(chalk.bgWhiteBright.black('Request Data:'), requestData);
-	},
 	deleteAmbition: async ({ params, locals, cookies }) => {
 		let pageServerResponse: {
 			status: number;

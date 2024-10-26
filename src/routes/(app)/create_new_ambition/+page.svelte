@@ -54,7 +54,7 @@
 	};
 
 	$: if (form) {
-		console.log(form);
+		// console.log(form);
 		if (!form.success) {
 			toast.error(form.message);
 			submitButtonClicked = false;

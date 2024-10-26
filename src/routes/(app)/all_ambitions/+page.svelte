@@ -149,13 +149,13 @@
 											</div>
 										</div>
 										<span>
-											{#if ambition.ambitionStatus === 'completed'}
+											{#if ambition.ambitionStatus.toUpperCase() === 'completed'.toUpperCase()}
 												<CircleCheckBig color="#10b981" />
-											{:else if ambition.ambitionStatus === 'ongoing'}
+											{:else if ambition.ambitionStatus.toUpperCase() === 'ongoing'.toUpperCase()}
 												<div class="animate-spin">
 													<LoaderPinwheel color="#3b82f6" />
 												</div>
-											{:else if ambition.ambitionStatus === 'future'}
+											{:else if ambition.ambitionStatus.toUpperCase() === 'future'.toUpperCase()}
 												<CalendarArrowUp color="#a855f7" />
 											{/if}
 										</span>
