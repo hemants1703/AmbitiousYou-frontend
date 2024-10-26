@@ -2,7 +2,7 @@
 	import ThemeToggler from './ThemeToggler.svelte';
 	import { page } from '$app/stores';
 
-	$: pagePathname = $page.url.pathname;
+	let pagePathname = $page.url.pathname;
 
 	let navbarMenu: HTMLDivElement;
 	let navbarToggled: boolean = false;
@@ -11,7 +11,6 @@
 		navbarMenu.classList.toggle('max-sm:hidden');
 		navbarMenu.classList.toggle('max-sm:animate-dropDown');
 		navbarToggled = !navbarToggled;
-		// document.documentElement.style.overflow = navbarToggled ? 'hidden' : 'auto';
 	}
 </script>
 
@@ -45,28 +44,27 @@
 				<a href="/" on:click={toggleNavbar} class={pagePathname === '/' ? 'sm:hidden block' : ''}
 					>Home</a
 				>
-				{#if pagePathname !== '/' && pagePathname !== '/features'}
-					<a
-						href="/features"
-						on:click={toggleNavbar}
-						class="relative inline-flex overflow-hidden rounded-xl p-px {pagePathname === '/'
-							? 'sm:hidden block'
-							: ''}"
+
+				<a
+					href="/features"
+					on:click={toggleNavbar}
+					class="relative inline-flex overflow-hidden rounded-xl p-px {pagePathname === '/'
+						? 'sm:hidden block'
+						: ''}"
+				>
+					<span
+						class="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#c2c2c2_0%,#64CCC5_50%,#bebebe_100%)]"
+					/>
+					<span
+						class="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-[11px] bg-background px-4 py-2 text-sm font-medium text-foreground backdrop-blur-3xl"
 					>
-						<span
-							class="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#c2c2c2_0%,#64CCC5_50%,#bebebe_100%)]"
-						/>
-						<span
-							class="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-[11px] bg-background px-4 py-2 text-sm font-medium text-foreground backdrop-blur-3xl"
-						>
-							Explore Features!
-						</span>
-					</a>
-				{/if}
+						Explore Features!
+					</span>
+				</a>
 			</div>
 
 			<div class="flex max-sm:flex-col justify-center items-center gap-2 max-sm:gap-10">
-				<ThemeToggler />
+				<!-- <ThemeToggler /> -->
 				<a id="secondaryButton" href="/signup" on:click={toggleNavbar}>Sign Up</a>
 				<a id="primaryButton" href="/login" on:click={toggleNavbar}>Login</a>
 			</div>
