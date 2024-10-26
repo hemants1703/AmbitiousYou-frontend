@@ -4,14 +4,19 @@
 	import { Textarea } from '$lib/components/ui/textarea';
 	import * as Select from '$lib/components/ui/select';
 	import CalendarIcon from 'lucide-svelte/icons/calendar';
-	import { DateFormatter, type DateValue, getLocalTimeZone } from '@internationalized/date';
+	import {
+		DateFormatter,
+		type DateValue,
+		getLocalTimeZone,
+		CalendarDate
+	} from '@internationalized/date';
 	import { cn } from '$lib/utils.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Popover from '$lib/components/ui/popover/index.js';
 	import { RangeCalendar } from '$lib/components/ui/range-calendar/index.js';
 	import { enhance } from '$app/forms';
 	import Separator from '$lib/components/ui/separator/separator.svelte';
-	import { ListPlus, MessageSquareDiff } from 'lucide-svelte';
+	import { ListPlus, MessageSquareDiff, X } from 'lucide-svelte';
 	import Checkbox from '$lib/components/ui/checkbox/checkbox.svelte';
 	import { toast } from 'svoast';
 	import type { ActionData, PageServerData } from './$types';
@@ -89,6 +94,10 @@
 		taskDescription = '';
 	}
 
+	function handleRemoveAmbitionTask(taskId: number) {
+		ambitionTasks = ambitionTasks.filter((task) => task.id !== taskId);
+	}
+
 	let noteContent: string = '';
 	let ambitionNotes: AmbitionNoteType[] = [];
 
@@ -103,6 +112,10 @@
 		ambitionNotes = [...ambitionNotes, newNote];
 
 		noteContent = '';
+	}
+
+	function handleRemoveAmbitionNote(noteId: number) {
+		ambitionNotes = ambitionNotes.filter((note) => note.id !== noteId);
 	}
 
 	function handleSubmit({ formData, cancel }: { formData: FormData; cancel: () => void }) {
@@ -326,6 +339,17 @@
 									initialFocus
 									numberOfMonths={2}
 									placeholder={value?.start}
+									onValueChange={(value) => {
+										if (value?.end && value.end.toDate(getLocalTimeZone()) < new Date()) {
+											toast.warning(
+												'Seems like you are trying to set a deadline in the past! Assuming you have already completed this ambition in the past, please do note that it will not reflect completed unless all the ambition tasks are checked off.',
+												{
+													duration: 10000,
+													closable: true
+												}
+											);
+										}
+									}}
 								/>
 							</Popover.Content>
 						</Popover.Root>
@@ -433,7 +457,7 @@
 								<div class="max-h-52 space-y-4 overflow-y-auto overflow-x-hidden">
 									{#each ambitionTasks as task}
 										<div
-											class="flex items-center space-x-3 p-4 border rounded-lg shadow-sm border-[--custom-light]"
+											class="relative flex items-center space-x-3 p-4 border rounded-lg shadow-sm border-[--custom-light]"
 										>
 											<Checkbox
 												id={task.id.toString()}
@@ -451,6 +475,12 @@
 													{task.description}
 												</p>
 											</Label>
+											<button
+												on:click={() => handleRemoveAmbitionTask(task.id)}
+												type="button"
+												class="absolute top-px right-px bg-red-500 hover:brightness-150 active:bg-red-800 rounded-full p-px"
+												><X size="20" /></button
+											>
 										</div>
 									{/each}
 								</div>{/if}
@@ -497,7 +527,7 @@
 								<div class="flex flex-col space-y-4 max-h-28 overflow-y-auto">
 									{#each ambitionNotes as note}
 										<div
-											class="flex flex-col gap-2 justify-between items-start bg-yellow-200 dark:bg-yellow-900 dark:bg-opacity-20 bg-opacity-20 border border-yellow-400 rounded-lg p-2"
+											class="relative flex flex-col gap-2 justify-between items-start bg-yellow-200 dark:bg-yellow-900 dark:bg-opacity-20 bg-opacity-20 border border-yellow-400 rounded-lg p-2"
 										>
 											<p class="text-md opacity-80">
 												{note.content}
@@ -511,6 +541,12 @@
 													minute: '2-digit'
 												}).format(note.created_at)}
 											</span>
+											<button
+												on:click={() => handleRemoveAmbitionNote(note.id)}
+												type="button"
+												class="absolute top-px right-px bg-red-500 hover:brightness-150 active:bg-red-800 rounded-full p-px"
+												><X size="20" /></button
+											>
 										</div>
 									{/each}
 								</div>

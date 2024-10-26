@@ -5,9 +5,12 @@
 	import { Eye } from 'lucide-svelte';
 	import { EyeClosed } from 'svelte-radix';
 	import MetaTags from '$lib/components/MetaTags.svelte';
+	import { Client, Account } from 'appwrite';
+	import { PUBLIC_APPWRITE_PROJECT_ID } from '$env/static/public';
+	import { goto } from '$app/navigation';
 
 	export let form: ActionData;
-	$: console.log('Signup form response from server:', form);
+	// $: console.log('Signup form response from server:', form);
 
 	const signUpDetails = {
 		fullName: '',

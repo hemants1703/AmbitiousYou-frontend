@@ -19,7 +19,7 @@ export const actions = {
 		const email: FormDataEntryValue = formData.get('email') as string;
 		const password: FormDataEntryValue = formData.get('password') as string;
 
-		console.log(chalk.bgBlueBright.white('formData'), formData);
+		// console.log(chalk.bgBlueBright.white('formData'), formData);
 
 		if (!fullName || !email || !password) {
 			return {
@@ -85,7 +85,7 @@ export const actions = {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (error: any) {
 			console.log(chalk.bgRedBright.white('error signing up: '), error);
-			formActionResponse = {
+			return {
 				status: error.code,
 				success: false,
 				message: error.response.message,
@@ -95,10 +95,12 @@ export const actions = {
 
 		// If account created successfully we log in the user
 		if (formActionResponse.success) {
-			try {
-				const { account } = createAdminClient();
+			const { account } = createAdminClient();
 
+			try {
 				const session = await account.createEmailPasswordSession(email, password);
+
+				console.log(chalk.bgWhiteBright.black('Session response'), session);
 
 				cookies.set(SESSION_COOKIE, session.secret, {
 					sameSite: 'strict',
@@ -106,8 +108,6 @@ export const actions = {
 					secure: true,
 					path: '/'
 				});
-
-				console.log(chalk.bgGreenBright.white('login after sign up session response: '), session);
 
 				const user = await account.get();
 
@@ -119,32 +119,70 @@ export const actions = {
 				formActionResponse = {
 					status: 200,
 					success: true,
-					message: 'Logged In Successfully',
-					body: {
-						response: session,
-						formData: {
-							fullName,
-							email,
-							password
-						}
-					}
+					message: 'Login successful',
+					body: session
 				};
-
 				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			} catch (error: any) {
-				console.log(chalk.bgRedBright.white('error logging in: '), error);
-				formActionResponse = {
-					status: error.code,
+				console.error(chalk.bgRedBright.white('Error'), error);
+				return {
+					status: 401,
 					success: false,
 					message: error.response.message,
-					body: { response: error.response, formData: { fullName, email, password } }
+					body: error.response
 				};
+				console.log(chalk.bgRedBright.white('Login Form Response'), formActionResponse);
 			}
+			// try {
+			// 	const { account } = createAdminClient();
+
+			// 	const session = await account.createEmailPasswordSession(email, password);
+
+			// 	cookies.set(SESSION_COOKIE, session.secret, {
+			// 		sameSite: 'strict',
+			// 		expires: new Date(session.expire),
+			// 		secure: true,
+			// 		path: '/'
+			// 	});
+
+			// 	console.log(chalk.bgGreenBright.white('login after sign up session response: '), session);
+
+			// 	const user = await account.get();
+
+			// 	locals.user = user;
+
+			// 	loggedInUser.set(user);
+			// 	greetUser.set(true);
+
+			// 	formActionResponse = {
+			// 		status: 200,
+			// 		success: true,
+			// 		message: 'Logged In Successfully',
+			// 		body: {
+			// 			response: session,
+			// 			formData: {
+			// 				fullName,
+			// 				email,
+			// 				password
+			// 			}
+			// 		}
+			// 	};
+
+			// 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			// } catch (error: any) {
+			// 	console.log(chalk.bgRedBright.white('error logging in: '), error);
+			// 	formActionResponse = {
+			// 		status: error.code,
+			// 		success: false,
+			// 		message: error.response.message,
+			// 		body: { response: error.response, formData: { fullName, email, password } }
+			// 	};
+			// }
 		}
 
-		if (formActionResponse.success) {
-			redirect(307, '/dashboard');
-		}
+		// if (formActionResponse.success) {
+		// 	redirect(307, '/dashboard');
+		// }
 
 		return formActionResponse;
 	}

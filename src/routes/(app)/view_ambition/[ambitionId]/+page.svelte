@@ -16,7 +16,7 @@
 	import Input from '$lib/components/ui/input/input.svelte';
 	import Textarea from '$lib/components/ui/textarea/textarea.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
-	import { ListPlus, MessageSquareDiff } from 'lucide-svelte';
+	import { ListPlus, MessageSquareDiff, X } from 'lucide-svelte';
 	import { enhance } from '$app/forms';
 	import { toast } from 'svoast';
 	import type { AmbitionNoteType, AmbitionTaskType, AmbitionType } from '$lib/types/ambitionType';
@@ -168,6 +168,11 @@
 		taskDescription = '';
 	}
 
+	function handleRemoveAmbitionTask(taskId: number) {
+		ambitionTasks = ambitionTasks.filter((task) => task.id !== taskId);
+		totalAmbitionTasks--;
+	}
+
 	function handleNewNoteAddition() {
 		const newAmbitionNote = {
 			id: ambitionNotes.length,
@@ -178,6 +183,12 @@
 		ambitionNotes = [...ambitionNotes, newAmbitionNote];
 
 		noteContent = '';
+	}
+
+	function handleRemoveAmbitionNote(noteId: number) {
+		console.log('Notes: ', ambitionNotes);
+
+		ambitionNotes = ambitionNotes.filter((note) => note.id !== noteId);
 	}
 
 	function updateAmbitionDetails() {
@@ -457,8 +468,8 @@
 							{#each ambitionNotes as note}
 								<div
 									class="{updateAmbitionEnabled
-										? 'animate-ambitionEditModeAnimation'
-										: ''} flex flex-col gap-2 justify-between items-start bg-yellow-200 dark:bg-yellow-900 dark:bg-opacity-20 bg-opacity-20 border border-yellow-400 rounded-lg p-2"
+										? 'animate-ambitionEditModeAnimation relative'
+										: ''}  flex flex-col gap-2 justify-between items-start bg-yellow-200 dark:bg-yellow-900 dark:bg-opacity-20 bg-opacity-20 border border-yellow-400 rounded-lg p-2"
 								>
 									<p class="text-md opacity-80">
 										{note.content}
@@ -472,6 +483,14 @@
 											minute: '2-digit'
 										}).format(new Date(note.created_at))}
 									</span>
+									<!-- {#if updateAmbitionEnabled}
+										<button
+											on:click={() => handleRemoveAmbitionNote(note.id)}
+											type="button"
+											class="absolute top-px right-px bg-red-500 hover:brightness-150 active:bg-red-800 rounded-full p-px"
+											><X size="20" /></button
+										>
+									{/if} -->
 								</div>
 							{/each}
 						{/if}
@@ -538,7 +557,7 @@
 							{#each ambitionTasks as task, idx}
 								<div
 									class="{updateAmbitionEnabled
-										? 'animate-ambitionEditModeAnimation'
+										? 'animate-ambitionEditModeAnimation relative'
 										: ''} flex items-center space-x-3 p-4 border rounded-lg shadow-sm border-[--custom-light]"
 								>
 									{#if updateAmbitionEnabled}
@@ -551,6 +570,12 @@
 											checked={task.checked}
 											aria-labelledby="ambitionTasks-checkbox-label"
 										/>
+										<!-- <button
+											on:click={() => handleRemoveAmbitionTask(task.id)}
+											type="button"
+											class="absolute top-px right-px bg-red-500 hover:brightness-150 active:bg-red-800 rounded-full p-px"
+											><X size="20" /></button
+										> -->
 									{:else}
 										<span class="text-muted-foreground text-xl">{idx + 1}</span>
 									{/if}

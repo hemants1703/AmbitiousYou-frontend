@@ -18,7 +18,7 @@ export const actions: Actions = {
 		const email: FormDataEntryValue = formData.get('email') as string;
 		const password: FormDataEntryValue = formData.get('password') as string;
 
-		let formResponse: ActionData = {};
+		let formActionResponse: ActionData = {};
 
 		if (!email || !password) {
 			return {
@@ -50,7 +50,7 @@ export const actions: Actions = {
 			loggedInUser.set(user);
 			greetUser.set(true);
 
-			formResponse = {
+			formActionResponse = {
 				status: 200,
 				success: true,
 				message: 'Login successful',
@@ -59,19 +59,19 @@ export const actions: Actions = {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (error: any) {
 			console.error(chalk.bgRedBright.white('Error'), error);
-			formResponse = {
+			formActionResponse = {
 				status: 401,
 				success: false,
 				message: error.response.message,
 				body: error.response
 			};
-			console.log(chalk.bgRedBright.white('Login Form Response'), formResponse);
+			console.log(chalk.bgRedBright.white('Login Form Response'), formActionResponse);
 		}
 
-		if (formResponse.success) {
+		if (formActionResponse.success) {
 			redirect(302, '/dashboard');
 		}
 
-		return formResponse;
+		return formActionResponse;
 	}
 };
