@@ -4,7 +4,7 @@
 	import Label from '$lib/components/ui/label/label.svelte';
 	import type { AmbitionType } from '$lib/types/ambitionType';
 	import { Badge } from '$lib/components/ui/badge/index.js';
-	import { CalendarArrowUp, CircleCheckBig, LoaderPinwheel } from 'lucide-svelte';
+	import { CalendarArrowUp, CircleCheckBig, LoaderPinwheel, CircleSlash } from 'lucide-svelte';
 	import Button from '$lib/components/ui/button/Button.svelte';
 	import type { PageServerData } from './$types';
 	import { toast } from 'svoast';
@@ -75,7 +75,9 @@
 			<div class="flex flex-col gap-10">
 				<div>
 					<h1 class="font-bold text-xs mb-2">STATUS</h1>
-					<div class="flex sm:gap-10 justify-between border rounded-lg sm:w-fit w-full p-2">
+					<div
+						class="flex flex-wrap gap-5 sm:gap-10 justify-between border rounded-lg sm:w-fit w-full p-2"
+					>
 						<div class="flex gap-2">
 							<CircleCheckBig color="#10b981" />
 							<p>Completed</p>
@@ -89,6 +91,10 @@
 						<div class="flex gap-2">
 							<CalendarArrowUp color="#a855f7" />
 							<p>Future</p>
+						</div>
+						<div class="flex gap-2">
+							<CircleSlash color="#ff6347" />
+							<p>Incomplete</p>
 						</div>
 					</div>
 				</div>
@@ -149,14 +155,16 @@
 											</div>
 										</div>
 										<span>
-											{#if ambition.ambitionStatus.toUpperCase() === 'completed'.toUpperCase()}
+											{#if ambition.ambitionStatus.toLowerCase() === 'completed'}
 												<CircleCheckBig color="#10b981" />
-											{:else if ambition.ambitionStatus.toUpperCase() === 'ongoing'.toUpperCase()}
+											{:else if ambition.ambitionStatus.toLowerCase() === 'ongoing'}
 												<div class="animate-spin">
 													<LoaderPinwheel color="#3b82f6" />
 												</div>
-											{:else if ambition.ambitionStatus.toUpperCase() === 'future'.toUpperCase()}
+											{:else if ambition.ambitionStatus.toLowerCase() === 'future'}
 												<CalendarArrowUp color="#a855f7" />
+											{:else if ambition.ambitionStatus.toLowerCase() === 'incomplete'}
+												<CircleSlash color="#ff6347" />
 											{/if}
 										</span>
 									</div>

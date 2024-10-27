@@ -12,7 +12,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 };
 
 export const actions: Actions = {
-	login: async ({ request, cookies }) => {
+	login: async ({ request, cookies, locals }) => {
 		const formData = await request.formData();
 
 		const email: FormDataEntryValue = formData.get('email') as string;
@@ -47,6 +47,9 @@ export const actions: Actions = {
 			});
 
 			const user = await account.get();
+
+			locals.user = user;
+
 			loggedInUser.set(user);
 			greetUser.set(true);
 

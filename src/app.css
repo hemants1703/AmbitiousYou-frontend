@@ -19,6 +19,7 @@
     --custom-completed: rgba(16, 185, 129, 0.3);
     --custom-ongoing: rgba(59, 130, 246, 0.3);
     --custom-future: rgba(168, 85, 247, 0.3);
+    --custom-incomplete: rgba(255, 99, 71, 0.3);
     --scrollbar-bg-light: #ffffff;
     --scrollbar-thumb-light: #000000;
     --scrollbar-bg-dark: #000000;

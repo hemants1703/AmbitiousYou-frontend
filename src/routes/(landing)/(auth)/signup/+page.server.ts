@@ -3,7 +3,7 @@ import { SESSION_COOKIE, createAdminClient } from '$lib/appwrite/appwrite.js';
 import { redirect } from '@sveltejs/kit';
 import { ID } from 'node-appwrite';
 import chalk from 'chalk';
-import { greetUser, loggedInUser } from '$lib/store/userData';
+import { greetUser } from '$lib/store/userData';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
@@ -11,8 +11,8 @@ export const load: PageServerLoad = async ({ locals }) => {
 	}
 };
 
-export const actions = {
-	createAccount: async ({ request, cookies, locals, event }) => {
+export const actions: Actions = {
+	createAccount: async ({ request, cookies, locals }) => {
 		const formData = await request.formData();
 
 		const fullName: string = formData.get('fullName') as string;
@@ -111,10 +111,10 @@ export const actions = {
 
 				const user = await account.get();
 
+				greetUser.set(true);
 				locals.user = user;
 
-				loggedInUser.set(user);
-				greetUser.set(true);
+				// loggedInUser.set(user);
 
 				formActionResponse = {
 					status: 200,
@@ -133,57 +133,8 @@ export const actions = {
 				};
 				console.log(chalk.bgRedBright.white('Login Form Response'), formActionResponse);
 			}
-			// try {
-			// 	const { account } = createAdminClient();
-
-			// 	const session = await account.createEmailPasswordSession(email, password);
-
-			// 	cookies.set(SESSION_COOKIE, session.secret, {
-			// 		sameSite: 'strict',
-			// 		expires: new Date(session.expire),
-			// 		secure: true,
-			// 		path: '/'
-			// 	});
-
-			// 	console.log(chalk.bgGreenBright.white('login after sign up session response: '), session);
-
-			// 	const user = await account.get();
-
-			// 	locals.user = user;
-
-			// 	loggedInUser.set(user);
-			// 	greetUser.set(true);
-
-			// 	formActionResponse = {
-			// 		status: 200,
-			// 		success: true,
-			// 		message: 'Logged In Successfully',
-			// 		body: {
-			// 			response: session,
-			// 			formData: {
-			// 				fullName,
-			// 				email,
-			// 				password
-			// 			}
-			// 		}
-			// 	};
-
-			// 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			// } catch (error: any) {
-			// 	console.log(chalk.bgRedBright.white('error logging in: '), error);
-			// 	formActionResponse = {
-			// 		status: error.code,
-			// 		success: false,
-			// 		message: error.response.message,
-			// 		body: { response: error.response, formData: { fullName, email, password } }
-			// 	};
-			// }
 		}
-
-		// if (formActionResponse.success) {
-		// 	redirect(307, '/dashboard');
-		// }
 
 		return formActionResponse;
 	}
-} satisfies Actions;
+};

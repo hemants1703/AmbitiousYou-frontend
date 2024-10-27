@@ -2,7 +2,7 @@
 	import Particles from '$lib/components/svelte_magicui/Particles.svelte';
 	import NumberTicker from '$lib/components/svelte_magicui/NumberTicker.svelte';
 	import type { PageServerData } from './$types';
-	import { loggedInUser, greetUser } from '$lib/store/userData';
+	import { greetUser } from '$lib/store/userData';
 	import CountCard from '$lib/components/afterAuth/CountCard.svelte';
 
 	export let data: PageServerData;
@@ -24,7 +24,7 @@
 
 	let latestCompletionDate = new Date(0);
 
-	userData.documents.forEach((document) => {
+	userData.documents.forEach((document: any) => {
 		if (document.ambitionStatus === 'ongoing') ambitionsData.ongoingAmbitions++;
 		else if (document.ambitionStatus === 'completed') ambitionsData.completedAmbitions++;
 		else ambitionsData.futureAmbitions++;
@@ -37,12 +37,7 @@
 		}
 	});
 
-	loggedInUser.set(data.user);
-
-	// import { userData } from '$lib/mockDB
-
-	let userFullName = $loggedInUser.name;
-	let userfirstName = $loggedInUser.name.split(' ')[0];
+	let userfirstName = user.name.split(' ')[0];
 </script>
 
 <svelte:head>
@@ -96,7 +91,7 @@
 	</section>
 
 	<!-- GREETING USERS -->
-	{#if $greetUser}
+	<!-- {#if $greetUser}
 		<div
 			class="{$greetUser
 				? 'z-0 w-0 h-0'
@@ -118,5 +113,5 @@
 			>
 			<Particles className="absolute inset-0" />
 		</div>
-	{/if}
+	{/if} -->
 </div>

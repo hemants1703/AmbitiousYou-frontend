@@ -8,7 +8,8 @@
 		CircleCheckBig,
 		LoaderPinwheel,
 		Check,
-		CalendarArrowUp
+		CalendarArrowUp,
+		CircleSlash
 	} from 'lucide-svelte';
 	// import { page } from '$app/stores';
 	// import * as Tabs from '$lib/components/ui/tabs';
@@ -420,17 +421,19 @@
 			<div>
 				<!-- <h2 class="text-xl font-semibold mb-4">Time Left</h2> -->
 				<div
-					class="border {daysLeft < 0 && ambitionData.ambitionStatus !== 'Completed'
+					class="border {daysLeft < 0 && updatedAmbitionStatus.toUpperCase() !== 'COMPLETED'
 						? 'border-red-500'
 						: ''} rounded-xl p-4"
 				>
 					<div class="rounded-lg space-y-5">
 						<div class="flex justify-between w-full border-b">
 							<strong>Days Left:</strong>
-							{#if daysLeft < 0 && ambitionStatus !== 'Completed'}
+							{#if updatedAmbitionStatus.toLowerCase() === 'completed'}
+								<p class="text-green-500">{updatedAmbitionStatus.toUpperCase()}!</p>
+							{:else if daysLeft < 0 && updatedAmbitionStatus.toLowerCase() !== 'completed'}
 								<p class="text-red-500">Deadline passed</p>
-							{:else if daysLeft <= 0 && ambitionStatus === 'Completed'}
-								<p class="text-green-500">{ambitionStatus}!</p>
+							{:else if daysLeft <= 0 && updatedAmbitionStatus.toLowerCase() === 'completed'}
+								<p class="text-green-500">{updatedAmbitionStatus.toUpperCase()}!</p>
 							{:else}
 								<p>{daysLeft}</p>
 							{/if}
@@ -662,14 +665,16 @@
 							<li class="flex justify-between w-full border-b py-1">
 								<strong>Status:</strong>
 								<p class="flex place-items-center gap-2">
-									{#if updatedAmbitionStatus.toUpperCase() === 'Completed'.toUpperCase()}
+									{#if updatedAmbitionStatus.toLowerCase() === 'completed'}
 										<CircleCheckBig color="#10b981" />
-									{:else if updatedAmbitionStatus.toUpperCase() === 'Ongoing'.toUpperCase()}
+									{:else if updatedAmbitionStatus.toLowerCase() === 'ongoing'}
 										<div class="animate-spin">
 											<LoaderPinwheel color="#3b82f6" />
 										</div>
-									{:else if updatedAmbitionStatus.toUpperCase() === 'Future'.toUpperCase()}
+									{:else if updatedAmbitionStatus.toLowerCase() === 'future'}
 										<CalendarArrowUp color="#a855f7" />
+									{:else if updatedAmbitionStatus.toLowerCase() === 'incomplete'}
+										<CircleSlash color="#ff6347" />
 									{/if}
 									{updatedAmbitionStatus.toUpperCase()}
 								</p>

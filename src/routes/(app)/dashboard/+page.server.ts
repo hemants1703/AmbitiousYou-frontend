@@ -48,7 +48,8 @@ export const load: PageServerLoad = async ({ locals, cookies }) => {
 		// 	userData: locals.user,
 		// 	body: documentListingResult
 		// };
-	} catch (error) {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	} catch (error: any) {
 		console.error(
 			chalk.bgRedBright.white('All Ambitions Page Server Load Error: '),
 			error.response.message

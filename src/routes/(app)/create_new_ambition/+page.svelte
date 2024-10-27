@@ -149,7 +149,7 @@
 			const totalAmbitionTasks = ambitionTasks.length;
 			const totalCompletedAmbitions = ambitionTasks.filter((task) => task.checked).length;
 
-			if (totalCompletedAmbitions <= 0) {
+			if (totalCompletedAmbitions <= 0 && ambitionData.ambitionEndDate > new Date().toISOString()) {
 				formData.set('ambitionStatus', 'future');
 			}
 
@@ -159,6 +159,10 @@
 
 			if (totalCompletedAmbitions === totalAmbitionTasks) {
 				formData.set('ambitionStatus', 'completed');
+			}
+
+			if (new Date(ambitionData.ambitionEndDate).toISOString() < new Date().toISOString()) {
+				formData.set('ambitionStatus', 'incomplete');
 			}
 		}
 
@@ -478,7 +482,7 @@
 											<button
 												on:click={() => handleRemoveAmbitionTask(task.id)}
 												type="button"
-												class="absolute top-px right-px bg-red-500 hover:brightness-150 active:bg-red-800 rounded-full p-px"
+												class="absolute top-1 right-1 bg-red-500 opacity-80 hover:opacity-100 active:bg-red-800 rounded-md p-px"
 												><Minus size="20" /></button
 											>
 										</div>
@@ -544,7 +548,7 @@
 											<button
 												on:click={() => handleRemoveAmbitionNote(note.id)}
 												type="button"
-												class="absolute top-px right-px bg-red-500 hover:brightness-150 active:bg-red-800 rounded-full p-px"
+												class="absolute top-1 right-1 bg-red-500 opacity-80 hover:opacity-100 active:bg-red-800 rounded-md p-px"
 												><Minus size="20" /></button
 											>
 										</div>
