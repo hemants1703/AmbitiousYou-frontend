@@ -46,11 +46,7 @@
 			<p class="text-md font-light text-muted-foreground">
 				You can add new ambitions by clicking on the button below.
 			</p>
-			<button
-				id="primaryButton"
-				href="/create_new_ambition"
-				class="w-fit flex place-items-center gap-2"
-			>
+			<a id="primaryButton" href="/create_new_ambition" class="w-fit flex place-items-center gap-2">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"
@@ -61,8 +57,8 @@
 				>
 					<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
 				</svg>
-				ADD YOUR AMBITIONS NOW!
-			</button>
+				CREATE YOUR AMBITIONS NOW!
+			</a>
 		</div>
 	{:else}
 		<div class="flex flex-col gap-10">
