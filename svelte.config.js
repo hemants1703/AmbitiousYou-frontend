@@ -14,6 +14,10 @@ const config = {
 		adapter: adapter(),
 		files: {
 			assets: 'static'
+		},
+		env: {
+			publicPrefix: 'PUBLIC_',
+			privatePrefix: 'PRIVATE_'
 		}
 	}
 };
