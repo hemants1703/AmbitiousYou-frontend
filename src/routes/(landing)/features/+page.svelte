@@ -85,7 +85,7 @@
 			<h2 class="text-2xl">— Steve Jobs</h2>
 		</div> -->
 		<div class="flex flex-col justify-center items-center gap-10 mb-20">
-			<h1 class="font-normal italic text-4xl text-center">
+			<h1 class="font-normal italic sm:text-3xl text-xl text-center">
 				{@html ambitiousQuotes[randomQuote].quote}
 			</h1>
 			<h2 class="text-2xl">— {ambitiousQuotes[randomQuote].author}</h2>

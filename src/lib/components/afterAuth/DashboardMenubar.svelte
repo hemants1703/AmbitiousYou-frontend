@@ -44,7 +44,7 @@
 	}
 </script>
 
-<nav class="w-full border-b bg-background max-h-20 overflow-hidden">
+<nav class="w-full border-b bg-background max-h-20 overflow-hidden bg-transparent backdrop-blur-xl">
 	<div class="flex justify-between items-center mx-auto p-4">
 		<div class="flex items-center gap-4">
 			<a href="/dashboard" class="flex place-items-center gap-2 font-bold text-2xl">

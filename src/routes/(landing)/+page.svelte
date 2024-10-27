@@ -14,7 +14,7 @@
 </svelte:head>
 
 <div class="flex flex-col gap-8 max-sm:mb-20 justify-center items-center">
-	<div class="flex gap-2 font-bold md:text-7xl lg:text-9xl text-5xl text-center">
+	<div class="flex gap-2 font-bold sm:text-5xl md:text-7xl lg:text-9xl text-4xl text-center">
 		<h1
 			class="selection:text-black tracking-tight bg-gradient-to-br from-black dark:from-white to-[--custom-secondary] text-transparent bg-clip-text"
 		>
@@ -23,7 +23,7 @@
 		🚩
 	</div>
 	<h2 class="font-semibold sm:text-3xl text-xl text-center">Get Ready to Become a Superhuman!</h2>
-	<p class="text-center my-10 max-w-2xl font-light">
+	<p class="text-center my-10 max-w-2xl font-light text-muted-foreground max-sm:text-md">
 		Imagine an app that let&apos;s you manage all your ambitions at a single place, you might have a
 		lot of ambitions in your life but due to the time constraint and busy schedule you might be
 		facing issues and cumbersomeness for the ambitions and plans you had for yourself in the short

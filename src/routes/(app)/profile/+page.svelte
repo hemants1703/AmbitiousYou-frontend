@@ -92,7 +92,7 @@
 	</div>
 {/if}
 
-<div class="flex flex-col gap-10">
+<div class="flex flex-col gap-10 pb-20">
 	<header>
 		<h1 class="font-bold text-3xl">Your Profile</h1>
 		<p class="text-muted-foreground">
@@ -153,7 +153,7 @@
 
 	{#if showMoreOptions}
 		<div
-			class="border border-red-500 rounded-lg flex justify-between items-center p-4 overflow-hidden"
+			class="border border-red-500 rounded-lg flex max-sm:flex-col gap-10 justify-between items-center p-4 overflow-hidden"
 		>
 			<div>
 				<p class="text-red-500 font-bold">Danger Ahead!</p>

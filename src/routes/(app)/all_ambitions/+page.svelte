@@ -132,7 +132,7 @@
 						<a href={`/view_ambition/${ambition.$id}`}>
 							<MagicCard
 								class="cursor-pointer w-full flex-col items-start justify-start shadow-sm whitespace-nowrap group active:scale-[0.99] transition-all duration-100"
-								gradientColor={`var(--custom-${ambition.ambitionStatus})`}
+								gradientColor={`var(--custom-${ambition.ambitionStatus.toLowerCase()})`}
 								gradientSize={300}
 							>
 								<div
