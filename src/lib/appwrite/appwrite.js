@@ -19,7 +19,7 @@ export function createAdminClient() {
 	};
 }
 
-export function createSessionClient(event: any) {
+export function createSessionClient(event) {
 	const client = new Client()
 		.setEndpoint(PUBLIC_APPWRITE_ENDPOINT)
 		.setProject(PUBLIC_APPWRITE_PROJECT_ID);
