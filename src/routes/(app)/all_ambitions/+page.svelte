@@ -5,7 +5,7 @@
 	import type { AmbitionType } from '$lib/types/ambitionType';
 	import { Badge } from '$lib/components/ui/badge/index.js';
 	import { CalendarArrowUp, CircleCheckBig, LoaderPinwheel, CircleSlash } from 'lucide-svelte';
-	import Button from '$lib/components/ui/button/Button.svelte';
+	// import Button from '$lib/components/ui/button/Button.svelte';
 	import type { PageServerData } from './$types';
 	import { toast } from 'svoast';
 	import { afterUpdate } from 'svelte';
@@ -46,7 +46,7 @@
 			<p class="text-md font-light text-muted-foreground">
 				You can add new ambitions by clicking on the button below.
 			</p>
-			<Button
+			<button
 				id="primaryButton"
 				href="/create_new_ambition"
 				class="w-fit flex place-items-center gap-2"
@@ -62,7 +62,7 @@
 					<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
 				</svg>
 				ADD YOUR AMBITIONS NOW!
-			</Button>
+			</button>
 		</div>
 	{:else}
 		<div class="flex flex-col gap-10">
