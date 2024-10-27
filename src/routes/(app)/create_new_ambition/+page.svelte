@@ -16,7 +16,7 @@
 	import { RangeCalendar } from '$lib/components/ui/range-calendar/index.js';
 	import { enhance } from '$app/forms';
 	import Separator from '$lib/components/ui/separator/separator.svelte';
-	import { ListPlus, MessageSquareDiff, X } from 'lucide-svelte';
+	import { ListPlus, MessageSquareDiff, X, Minus } from 'lucide-svelte';
 	import Checkbox from '$lib/components/ui/checkbox/checkbox.svelte';
 	import { toast } from 'svoast';
 	import type { ActionData, PageServerData } from './$types';
@@ -479,7 +479,7 @@
 												on:click={() => handleRemoveAmbitionTask(task.id)}
 												type="button"
 												class="absolute top-px right-px bg-red-500 hover:brightness-150 active:bg-red-800 rounded-full p-px"
-												><X size="20" /></button
+												><Minus size="20" /></button
 											>
 										</div>
 									{/each}
@@ -545,7 +545,7 @@
 												on:click={() => handleRemoveAmbitionNote(note.id)}
 												type="button"
 												class="absolute top-px right-px bg-red-500 hover:brightness-150 active:bg-red-800 rounded-full p-px"
-												><X size="20" /></button
+												><Minus size="20" /></button
 											>
 										</div>
 									{/each}
