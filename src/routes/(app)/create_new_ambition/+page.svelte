@@ -89,8 +89,8 @@
 
 		const newTask: AmbitionTaskType = {
 			id: ambitionTasks.length + 1,
-			name: taskName,
-			description: taskDescription,
+			name: taskName.trim(),
+			description: taskDescription.trim(),
 			checked: false
 		};
 		ambitionTasks = [...ambitionTasks, newTask];
@@ -107,11 +107,15 @@
 	let ambitionNotes: AmbitionNoteType[] = [];
 
 	function handleAddAmbitionNote() {
-		if (noteContent === '') return;
+		if (noteContent.trim() === '') {
+			toast.warning('Please fill the note content!');
+			noteContent = '';
+			return;
+		}
 
 		const newNote: AmbitionNoteType = {
 			id: ambitionNotes.length + 1,
-			content: noteContent,
+			content: noteContent.trim(),
 			created_at: new Date()
 		};
 		ambitionNotes = [...ambitionNotes, newNote];
@@ -127,8 +131,8 @@
 		// console.log('Form submitted', formData);
 
 		const ambitionData = {
-			ambitionName: formData.get('ambitionName') as string,
-			ambitionDefinition: formData.get('ambitionDefinition') as string,
+			ambitionName: (formData.get('ambitionName') as string).trim(),
+			ambitionDefinition: (formData.get('ambitionDefinition') as string).trim(),
 			ambitionCategory: formData.get('ambitionCategory') as string,
 			ambitionPriority: formData.get('ambitionPriority') as string,
 			ambitionStatus: formData.get('ambitionStatus') as string,
@@ -171,7 +175,7 @@
 			}
 		}
 
-		// console.log('FormData before submission', ambitionData);
+		console.log('FormData before submission', ambitionData);
 
 		if (
 			ambitionData.ambitionName.trim() === '' ||
