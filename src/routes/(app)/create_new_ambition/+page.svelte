@@ -80,7 +80,12 @@
 	let ambitionTasks: AmbitionTaskType[] = [];
 
 	function handleAddAmbitionTask() {
-		if (taskName === '' || taskDescription === '') return;
+		if (taskName.trim() === '' || taskDescription.trim() === '') {
+			toast.warning('Please fill both the task name and description!');
+			taskName = '';
+			taskDescription = '';
+			return;
+		}
 
 		const newTask: AmbitionTaskType = {
 			id: ambitionTasks.length + 1,
@@ -169,8 +174,8 @@
 		// console.log('FormData before submission', ambitionData);
 
 		if (
-			ambitionData.ambitionName === '' ||
-			ambitionData.ambitionDefinition === '' ||
+			ambitionData.ambitionName.trim() === '' ||
+			ambitionData.ambitionDefinition.trim() === '' ||
 			ambitionData.ambitionCategory === '' ||
 			ambitionData.ambitionPriority === ''
 		) {
