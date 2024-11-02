@@ -9,8 +9,6 @@ import chalk from 'chalk';
 export const load: PageServerLoad = async ({ locals, cookies }) => {
 	confirmAuth(locals);
 
-	// let pageServerResponse = {};
-
 	const sessionCookie: string | undefined = cookies.get(SESSION_COOKIE);
 
 	if (!sessionCookie) {
@@ -38,29 +36,8 @@ export const load: PageServerLoad = async ({ locals, cookies }) => {
 			PRIVATE_APPWRITE_COLLECTION_ID,
 			[Query.equal('userEmail', [locals.user.email])]
 		);
-
-		// console.log(chalk.bgWhiteBright.black('Ambitions List: '), documentListingResult);
-
-		// pageServerResponse = {
-		// 	status: 200,
-		// 	success: true,
-		// 	message: 'Received All Data',
-		// 	userData: locals.user,
-		// 	body: documentListingResult
-		// };
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	} catch (error: any) {
-		console.error(
-			chalk.bgRedBright.white('All Ambitions Page Server Load Error: '),
-			error.response.message
-		);
-		// pageServerResponse = {
-		// 	status: error.response.code,
-		// 	success: false,
-		// 	message: error.response.message,
-		// 	userData: locals.user,
-		// 	body: null
-		// };
+	} catch (error) {
+		console.error(chalk.bgRedBright.white('All Ambitions Page Server Load Error: '), error);
 	}
 
 	return {

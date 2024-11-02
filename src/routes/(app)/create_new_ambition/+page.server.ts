@@ -92,8 +92,8 @@ export const actions: Actions = {
 		// 	};
 		// }
 
-		ambitionTasks = JSON.parse(ambitionTasks).map((task) => JSON.stringify(task));
-		ambitionNotes = JSON.parse(ambitionNotes).map((note) => JSON.stringify(note));
+		ambitionTasks = JSON.parse(ambitionTasks).map((task: object) => JSON.stringify(task));
+		ambitionNotes = JSON.parse(ambitionNotes).map((note: object) => JSON.stringify(note));
 		// ambitionTags = JSON.parse(ambitionTags).map((tag) => JSON.stringify(tag));
 
 		ambitionStartDate = new Date(ambitionStartDate).toISOString();
@@ -179,20 +179,13 @@ export const actions: Actions = {
 			};
 		} catch (error) {
 			console.error(chalk.bgRedBright.black('Ambition Creation Error: '), error);
+			const appwriteError = error as { response?: { code?: number; message?: string } };
 			pageFormAction = {
-				status: error.response.code,
+				status: appwriteError?.response?.code ?? 500,
 				success: false,
-				message: error.response.message
+				message: appwriteError?.response?.message ?? 'An unexpected error occurred'
 			};
 		}
-
-		// const documentListingResult = await databases.listDocuments(
-		// 	PRIVATE_APPWRITE_DATABASE_ID,
-		// 	PRIVATE_APPWRITE_COLLECTION_ID,
-		// 	[]
-		// );
-
-		// console.log(chalk.bgWhiteBright.black('Ambitions List: '), documentListingResult);
 
 		return pageFormAction;
 	}

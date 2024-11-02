@@ -1,6 +1,6 @@
 import { createAdminClient, SESSION_COOKIE } from '$lib/appwrite/appwrite';
 import chalk from 'chalk';
-import type { ActionData, PageServerLoad } from './$types';
+import type { PageServerLoad } from './$types';
 import type { Actions } from './$types';
 import { redirect } from '@sveltejs/kit';
 import { greetUser, loggedInUser } from '$lib/store/userData';
@@ -18,7 +18,12 @@ export const actions: Actions = {
 		const email: FormDataEntryValue = formData.get('email') as string;
 		const password: FormDataEntryValue = formData.get('password') as string;
 
-		let formActionResponse: ActionData = {};
+		let formActionResponse = {
+			status: 400,
+			success: false,
+			message: 'All fields are required',
+			body: {}
+		};
 
 		if (!email || !password) {
 			return {

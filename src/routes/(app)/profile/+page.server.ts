@@ -1,8 +1,8 @@
-import { SESSION_COOKIE, createSessionClient } from '$lib/appwrite/appwrite.js';
+import { SESSION_COOKIE } from '$lib/appwrite/appwrite.js';
 import { redirect, type Actions } from '@sveltejs/kit';
-import type { ActionData, PageServerLoad } from './$types';
+import type { PageServerLoad } from './$types';
 import confirmAuth from '$lib/utils/auth';
-import { Account, Client, Databases, Query, Users } from 'node-appwrite';
+import { Client, Databases, Query, Users } from 'node-appwrite';
 import { PUBLIC_APPWRITE_ENDPOINT, PUBLIC_APPWRITE_PROJECT_ID } from '$env/static/public';
 import {
 	PRIVATE_APPWRITE_COLLECTION_ID,
@@ -21,26 +21,18 @@ export const load: PageServerLoad = ({ locals }) => {
 
 // Define our log out endpoint/server action.
 export const actions: Actions = {
-	// default: async (event) => {
-	// 	// Create the Appwrite client.
-	// 	const { account } = createSessionClient(event);
-
-	// 	// Delete the session on Appwrite, and delete the session cookie.
-	// 	await account.deleteSession('current');
-	// 	event.cookies.delete(SESSION_COOKIE, { path: '/' });
-
-	// 	// Redirect to the sign up page.
-	// 	redirect(302, '/signup');
-	// },
 	deleteAccount: async ({ locals, cookies }) => {
 		const client = new Client()
 			.setEndpoint(PUBLIC_APPWRITE_ENDPOINT) // Your API Endpoint
 			.setProject(PUBLIC_APPWRITE_PROJECT_ID) // Your project ID
 			.setKey(PRIVATE_APPWRITE_KEY); // Your secret API key
 
-		const account = new Account(client);
-
-		let serverActionResponse: ActionData = {};
+		let serverActionResponse = {
+			status: 500,
+			success: false,
+			message: 'Error deleting account',
+			body: {}
+		};
 
 		//	Before Deleting Account, we need to delete all the ambitions
 		const databases = new Databases(client);
@@ -68,15 +60,13 @@ export const actions: Actions = {
 				message: 'Received All Data',
 				body: response
 			};
-		} catch {
-			console.error('Error getting ambitions');
+		} catch (error) {
+			console.error('Error getting ambitions', error);
 			return {
 				status: 500,
 				success: false,
 				message: 'Error getting ambitions',
-				body: {
-					error
-				}
+				body: { error }
 			};
 		}
 
@@ -90,14 +80,12 @@ export const actions: Actions = {
 						documentId
 					);
 
-					if (response.code === 204) {
-						serverActionResponse = {
-							status: 200,
-							success: true,
-							message: 'Ambitions Deleted',
-							body: response
-						};
-					}
+					serverActionResponse = {
+						status: 200,
+						success: true,
+						message: 'Ambitions Deleted',
+						body: response
+					};
 				} catch (error) {
 					console.error('Error deleting ambitions');
 					return {
@@ -137,10 +125,10 @@ export const actions: Actions = {
 
 		cookies.delete(SESSION_COOKIE, { path: '/' });
 
-		// if (serverActionResponse.success) {
-		redirect(308, '/');
-		// }
+		if (serverActionResponse.success) {
+			redirect(308, '/');
+		}
 
-		return serverActionResponse;
+		// return serverActionResponse;
 	}
 };
