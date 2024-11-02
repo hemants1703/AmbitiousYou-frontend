@@ -57,4 +57,4 @@ pnpm-lock.yaml
 # Optional: Miscellaneous backups and config files
 *.log
 
-ideas.txt
+TODO.md
