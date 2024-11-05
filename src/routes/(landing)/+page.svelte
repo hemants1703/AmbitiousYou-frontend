@@ -1,16 +1,9 @@
 <script>
-	import MetaTags from '$lib/components/MetaTags.svelte';
 	import BlurFade from '$lib/components/svelte_magicui/BlurFade.svelte';
 </script>
 
 <svelte:head>
 	<title>AmbitiousYou</title>
-	<MetaTags
-		metaOgTitle="AmbitiousYou"
-		metaOgDescription="Manage all your ambitions at a single place!"
-		metaOgImage="https://ambitiousyou.pro/og-image.png"
-		metaOgUrl="https://ambitiousyou.pro"
-	/>
 </svelte:head>
 
 <div class="flex flex-col gap-8 max-sm:mb-20 justify-center items-center">

@@ -137,6 +137,7 @@
 @font-face {
     font-family: "GeistVF";
     src: url("/fonts/GeistVF.woff");
+    font-display: swap;
 }
 
 @font-face {
