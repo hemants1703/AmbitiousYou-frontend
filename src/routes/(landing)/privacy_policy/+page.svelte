@@ -1,3 +1,38 @@
+<script lang="ts">
+	import SvelteSeo from 'svelte-seo';
+</script>
+
+<SvelteSeo
+	title="Privacy Policy - AmbitiousYou"
+	description="Learn how AmbitiousYou handles and protects your personal information. Our privacy policy outlines our data collection, usage, and protection practices."
+	canonical="https://ambitious-you.vercel.app/privacy_policy"
+	keywords="privacy policy, data protection, personal information, data security, user privacy, data collection, information handling, privacy practices, data usage, user data, data protection policy"
+	openGraph={{
+		title: 'Privacy Policy - AmbitiousYou',
+		description:
+			'Learn how AmbitiousYou handles and protects your personal information. Our privacy policy outlines our data collection, usage, and protection practices.',
+		url: 'https://ambitious-you.vercel.app/privacy_policy',
+		type: 'website',
+		images: [
+			{
+				url: 'https://www.ambitious-you.vercel.app/og_data/OG_IMAGE.png',
+				width: 1200,
+				height: 630,
+				alt: 'AmbitiousYou Privacy Policy'
+			}
+		],
+		site_name: 'AmbitiousYou!'
+	}}
+	twitter={{
+		card: 'summary_large_image',
+		creator: '@hemants1703',
+		title: 'Privacy Policy - AmbitiousYou',
+		description:
+			'Learn how AmbitiousYou handles and protects your personal information. Our privacy policy outlines our data collection, usage, and protection practices.',
+		image: 'https://www.ambitious-you.vercel.app/og_data/OG_IMAGE.png'
+	}}
+/>
+
 <svelte:head>
 	<title>Privacy Policy - AmbitiousYou</title>
 </svelte:head>
@@ -49,7 +84,7 @@
 	<p class="mb-4 pl-10">
 		You have the right to access, update, or delete your personal information. You can do this by
 		logging into your account and updating your profile settings. If you need assistance, please
-		contact us at support@ambitiousyou.pro
+		contact us at support@ambitious-you.vercel.app
 	</p>
 
 	<h2 class="text-2xl font-semibold mb-2">6. Changes to This Privacy Policy</h2>
@@ -62,6 +97,6 @@
 	<h2 class="text-2xl font-semibold mb-2">7. Contact Us</h2>
 	<p class="mb-4 pl-10">
 		If you have any questions or concerns about this privacy policy, please contact us at
-		support@ambitiousyou.com.
+		support@ambitious-you.vercel.app.
 	</p>
 </div>

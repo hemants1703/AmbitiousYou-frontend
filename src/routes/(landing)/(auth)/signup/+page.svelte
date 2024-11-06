@@ -4,10 +4,10 @@
 	import { enhance } from '$app/forms';
 	import { Eye } from 'lucide-svelte';
 	import { EyeClosed } from 'svelte-radix';
-	import MetaTags from '$lib/components/MetaTags.svelte';
 	import { Client, Account } from 'appwrite';
 	import { PUBLIC_APPWRITE_PROJECT_ID } from '$env/static/public';
 	import { goto } from '$app/navigation';
+	import SvelteSeo from 'svelte-seo';
 
 	export let form: ActionData;
 	// $: console.log('Signup form response from server:', form);
@@ -53,15 +53,36 @@
 	let signupFormSubmitted = false;
 </script>
 
-<svelte:head>
-	<title>Signup on AmbitiousYou!</title>
-	<MetaTags
-		metaOgTitle="Signup on AmbitiousYou!"
-		metaOgDescription="Create an account to get started on AmbitiousYou!"
-		metaOgImage="/images/og/signup.png"
-		metaOgUrl="https://ambitiousyou.in/auth/signup"
-	/>
-</svelte:head>
+<SvelteSeo
+	title="Sign Up - AmbitiousYou"
+	description="Create your free AmbitiousYou account and start your journey to becoming superhuman. Manage your ambitions and achieve your goals."
+	canonical="https://ambitious-you.vercel.app/signup"
+	keywords="sign up, create account, free account, register, join ambitiousyou, ambitions management, goal tracking, become superhuman"
+	openGraph={{
+		title: 'Sign Up - AmbitiousYou',
+		description:
+			'Create your free AmbitiousYou account and start your journey to becoming superhuman. Manage your ambitions and achieve your goals.',
+		url: 'https://ambitious-you.vercel.app/signup',
+		type: 'website',
+		images: [
+			{
+				url: 'https://www.ambitious-you.vercel.app/og_data/OG_IMAGE.png',
+				width: 1200,
+				height: 630,
+				alt: 'Sign up for AmbitiousYou'
+			}
+		],
+		site_name: 'AmbitiousYou!'
+	}}
+	twitter={{
+		card: 'summary_large_image',
+		creator: '@hemants1703',
+		title: 'Sign Up - AmbitiousYou',
+		description:
+			'Create your free AmbitiousYou account and start your journey to becoming superhuman. Manage your ambitions and achieve your goals.',
+		image: 'https://www.ambitious-you.vercel.app/og_data/OG_IMAGE.png'
+	}}
+/>
 
 <div
 	class={`flex max-md:flex-col lg:gap-40 gap-10 justify-center items-center w-full h-full mx-auto`}
