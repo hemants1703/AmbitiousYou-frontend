@@ -29,6 +29,7 @@
 		"prettier-plugin-svelte": "^3.2.7",
 		"svelte": "^4.2.19",
 		"svelte-check": "^4.0.5",
+		"svelte-seo": "^1.6.1",
 		"svoast": "^2.5.0",
 		"tailwindcss": "^3.4.14",
 		"typescript": "^5.6.3",

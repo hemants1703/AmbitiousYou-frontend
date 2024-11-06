@@ -1,5 +1,4 @@
 <script lang="ts">
-	import MetaTags from '$lib/components/MetaTags.svelte';
 	import type { PageServerData } from './$types';
 
 	export let data: PageServerData;
@@ -9,12 +8,6 @@
 
 <svelte:head>
 	<title>You are not logged in - AmbitiousYou!</title>
-	<MetaTags
-		metaOgTitle="You are not logged in - AmbitiousYou!"
-		metaOgDescription="You have been successfully logged out of your account. Login to use AmbitiousYou!"
-		metaOgImage="/images/og-image.png"
-		metaOgUrl="/auth/logout"
-	/>
 </svelte:head>
 
 <div class="text-center">

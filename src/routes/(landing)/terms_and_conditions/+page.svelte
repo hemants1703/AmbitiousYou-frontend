@@ -1,6 +1,37 @@
-<svelte:head>
-	<title>Terms and Conditions - AmbitiousYou</title>
-</svelte:head>
+<script lang="ts">
+	import SvelteSeo from 'svelte-seo';
+</script>
+
+<SvelteSeo
+	title="Terms and Conditions - AmbitiousYou"
+	description="Terms & Conditions for AmbitiousYou, a superhuman ambitions management application."
+	canonical="https://www.ambitiousyou.pro"
+	keywords="superhuman, ambitions, goals, plans, ambitions management, ambitions planner, ambitions tracker, ambitions manager, ambitions organizer, ambitions scheduler, ambitions calendar, ambitions reminder, ambitions notification, ambitions tracker, ambitions progress, ambitions completion, ambitions achievement, ambitions success, ambitions failure, ambitions motivation, ambitions inspiration, ambitions encouragement, ambitions support, ambitions help, ambitions assistance, ambitions guidance, ambitions mentor, ambitions coach, ambitions consultant, ambitions advisor"
+	openGraph={{
+		title: 'Terms and Conditions - AmbitiousYou',
+		description:
+			'Terms & Conditions for AmbitiousYou, Reduce your mental overload and manage all your ambitions at a single place, AmbitiousYou helps you become a superhuman!',
+		url: 'https://www.ambitiousyou.pro',
+		type: 'website',
+		images: [
+			{
+				url: 'https://www.ambitious-you.vercel.app/og_data/OG_IMAGE.png',
+				width: 1200,
+				height: 630,
+				alt: 'AmbitiousYou - Get ready to become a superhuman!'
+			}
+		],
+		site_name: 'AmbitiousYou!'
+	}}
+	twitter={{
+		card: 'summary_large_image',
+		creator: '@hemants1703',
+		title: 'Terms and Conditions - AmbitiousYou',
+		description:
+			'Terms & Conditions for AmbitiousYou, Reduce your mental overload and manage all your ambitions at a single place, AmbitiousYou helps you become a superhuman!',
+		image: 'https://www.ambitious-you.vercel.app/og_data/OG_IMAGE.png'
+	}}
+/>
 
 <div class="container mx-auto p-6">
 	<h1 class="text-3xl font-bold mb-4">Terms and Conditions</h1>

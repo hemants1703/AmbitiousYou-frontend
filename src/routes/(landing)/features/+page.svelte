@@ -1,4 +1,5 @@
 <script lang="ts">
+	import SvelteSeo from 'svelte-seo';
 	import { CircleCheckBig, LoaderPinwheel, CalendarArrowUp } from 'lucide-svelte';
 	import AmbitionCard from './AmbitionCard.svelte';
 	import exampleAmbitionsData from './exampleAmbitionsData';
@@ -7,7 +8,6 @@
 	import ExploreAmbitionSection from './ExploreAmbitionSection.svelte';
 	import type { AmbitionType } from '$lib/types/ambitionType';
 	import ambitiousQuotes from './ambitiousQuotes';
-	import MetaTags from '$lib/components/MetaTags.svelte';
 
 	const ambitionTypes = exampleAmbitionsData.map((exampleAmbition) => ({
 		value: exampleAmbition.category,
@@ -68,15 +68,36 @@
 	const randomQuote: number = Math.floor(Math.random() * ambitiousQuotes.length);
 </script>
 
-<svelte:head>
-	<title>Features of AmbitiousYou! - Explore AmbitiousYou</title>
-	<MetaTags
-		metaOgTitle="Features of AmbitiousYou! - Explore AmbitiousYou"
-		metaOgDescription="Explore the features of AmbitiousYou, a goal management application that helps you manage your ambitions and achieve your goals. Learn how AmbitiousYou can help you track your progress, set tasks, add notes, and more."
-		metaOgUrl="https://ambitiousyou.pro/features"
-		metaOgImage="https://ambitiousyou.pro/og-image.png"
-	/>
-</svelte:head>
+<SvelteSeo
+	title="Features - AmbitiousYou"
+	description="Discover the features of AmbitiousYou and learn how it can help you manage your ambitions and achieve your goals."
+	canonical="https://ambitious-you.vercel.app/features"
+	keywords="features, ambitiousyou, ambitions management, goal tracking, productivity tools"
+	openGraph={{
+		title: 'Features - AmbitiousYou',
+		description:
+			'Discover the features of AmbitiousYou and learn how it can help you manage your ambitions and achieve your goals.',
+		url: 'https://ambitious-you.vercel.app/features',
+		type: 'website',
+		images: [
+			{
+				url: 'https://www.ambitious-you.vercel.app/og_data/OG_IMAGE.png',
+				width: 1200,
+				height: 630,
+				alt: 'Features of AmbitiousYou'
+			}
+		],
+		site_name: 'AmbitiousYou!'
+	}}
+	twitter={{
+		card: 'summary_large_image',
+		creator: '@hemants1703',
+		title: 'Features - AmbitiousYou',
+		description:
+			'Discover the features of AmbitiousYou and learn how it can help you manage your ambitions and achieve your goals.',
+		image: 'https://www.ambitious-you.vercel.app/og_data/OG_IMAGE.png'
+	}}
+/>
 
 <div class="max-w-5xl select-none">
 	<section>

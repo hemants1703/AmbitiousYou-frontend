@@ -4,7 +4,7 @@
 	import type { ActionData } from '../signup/$types';
 	import { Eye } from 'lucide-svelte';
 	import { EyeClosed } from 'svelte-radix';
-	import MetaTags from '$lib/components/MetaTags.svelte';
+	import SvelteSeo from 'svelte-seo';
 
 	export let form: ActionData;
 
@@ -30,14 +30,39 @@
 	let loginFormSubmitted = false;
 </script>
 
+<SvelteSeo
+	title="Login - AmbitiousYou"
+	description="Log in to your AmbitiousYou account to continue managing your ambitions and tracking your journey to becoming superhuman."
+	canonical="https://ambitious-you.vercel.app/login"
+	keywords="login, sign in, access account, ambitiousyou login, ambitions management, goal tracking"
+	openGraph={{
+		title: 'Login - AmbitiousYou',
+		description:
+			'Log in to your AmbitiousYou account to continue managing your ambitions and tracking your journey to becoming superhuman.',
+		url: 'https://ambitious-you.vercel.app/login',
+		type: 'website',
+		images: [
+			{
+				url: 'https://www.ambitious-you.vercel.app/og_data/OG_IMAGE.png',
+				width: 1200,
+				height: 630,
+				alt: 'Login to AmbitiousYou'
+			}
+		],
+		site_name: 'AmbitiousYou!'
+	}}
+	twitter={{
+		card: 'summary_large_image',
+		creator: '@hemants1703',
+		title: 'Login - AmbitiousYou',
+		description:
+			'Log in to your AmbitiousYou account to continue managing your ambitions and tracking your journey to becoming superhuman.',
+		image: 'https://www.ambitious-you.vercel.app/og_data/OG_IMAGE.png'
+	}}
+/>
+
 <svelte:head>
 	<title>Login to your AmbitiousYou account</title>
-	<MetaTags
-		metaOgTitle="Login to your AmbitiousYou account"
-		metaOgDescription="Create an account to get started"
-		metaOgImage="/images/og-image.jpg"
-		metaOgUrl="https://ambitiousyou.pro/login"
-	/>
 </svelte:head>
 
 <div

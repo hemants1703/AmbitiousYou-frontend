@@ -1,17 +1,38 @@
 <script>
-	import MetaTags from '$lib/components/MetaTags.svelte';
 	import BlurFade from '$lib/components/svelte_magicui/BlurFade.svelte';
+	import SvelteSeo from 'svelte-seo';
 </script>
 
-<svelte:head>
-	<title>AmbitiousYou</title>
-	<MetaTags
-		metaOgTitle="AmbitiousYou"
-		metaOgDescription="Manage all your ambitions at a single place!"
-		metaOgImage="https://ambitiousyou.pro/og-image.png"
-		metaOgUrl="https://ambitiousyou.pro"
-	/>
-</svelte:head>
+<SvelteSeo
+	title="AmbitiousYou - Get ready to become a superhuman!"
+	description="Reduce your mental overload and manage all your ambitions at a single place, AmbitiousYou helps you become a superhuman!"
+	canonical="https://www.ambitiousyou.pro"
+	keywords="superhuman, ambitions, goals, plans, ambitions management, ambitions planner, ambitions tracker, ambitions manager, ambitions organizer, ambitions scheduler, ambitions calendar, ambitions reminder, ambitions notification, ambitions tracker, ambitions progress, ambitions completion, ambitions achievement, ambitions success, ambitions failure, ambitions motivation, ambitions inspiration, ambitions encouragement, ambitions support, ambitions help, ambitions assistance, ambitions guidance, ambitions mentor, ambitions coach, ambitions consultant, ambitions advisor"
+	openGraph={{
+		title: 'AmbitiousYou - Get ready to become a superhuman!',
+		description:
+			'Reduce your mental overload and manage all your ambitions at a single place, AmbitiousYou helps you become a superhuman!',
+		url: 'https://www.ambitiousyou.pro',
+		type: 'website',
+		images: [
+			{
+				url: 'https://www.ambitious-you.vercel.app/og_data/OG_IMAGE.png',
+				width: 1200,
+				height: 630,
+				alt: 'AmbitiousYou - Get ready to become a superhuman!'
+			}
+		],
+		site_name: 'AmbitiousYou!'
+	}}
+	twitter={{
+		card: 'summary_large_image',
+		creator: '@hemants1703',
+		title: 'AmbitiousYou - Get ready to become a superhuman!',
+		description:
+			'Reduce your mental overload and manage all your ambitions at a single place, AmbitiousYou helps you become a superhuman!',
+		image: 'https://www.ambitious-you.vercel.app/og_data/OG_IMAGE.png'
+	}}
+/>
 
 <div class="flex flex-col gap-8 max-sm:mb-20 justify-center items-center">
 	<div class="flex gap-2 font-bold sm:text-5xl md:text-7xl lg:text-9xl text-4xl text-center">
