@@ -85,7 +85,7 @@
 />
 
 <div
-	class={`flex max-md:flex-col lg:gap-40 gap-10 justify-center items-center w-full h-full mx-auto`}
+	class={`flex max-md:flex-col lg:gap-40 gap-10 py-36 justify-center items-center w-full h-full mx-auto`}
 >
 	<div class="w-1/2 max-w-96 text-center">
 		<h1 class="font-bold text-7xl text-end max-md:text-center">📑 Signup</h1>

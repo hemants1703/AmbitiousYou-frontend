@@ -99,32 +99,17 @@
 	}}
 />
 
-<div class="max-w-5xl select-none">
-	<section>
-		<!-- <div class="flex flex-col justify-center items-center gap-10 mb-20">
-			<h1 class="font-bold italic text-4xl text-center">Focus is saying no to 1,000 good ideas.</h1>
-			<h2 class="text-2xl">— Steve Jobs</h2>
-		</div> -->
-		<div class="flex flex-col justify-center items-center gap-10 mb-20">
-			<h1 class="font-normal italic sm:text-3xl text-xl text-center">
-				{@html ambitiousQuotes[randomQuote].quote}
-			</h1>
-			<h2 class="text-2xl">— {ambitiousQuotes[randomQuote].author}</h2>
-		</div>
-		<div>
-			<h1 class="text-2xl font-bold mb-4">Features</h1>
-			<p>
-				<strong>AmbitiousYou</strong> is developed for those who are quite ambitious in life or are
-				quite a busy personnel, <strong>AmbitiousYou</strong>{' '}
-				helps you reduce your mental overload by letting you manage all your short-term and long-term
-				ambitions or goals in life so that you can work hard towards all your goals one at a time and
-				eventually achieve every single one of them instead of just keeping them in your mind and eventually
-				forgetting about them. AmbitiousYou helps you become a <i>superhuman!</i>
-			</p>
-		</div>
-	</section>
+<div class="max-w-5xl pb-20">
 	<section class=" mt-10 flex flex-col gap-5">
 		<h1 class="font-bold text-5xl">Explore AmbitiousYou!</h1>
+		<p>
+			<strong>AmbitiousYou</strong> is developed for those who are quite ambitious in life or are
+			quite a busy personnel, <strong>AmbitiousYou</strong>{' '}
+			helps you reduce your mental overload by letting you manage all your short-term and long-term ambitions
+			or goals in life so that you can work hard towards all your goals one at a time and eventually
+			achieve every single one of them instead of just keeping them in your mind and eventually forgetting
+			about them. AmbitiousYou helps you become a <i>superhuman!</i>
+		</p>
 		<p>
 			Get to explore the actual application AmbitiousYou in an interactive way!<br /> Yes, not just some
 			random screenshots, explore the real application with some real world use cases for some of the
@@ -451,6 +436,12 @@
 		</ul>
 	</section>
 	<section class=" mt-20 flex flex-col">
+		<div class="flex flex-col justify-center items-center gap-10 mb-20">
+			<h1 class="font-normal italic sm:text-3xl text-xl text-center">
+				{@html ambitiousQuotes[randomQuote].quote}
+			</h1>
+			<h2 class="text-2xl">— {ambitiousQuotes[randomQuote].author}</h2>
+		</div>
 		<div
 			class="flex flex-col items-center justify-center animate-gradient text-white py-20 rounded-lg shadow-lg px-4 sm:px-8"
 		>

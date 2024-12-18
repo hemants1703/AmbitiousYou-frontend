@@ -7,14 +7,14 @@
 
 	export let data: PageServerData;
 
-	// console.log('dashboard user : ', data.user);
-	// console.log('dashboard userData : ', data.userData);
+	console.log('dashboard user : ', data.user);
+	console.log('dashboard allAmbitions : ', data.allAmbitions);
 
 	const user = data.user;
-	const userData = data.userData;
+	const allAmbitions = data.allAmbitions ?? { total: 0, documents: [] };
 
 	const ambitionsData = {
-		totalAmbitions: userData.total,
+		totalAmbitions: allAmbitions.total,
 		completedAmbitions: 0,
 		ongoingAmbitions: 0,
 		futureAmbitions: 0,
@@ -23,18 +23,24 @@
 	};
 
 	let latestCompletionDate = new Date(0);
+	let ambitionsDueThisMonth = 0;
 
-	userData.documents.forEach((document: any) => {
-		if (document.ambitionStatus === 'ongoing') ambitionsData.ongoingAmbitions++;
-		else if (document.ambitionStatus === 'completed') ambitionsData.completedAmbitions++;
+	allAmbitions.documents.forEach((ambition: any) => {
+		if (ambition.ambitionStatus === 'ongoing') ambitionsData.ongoingAmbitions++;
+		else if (ambition.ambitionStatus === 'completed') ambitionsData.completedAmbitions++;
 		else ambitionsData.futureAmbitions++;
 
-		ambitionsData.combinedAmbitionTasks += document.ambitionTasks.length;
+		ambitionsData.combinedAmbitionTasks += ambition.ambitionTasks.length;
 
-		if (new Date(document.ambitionCompletionDate) > latestCompletionDate) {
-			latestCompletionDate = new Date(document.ambitionCompletionDate);
-			ambitionsData.recentlyCompletedAmbition = document;
+		if (new Date(ambition.ambitionCompletionDate) > latestCompletionDate) {
+			latestCompletionDate = new Date(ambition.ambitionCompletionDate);
+			ambitionsData.recentlyCompletedAmbition = ambition;
 		}
+
+		let currentMonth = new Date().getMonth();
+		let ambitionDueThisMonth = new Date(ambition.ambitionEndDate).getMonth();
+
+		if (currentMonth === ambitionDueThisMonth) ambitionsDueThisMonth++;
 	});
 
 	let userfirstName = user.name.split(' ')[0];
@@ -57,24 +63,35 @@
 		<div class="flex max-sm:flex-col justify-center items-center gap-4">
 			<CountCard
 				count={ambitionsData.totalAmbitions}
-				title="Total Ambitions"
-				customClass={'bg-[#64CCC550]'}
+				title="Total"
+				cardDescription="Total Ambitions You Have For Yourself!"
 			/>
 			<CountCard
 				count={ambitionsData.completedAmbitions}
-				title="Completed Ambitions"
-				customClass={'bg-[#10b98150]'}
+				title="Completed"
+				cardDescription="Ambitions You Have Completed!"
 			/>
 			<CountCard
 				count={ambitionsData.ongoingAmbitions}
-				title="Ongoing Ambitions"
-				customClass={'bg-[#3b82f650]'}
+				title="Ongoing"
+				cardDescription="Ambitions You Are Currently Working On!"
 			/>
 		</div>
-		<div>
+		<div class="flex max-sm:flex-col justify-center items-center gap-4">
 			<CountCard
 				count={ambitionsData.combinedAmbitionTasks}
-				title="Total Ambition Combined Tasks"
+				title="Tasks"
+				cardDescription="Total Tasks Across All Ambitions!"
+			/>
+			<CountCard
+				count={ambitionsData.futureAmbitions}
+				title="Future"
+				cardDescription="Ambitions You Plan To Work On!"
+			/>
+			<CountCard
+				count={ambitionsDueThisMonth}
+				title="Due"
+				cardDescription="Ambitions Due This Month!"
 			/>
 		</div>
 		<!-- <div

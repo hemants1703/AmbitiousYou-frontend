@@ -1,6 +1,7 @@
 <script>
 	import BlurFade from '$lib/components/svelte_magicui/BlurFade.svelte';
 	import SvelteSeo from 'svelte-seo';
+	import Particles from '$lib/components/svelte_magicui/Particles.svelte';
 </script>
 
 <SvelteSeo
@@ -34,6 +35,7 @@
 	}}
 />
 
+<Particles className="fixed inset-0 -z-50" />
 <div class="flex flex-col gap-8 max-sm:mb-20 justify-center items-center">
 	<div class="flex gap-2 font-bold sm:text-5xl md:text-7xl lg:text-9xl text-4xl text-center">
 		<h1

@@ -14,208 +14,207 @@
 } */
 
 :root {
-    --custom-light: #64CCC5;
-    --custom-dark: #176B87;
-    --custom-completed: rgba(16, 185, 129, 0.3);
-    --custom-ongoing: rgba(59, 130, 246, 0.3);
-    --custom-future: rgba(168, 85, 247, 0.3);
-    --custom-incomplete: rgba(255, 99, 71, 0.3);
-    --scrollbar-bg-light: #ffffff;
-    --scrollbar-thumb-light: #000000;
-    --scrollbar-bg-dark: #000000;
-    --scrollbar-thumb-dark: #ffffff;
+	--custom-light: #64ccc5;
+	--custom-dark: #176b87;
+	--custom-completed: rgba(16, 185, 129, 0.3);
+	--custom-ongoing: rgba(59, 130, 246, 0.3);
+	--custom-future: rgba(168, 85, 247, 0.3);
+	--custom-incomplete: rgba(255, 99, 71, 0.3);
+	--scrollbar-bg-light: #ffffff;
+	--scrollbar-thumb-light: #000000;
+	--scrollbar-bg-dark: #000000;
+	--scrollbar-thumb-dark: #ffffff;
 }
 
 /* Style the scrollbar */
 ::-webkit-scrollbar {
-    width: 5px;
-    border-radius: 10px;
+	width: 5px;
+	border-radius: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--scrollbar-bg);
+	background: var(--scrollbar-bg);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--scrollbar-thumb);
-    border-radius: 6px;
+	background: var(--scrollbar-thumb);
+	border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--scrollbar-thumb);
+	background: var(--scrollbar-thumb);
 }
 
 @layer base {
-    :root {
-        --custom-primary: #000000;
-        --custom-secondary: #176B87;
+	:root {
+		--custom-primary: #000000;
+		--custom-secondary: #176b87;
 
-        --background: 0 0% 100%;
-        --foreground: 0 0% 3.9%;
+		--background: 0 0% 100%;
+		--foreground: 0 0% 3.9%;
 
-        --muted: 0 0% 96.1%;
-        --muted-foreground: 0 0% 45.1%;
+		--muted: 0 0% 96.1%;
+		--muted-foreground: 0 0% 45.1%;
 
-        --popover: 0 0% 100%;
-        --popover-foreground: 0 0% 3.9%;
+		--popover: 0 0% 100%;
+		--popover-foreground: 0 0% 3.9%;
 
-        --card: 0 0% 100%;
-        --card-foreground: 0 0% 3.9%;
+		--card: 0 0% 100%;
+		--card-foreground: 0 0% 3.9%;
 
-        --border: 0 0% 89.8%;
-        --input: 0 0% 89.8%;
+		--border: 0 0% 89.8%;
+		--input: 0 0% 89.8%;
 
-        --primary: 0 0% 9%;
-        --primary-foreground: 0 0% 98%;
+		--primary: 0 0% 9%;
+		--primary-foreground: 0 0% 98%;
 
-        --secondary: 0 0% 96.1%;
-        --secondary-foreground: 0 0% 9%;
+		--secondary: 0 0% 96.1%;
+		--secondary-foreground: 0 0% 9%;
 
-        --accent: 0 0% 96.1%;
-        --accent-foreground: 0 0% 9%;
+		--accent: 0 0% 96.1%;
+		--accent-foreground: 0 0% 9%;
 
-        --destructive: 0 72.2% 50.6%;
-        --destructive-foreground: 0 0% 98%;
+		--destructive: 0 72.2% 50.6%;
+		--destructive-foreground: 0 0% 98%;
 
-        --ring: 0 0% 3.9%;
+		--ring: 0 0% 3.9%;
 
-        --radius: 0.5rem;
+		--radius: 0.5rem;
 
-        --scrollbar-bg: var(--scrollbar-bg-light);
-        --scrollbar-thumb: var(--scrollbar-thumb-light);
-    }
+		--scrollbar-bg: var(--scrollbar-bg-light);
+		--scrollbar-thumb: var(--scrollbar-thumb-light);
+	}
 
-    .dark {
-        --custom-primary: #FFFFFF;
-        --custom-secondary: #64CCC5;
+	.dark {
+		--custom-primary: #ffffff;
+		--custom-secondary: #64ccc5;
 
+		--background: 0 0% 0%;
+		--foreground: 0 0% 95%;
 
-        --background: 0 0% 3.9%;
-        --foreground: 0 0% 98%;
+		--muted: 0 0% 14.9%;
+		--muted-foreground: 0 0% 63.9%;
 
-        --muted: 0 0% 14.9%;
-        --muted-foreground: 0 0% 63.9%;
+		--popover: 0 0% 3.9%;
+		--popover-foreground: 0 0% 98%;
 
-        --popover: 0 0% 3.9%;
-        --popover-foreground: 0 0% 98%;
+		--card: 0 0% 3.9%;
+		--card-foreground: 0 0% 98%;
 
-        --card: 0 0% 3.9%;
-        --card-foreground: 0 0% 98%;
+		--border: 0 0% 14.9%;
+		--input: 0 0% 14.9%;
 
-        --border: 0 0% 14.9%;
-        --input: 0 0% 14.9%;
+		--primary: 0 0% 98%;
+		--primary-foreground: 0 0% 9%;
 
-        --primary: 0 0% 98%;
-        --primary-foreground: 0 0% 9%;
+		--secondary: 0 0% 14.9%;
+		--secondary-foreground: 0 0% 98%;
 
-        --secondary: 0 0% 14.9%;
-        --secondary-foreground: 0 0% 98%;
+		--accent: 0 0% 14.9%;
+		--accent-foreground: 0 0% 98%;
 
-        --accent: 0 0% 14.9%;
-        --accent-foreground: 0 0% 98%;
+		--destructive: 0 62.8% 30.6%;
+		--destructive-foreground: 0 0% 98%;
 
-        --destructive: 0 62.8% 30.6%;
-        --destructive-foreground: 0 0% 98%;
+		--ring: 0 0% 83.1%;
 
-        --ring: 0 0% 83.1%;
-
-        --scrollbar-bg: var(--scrollbar-bg-dark);
-        --scrollbar-thumb: var(--scrollbar-thumb-dark);
-    }
+		--scrollbar-bg: var(--scrollbar-bg-dark);
+		--scrollbar-thumb: var(--scrollbar-thumb-dark);
+	}
 }
 
 @layer base {
-    * {
-        @apply border-border;
-    }
+	* {
+		@apply border-border;
+	}
 
-    body {
-        @apply bg-background text-foreground;
-    }
+	body {
+		@apply bg-background text-foreground;
+	}
 }
 
 @font-face {
-    font-family: "GeistVF";
-    src: url("/fonts/GeistVF.woff");
-    font-display: swap;
+	font-family: 'GeistVF';
+	src: url('/fonts/GeistVF.woff');
+	font-display: swap;
 }
 
 @font-face {
-    font-family: "GeistVF_Mono";
-    src: url("/fonts/GeistMonoVF.woff");
+	font-family: 'GeistVF_Mono';
+	src: url('/fonts/GeistMonoVF.woff');
 }
 
 /* Color Pallette link: https://colorhunt.co/palette/001c30176b8764ccc5dafffb */
 
 ::selection {
-    background-color: var(--custom-light);
-    /* color: var(--background); */
+	background-color: var(--custom-light);
+	color: black;
 }
 
 * {
-    font-family: "GeistVF", "GeistMonoVF", sans-serif;
-    /* font-family: "Inter Tight", sans-serif; */
-    font-optical-sizing: auto;
-    font-synthesis: initial;
-    font-synthesis-weight: none;
-    --scrollbar-bg: var(--scrollbar-bg-dark);
-    --scrollbar-thumb: var(--scrollbar-thumb-dark);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+	font-family: 'GeistVF', 'GeistMonoVF', sans-serif;
+	/* font-family: "Inter Tight", sans-serif; */
+	font-optical-sizing: auto;
+	font-synthesis: initial;
+	font-synthesis-weight: none;
+	--scrollbar-bg: var(--scrollbar-bg-dark);
+	--scrollbar-thumb: var(--scrollbar-thumb-dark);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 #primaryButton {
-    background-color: #64CCC5;
-    color: black;
-    border: none;
-    padding: 0.5rem 1.25rem;
-    border-radius: 0.75rem;
-    cursor: pointer;
-    text-align: center;
-    transition: all 0.1s ease-in-out;
+	background-color: #64ccc5;
+	color: black;
+	border: none;
+	padding: 0.5rem 1.25rem;
+	border-radius: 0.75rem;
+	cursor: pointer;
+	text-align: center;
+	transition: all 0.1s ease-in-out;
 }
 
 #primaryButton:hover {
-    filter: brightness(1.2);
+	filter: brightness(1.2);
 }
 
 #primaryButton:active {
-    background-color: var(--custom-secondary);
+	background-color: var(--custom-secondary);
 }
 
 #primaryButton:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+	opacity: 0.5;
+	cursor: not-allowed;
 }
 
 #secondaryButton {
-    background-color: transparent;
-    /* color: var(--background); */
-    border: none;
-    padding: 0.5rem 1.25rem;
-    border-radius: 0.75rem;
-    cursor: pointer;
-    text-align: center;
-    transition: background-color 0.1s ease-in-out;
+	background-color: transparent;
+	/* color: var(--background); */
+	border: none;
+	padding: 0.5rem 1.25rem;
+	border-radius: 0.75rem;
+	cursor: pointer;
+	text-align: center;
+	transition: background-color 0.1s ease-in-out;
 }
 
 #secondaryButton:hover {
-    background-color: #176B87;
+	background-color: #176b87;
 }
 
 #secondaryButton:active {
-    opacity: 0.7;
+	opacity: 0.7;
 }
 
 #primaryLink {
-    text-decoration: none;
-    transition: all 0.1s ease-in-out;
+	text-decoration: none;
+	transition: all 0.1s ease-in-out;
 }
 
 #primaryLink:hover {
-    text-decoration: underline;
+	text-decoration: underline;
 }
 
 #primaryLink:active {
-    color: var(--custom-secondary);
+	color: var(--custom-secondary);
 }

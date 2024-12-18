@@ -42,6 +42,6 @@ export const load: PageServerLoad = async ({ locals, cookies }) => {
 
 	return {
 		user: locals.user,
-		userData: documentListingResult
+		allAmbitions: documentListingResult
 	};
 };
