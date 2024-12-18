@@ -8,6 +8,7 @@
 	import ExploreAmbitionSection from './ExploreAmbitionSection.svelte';
 	import type { AmbitionType } from '$lib/types/ambitionType';
 	import ambitiousQuotes from './ambitiousQuotes';
+	import { blur, crossfade, draw, fade, fly, scale, slide } from 'svelte/transition';
 
 	const ambitionTypes = exampleAmbitionsData.map((exampleAmbition) => ({
 		value: exampleAmbition.category,
@@ -23,6 +24,7 @@
 	// $: console.log('Ambition DATA: ', ambitionData);
 
 	let selectedAmbition: any = ambitionData;
+	let displayAmbition: boolean = false;
 
 	let sampleAmbitionTasks = [
 		{
@@ -101,41 +103,55 @@
 
 <div class="max-w-5xl pb-20">
 	<section class=" mt-10 flex flex-col gap-5">
-		<h1 class="font-bold text-5xl">Explore AmbitiousYou!</h1>
-		<p>
-			<strong>AmbitiousYou</strong> is developed for those who are quite ambitious in life or are
-			quite a busy personnel, <strong>AmbitiousYou</strong>{' '}
+		<h1 class="font-bold text-5xl">
+			Explore <span
+				class="bg-gradient-to-br from-[#64ccc5] via-[#10b981] to-[#176b87] inline-block text-transparent bg-clip-text"
+				>AmbitiousYou</span
+			>!
+		</h1>
+		<p class="font-light text-xl">
+			<strong class="font-bold">AmbitiousYou</strong> is developed for those who are quite ambitious
+			in life or are quite a busy personnel, <strong>AmbitiousYou</strong>{' '}
 			helps you reduce your mental overload by letting you manage all your short-term and long-term ambitions
 			or goals in life so that you can work hard towards all your goals one at a time and eventually
 			achieve every single one of them instead of just keeping them in your mind and eventually forgetting
 			about them. AmbitiousYou helps you become a <i>superhuman!</i>
 		</p>
-		<p>
+		<p class="font-light text-xl">
 			Get to explore the actual application AmbitiousYou in an interactive way!<br /> Yes, not just some
 			random screenshots, explore the real application with some real world use cases for some of the
 			ambitious people just like you!
 		</p>
-		<p>Interact with the app below with the dropdown and the ambitions to explore AmbitiousYou!</p>
-		<div>
-			<span>Select a use case type to explore AmbitiousYou</span>
-			<Select.Root
-				selected={selectedType.value}
-				onSelectedChange={(e) => {
-					selectedType = e?.value;
-				}}
-			>
-				<Select.Trigger class="w-[180px]">
-					<Select.Value placeholder={selectedType} />
-				</Select.Trigger>
-				<Select.Content>
-					<Select.Group>
-						{#each ambitionTypes as type}
-							<Select.Item value={type.value} label={type.label}>{type.label}</Select.Item>
-						{/each}
-					</Select.Group>
-				</Select.Content>
-				<!-- <Select.Input name="ambitionType" bind:value={selectedType} /> -->
-			</Select.Root>
+		<p
+			class="font-bold text-xl text-center bg-gradient-to-b from-[#64ccc5] to-[#176b87] text-black p-2 rounded-lg my-10 py-5"
+		>
+			Interact with the app below with the dropdown and the ambitions to explore AmbitiousYou! 🎉
+		</p>
+		<div class="font-medium text-xl">
+			<span>Select a use case type to explore AmbitiousYou...</span>
+			<span>
+				<Select.Root
+					selected={selectedType.value}
+					onSelectedChange={(e) => {
+						selectedType = e?.value;
+					}}
+				>
+					<Select.Trigger class="w-[180px]">
+						<Select.Value placeholder={selectedType} />
+					</Select.Trigger>
+					<Select.Content>
+						<Select.Group>
+							{#each ambitionTypes as type}
+								<Select.Item value={type.value} label={type.label}>{type.label}</Select.Item>
+							{/each}
+						</Select.Group>
+					</Select.Content>
+					<!-- <Select.Input name="ambitionType" bind:value={selectedType} /> -->
+				</Select.Root>
+			</span>
+		</div>
+		<div class="font-medium text-xl">
+			<span>...and then select an Ambition from this list!</span>
 		</div>
 		<div class="border shadow-md rounded-2xl p-2">
 			<div class="flex flex-col gap-2">
@@ -144,6 +160,7 @@
 						type="button"
 						on:click={() => {
 							selectedAmbition = exampleAmbition;
+							displayAmbition = true;
 							// console.log('Selected Ambition:', selectedAmbition);
 						}}
 					>
@@ -155,11 +172,15 @@
 						/>
 					</button>
 				{/each}
-				<ExploreAmbitionSection ambitionData={selectedAmbition} />
+				{#if displayAmbition}
+					<div transition:slide={{ duration: 2000 }}>
+						<ExploreAmbitionSection ambitionData={selectedAmbition} />
+					</div>
+				{/if}
 			</div>
 		</div>
 	</section>
-	<h1 class="font-bold mt-20 text-5xl">AmbitiousYou Terminologies</h1>
+	<h1 class="font-bold mt-20 text-5xl text-center py-20">AmbitiousYou Terminologies</h1>
 	<section class=" mt-10 flex max-md:flex-col gap-20">
 		<div>
 			<h1 class="font-bold text-5xl">Ambitions</h1>
@@ -452,7 +473,7 @@
 			</p>
 			<a
 				href="/signup"
-				class="bg-white text-[#176B87] font-semibold py-3 px-6 rounded-2xl shadow-md hover:bg-gray-100 transition duration-300"
+				class="bg-white text-[#176B87] font-semibold py-3 px-6 rounded-2xl shadow-md hover:shadow-2xl hover:scale-105 active:scale-100 active:shadow-md hover:bg-gray-100 active:brightness-90 transition duration-150"
 			>
 				Create Your Free Account Now!
 			</a>

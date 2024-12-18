@@ -47,7 +47,7 @@
 	// console.log('AMBITION DATA FROM ExploreAmbitionSection Component:', ambitionData);
 </script>
 
-<div class="flex flex-col gap-10 border rounded-xl p-4">
+<div class="flex flex-col gap-10 border rounded-xl p-4 bg-black text-white">
 	<header class="flex max-sm:flex-col justify-between items-center gap-5">
 		<div>
 			<h1 class="font-bold text-3xl max-sm:text-center">
