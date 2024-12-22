@@ -24,19 +24,20 @@
 		<div class="flex justify-center items-center gap-2">
 			<a
 				href="/"
-				class="z-50"
 				on:click={() => {
 					if (navbarToggled) toggleNavbar();
 				}}
-				><img
+				class="flex justify-center items-center gap-2 tracking-tighter h-auto z-50"
+			>
+				<img
 					src={'/logo.svg'}
 					alt="AmbitiousYou Logo"
 					class="w-fit h-fit max-w-14 max-h-14 aspect-square"
-				/></a
-			>
-			{#if pagePathname !== '/'}
-				<span><a href="/" class="font-bold text-4xl">AmbitiousYou</a></span>
-			{/if}
+				/>
+				<span class="text-5xl">
+					<span class="font-light">Ambitious</span><span class="font-bold">You</span>
+				</span>
+			</a>
 		</div>
 
 		<div
@@ -50,7 +51,7 @@
 					>Home</a
 				>
 
-				<a
+				<!-- <a
 					href="/features"
 					on:click={toggleNavbar}
 					class="relative inline-flex overflow-hidden rounded-xl p-px {pagePathname === '/'
@@ -65,13 +66,16 @@
 					>
 						Explore Features!
 					</span>
-				</a>
+				</a> -->
+				{#if pagePathname !== '/' && pagePathname !== '/features'}
+					<a id="primaryButton" href="/features" on:click={toggleNavbar}>Explore AmbitiousYou!</a>
+				{/if}
 			</div>
 
 			<div class="flex max-sm:flex-col justify-center items-center gap-2 max-sm:gap-10">
 				<!-- <ThemeToggler /> -->
-				<a id="secondaryButton" href="/signup" on:click={toggleNavbar}>Sign Up</a>
-				<a id="primaryButton" href="/login" on:click={toggleNavbar}>Login</a>
+				<a id="secondaryButton" href="/login" on:click={toggleNavbar}>Login</a>
+				<a id="primaryButton" href="/signup" on:click={toggleNavbar}>Signup</a>
 			</div>
 		</div>
 		<button on:click={toggleNavbar} class="sm:hidden z-50">

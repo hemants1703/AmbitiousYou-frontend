@@ -4,7 +4,13 @@
 	import Label from '$lib/components/ui/label/label.svelte';
 	import type { AmbitionType } from '$lib/types/ambitionType';
 	import { Badge } from '$lib/components/ui/badge/index.js';
-	import { CalendarArrowUp, CircleCheckBig, LoaderPinwheel, CircleSlash } from 'lucide-svelte';
+	import {
+		CalendarArrowUp,
+		CircleCheckBig,
+		LoaderPinwheel,
+		CircleSlash,
+		CircleAlert
+	} from 'lucide-svelte';
 	// import Button from '$lib/components/ui/button/Button.svelte';
 	import type { PageServerData } from './$types';
 	import { toast } from 'svoast';
@@ -88,10 +94,11 @@
 							<CalendarArrowUp color="#a855f7" />
 							<p>Future</p>
 						</div>
-						<div class="flex gap-2">
+						<!-- <div class="flex gap-2">
 							<CircleSlash color="#ff6347" />
-							<p>Incomplete</p>
-						</div>
+							<CircleAlert color="#ffcc00" />
+							<p>Overdue</p>
+						</div> -->
 					</div>
 				</div>
 				<!-- FILTERS: MIGHT BE USED IN FUTURE VERSIONS -->

@@ -72,7 +72,7 @@
 		<h1 class="font-bold text-7xl text-end max-md:text-center">🔐 Login</h1>
 		<p class="text-2xl mt-5 text-end max-md:text-center">Create an account to get started</p>
 	</div>
-	<div class="sm:w-1/2 border border-[--custom-secondary]s p-5 rounded-2xl sm:max-w-sm w-3/4 z-10">
+	<div class="sm:w-1/2 border bg-black shadow-xl p-5 rounded-2xl sm:max-w-sm w-3/4 z-10">
 		<form
 			action="?/login"
 			method="POST"
@@ -85,7 +85,7 @@
 				placeholder="Email"
 				type="email"
 				name="email"
-				class="font-geist-mono bg-transparent border border-[--custom-secondary]s rounded-lg py-1 px-2 active:outline focus:outline-[--custom-primary] transition-all duration-100 ease-in-out"
+				class="font-geist-mono bg-transparent border rounded-lg py-1 px-2 active:outline focus:outline-[--custom-primary] transition-all duration-100 ease-in-out"
 			/>
 			<div class="relative">
 				<input

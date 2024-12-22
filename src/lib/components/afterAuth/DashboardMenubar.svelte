@@ -49,7 +49,7 @@
 <nav class="w-full border-b bg-background max-h-20 overflow-hidden bg-transparent backdrop-blur-xl">
 	<div class="flex justify-between items-center mx-auto p-4">
 		<div class="flex items-center gap-4">
-			<a href="/dashboard" class="flex place-items-center gap-2 font-bold text-2xl">
+			<!-- <a href="/dashboard" class="flex place-items-center gap-2 font-bold text-2xl">
 				<span class="z-50"
 					><img
 						src={'/logo.svg'}
@@ -58,6 +58,19 @@
 					/></span
 				>
 				<span>AmbitiousYou</span>
+			</a> -->
+			<a
+				href="/dashboard"
+				class="flex justify-center items-center gap-2 tracking-tighter w-64 h-auto z-50"
+			>
+				<img
+					src={'/logo.svg'}
+					alt="AmbitiousYou Logo"
+					class="w-fit h-fit max-w-10 max-h-10 aspect-square"
+				/>
+				<span class="text-3xl">
+					<span class="font-light">Ambitious</span><span class="font-bold">You</span>
+				</span>
 			</a>
 		</div>
 		<div class="flex place-items-center gap-6">

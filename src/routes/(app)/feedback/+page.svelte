@@ -3,6 +3,8 @@
 	import * as Select from '$lib/components/ui/select/index.js';
 	import { enhance } from '$app/forms';
 	import { toast } from 'svoast';
+	import { goto } from '$app/navigation';
+	import { redirect } from '@sveltejs/kit';
 
 	export let form: {
 		success: boolean;
@@ -16,6 +18,7 @@
 	} else if (form && form.success) {
 		toast.success(form.message);
 		feedbackSubmitted = false;
+		window.location.href = '/dashboard';
 	}
 
 	let feedbackSubmitted = false;

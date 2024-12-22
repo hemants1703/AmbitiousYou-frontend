@@ -231,12 +231,14 @@
 				</h2>
 				<div class="flex justify-end gap-2 mt-5">
 					<button
+						id="secondaryButton"
 						class="hover:bg-[--custom-dark] px-4 py-1 text-foreground rounded-lg"
 						on:click|preventDefault={() => (askForUpdation = false)}
 					>
 						No
 					</button>
 					<button
+						id="primaryButton"
 						class="bg-[--custom-light] hover:bg-[--custom-light] hover:brightness-110 active:brightness-90 text-black px-4 py-1 rounded-lg"
 						on:click|preventDefault={() => {
 							updateAmbitionEnabled = true;
@@ -264,12 +266,14 @@
 				</h2>
 				<div class="flex justify-end gap-2 mt-5">
 					<button
+						id="secondaryButton"
 						class="hover:bg-[--custom-dark] px-4 py-1 text-foreground rounded-lg"
 						on:click|preventDefault={() => (askForCompleteUpdation = false)}
 					>
 						No
 					</button>
 					<button
+						id="primaryButton"
 						class="flex justify-center items-center gap-2 bg-[--custom-light] hover:bg-[--custom-light] hover:brightness-110 active:brightness-90 text-black px-4 py-1 rounded-lg"
 						on:click|preventDefault={() => {
 							updateAmbitionEnabled = false;
@@ -400,6 +404,7 @@
 				<Badge>{tag}</Badge>
 			{/each} -->
 			<button
+				id="primaryButton"
 				class="text-[--custom-light] hover:brightness-110"
 				on:click|preventDefault={() => {
 					if (!askForUpdation && !updateAmbitionEnabled) askForUpdation = !askForUpdation;
@@ -418,141 +423,11 @@
 	</header>
 	<section class="grid lg:grid-cols-2 gap-5 w-full">
 		<div class="w-full flex flex-col gap-10">
+			<!-- AMBITION TASKS SECTION  -->
 			<div>
-				<!-- <h2 class="text-xl font-semibold mb-4">Time Left</h2> -->
-				<div
-					class="border {daysLeft < 0 && updatedAmbitionStatus.toUpperCase() !== 'COMPLETED'
-						? 'border-red-500'
-						: ''} rounded-xl p-4"
-				>
-					<div class="rounded-lg space-y-5">
-						<div class="flex justify-between w-full border-b">
-							<strong>Days Left:</strong>
-							{#if updatedAmbitionStatus.toLowerCase() === 'completed'}
-								<p class="text-green-500">{updatedAmbitionStatus.toUpperCase()}!</p>
-							{:else if daysLeft < 0 && updatedAmbitionStatus.toLowerCase() !== 'completed'}
-								<p class="text-red-500">Deadline passed</p>
-							{:else if daysLeft <= 0 && updatedAmbitionStatus.toLowerCase() === 'completed'}
-								<p class="text-green-500">{updatedAmbitionStatus.toUpperCase()}!</p>
-							{:else}
-								<p>{daysLeft}</p>
-							{/if}
-						</div>
-						<div class="flex justify-between w-full border-b">
-							<strong>Percentage Completed:</strong>
-							<p>{percentageCompleted}%</p>
-						</div>
-						<div class="flex justify-between w-full border-b">
-							<strong>Unfinished Tasks:</strong>
-							<p>{ambitionTasks.filter((task) => !task.checked).length}</p>
-						</div>
-						<div class="flex justify-between w-full border-b">
-							<strong>Finished Tasks:</strong>
-							<p>{ambitionTasks.filter((task) => task.checked).length}</p>
-						</div>
-						<div class="flex justify-between w-full border-b">
-							<strong>Total Tasks:</strong>
-							<p>{ambitionTasks.length}</p>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<!-- NOTES SECTION STARTS -->
-			<div>
-				<div class="flex flex-col gap-2 border p-4 rounded-xl">
-					<h1 class="font-bold text-xs">
-						NOTE{ambitionNotes.length > 1 ? 'S' : ''}
-					</h1>
-					<div class="flex flex-col space-y-4 max-h-96 overflow-y-auto">
-						{#if ambitionNotes.length === 0}
-							<p class="text-muted-foreground text-center">No notes added yet!</p>
-						{:else}
-							{#each ambitionNotes as note}
-								<div
-									class="{updateAmbitionEnabled
-										? 'animate-ambitionEditModeAnimation relative'
-										: ''}  flex flex-col gap-2 justify-between items-start bg-yellow-200 dark:bg-yellow-900 dark:bg-opacity-20 bg-opacity-20 border border-yellow-400 rounded-lg p-2"
-								>
-									<p class="text-md opacity-80">
-										{note.content}
-									</p>
-									<span class="text-muted-foreground opacity-50 text-xs self-end">
-										{new Intl.DateTimeFormat('en-US', {
-											year: 'numeric',
-											month: 'long',
-											day: 'numeric',
-											hour: '2-digit',
-											minute: '2-digit'
-										}).format(new Date(note.created_at))}
-									</span>
-									<!-- {#if updateAmbitionEnabled}
-										<button
-											on:click={() => handleRemoveAmbitionNote(note.id)}
-											type="button"
-											class="absolute top-px right-px bg-red-500 hover:brightness-150 active:bg-red-800 rounded-full p-px"
-											><X size="20" /></button
-										>
-									{/if} -->
-								</div>
-							{/each}
-						{/if}
-					</div>
-				</div>
-			</div>
-			{#if updateAmbitionEnabled}
-				<div>
-					<!-- <h2 class="text-xl font-semibold mb-4">Add a new Note</h2> -->
-					<div class="border rounded-xl p-4 space-y-2">
-						<h1 class="font-bold text-xs">ADD A NEW NOTE</h1>
-						<form
-							action="?/addNewTaskForAmbition"
-							method="POST"
-							use:enhance={() => {
-								if (noteContent === '') {
-									toast.error('Please fill in the note content!');
-								}
-							}}
-						>
-							<div class="space-y-4">
-								<Textarea
-									bind:value={noteContent}
-									name="note"
-									placeholder="Enter your new Note"
-									class="bg-yellow-200 dark:bg-yellow-900 dark:bg-opacity-20 bg-opacity-20"
-								/>
-								<Button
-									disabled={noteContent.length === 0}
-									on:click={handleNewNoteAddition}
-									type="submit"
-									class="bg-yellow-200 hover:bg-yellow-300 active:bg-yellow-400 text-black w-full flex place-items-center gap-5"
-								>
-									<MessageSquareDiff />
-									<p>Add Note</p>
-								</Button>
-							</div>
-						</form>
-					</div>
-				</div>
-			{/if}
-			<!-- NOTES SECTION ENDS -->
-		</div>
-		<!-- <div class="md:hidden w-full">
-			<Tabs.Root value="account" class="w-full">
-				<Tabs.List>
-					<Tabs.Trigger value="account">Account</Tabs.Trigger>
-					<Tabs.Trigger value="password">Password</Tabs.Trigger>
-					<Tabs.Trigger value="password">Password</Tabs.Trigger>
-				</Tabs.List>
-				<Tabs.Content value="account">Make changes to your account here.</Tabs.Content>
-				<Tabs.Content value="password">Change your password here.</Tabs.Content>
-			</Tabs.Root>
-		</div> -->
-		<div class="w-full flex flex-col gap-10">
-			<!-- AMBITION TASKS SECTION STARTS -->
-			<div>
-				<h2 class="text-xl font-semibold mb-4">Tasks to Accomplish your Ambition</h2>
-				<div class=" border rounded-xl p-4">
+				<!-- <h2 class="text-xl font-semibold mb-4">Tasks to Accomplish your Ambition</h2> -->
+				<div class="flex flex-col gap-3 border p-4 rounded-xl">
+					<h1 class="font-extrabold text-sm">TASKS TO ACCOMPLISH YOUR AMBITION</h1>
 					<div class="max-h-96 space-y-4 overflow-y-auto overflow-x-hidden">
 						{#if ambitionTasks.length === 0}
 							<p class="text-muted-foreground text-center">No tasks added yet!</p>
@@ -642,9 +517,131 @@
 					</div>
 				</div>
 			{/if}
-			<!-- AMBITION TASKS SECTION ENDS -->
+			<!-- AMBITION TASKS SECTION  -->
 
-			<!-- AMBITION DETAILS SECTION STARTS -->
+			<!-- AMBITION STATS  -->
+			<div>
+				<h2 class="text-xl font-semibold mb-4">Ambitions Stats</h2>
+				<div
+					class="border {daysLeft < 0 && updatedAmbitionStatus.toUpperCase() !== 'COMPLETED'
+						? 'border-red-500'
+						: ''} rounded-xl p-4"
+				>
+					<div class="rounded-lg space-y-5">
+						<div class="flex justify-between w-full border-b">
+							<strong>Days Left:</strong>
+							{#if updatedAmbitionStatus.toLowerCase() === 'completed'}
+								<p class="text-green-500">{updatedAmbitionStatus.toUpperCase()}!</p>
+							{:else if daysLeft < 0 && updatedAmbitionStatus.toLowerCase() !== 'completed'}
+								<p class="text-red-500">Deadline passed</p>
+							{:else if daysLeft <= 0 && updatedAmbitionStatus.toLowerCase() === 'completed'}
+								<p class="text-green-500">{updatedAmbitionStatus.toUpperCase()}!</p>
+							{:else}
+								<p>{daysLeft}</p>
+							{/if}
+						</div>
+						<div class="flex justify-between w-full border-b">
+							<strong>Percentage Completed:</strong>
+							<p>{percentageCompleted}%</p>
+						</div>
+						<div class="flex justify-between w-full border-b">
+							<strong>Unfinished Tasks:</strong>
+							<p>{ambitionTasks.filter((task) => !task.checked).length}</p>
+						</div>
+						<div class="flex justify-between w-full border-b">
+							<strong>Finished Tasks:</strong>
+							<p>{ambitionTasks.filter((task) => task.checked).length}</p>
+						</div>
+						<div class="flex justify-between w-full border-b">
+							<strong>Total Tasks:</strong>
+							<p>{ambitionTasks.length}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- AMBITION STATS -->
+		</div>
+		<div class="w-full flex flex-col gap-10">
+			<!-- NOTES SECTION  -->
+			<div>
+				<div class="flex flex-col gap-2 border p-4 rounded-xl">
+					<h1 class="font-extrabold text-sm">
+						NOTE{ambitionNotes.length > 1 ? 'S' : ''}
+					</h1>
+					<div class="flex flex-col space-y-4 max-h-96 overflow-y-auto">
+						{#if ambitionNotes.length === 0}
+							<p class="text-muted-foreground text-center">No notes added yet!</p>
+						{:else}
+							{#each ambitionNotes as note}
+								<div
+									class="{updateAmbitionEnabled
+										? 'animate-ambitionEditModeAnimation relative'
+										: ''}  flex flex-col gap-2 justify-between items-start bg-yellow-200 dark:bg-yellow-900 dark:bg-opacity-20 bg-opacity-20 border border-yellow-400 rounded-lg p-2"
+								>
+									<p class="text-md opacity-80">
+										{note.content}
+									</p>
+									<span class="text-muted-foreground opacity-50 text-xs self-end">
+										{new Intl.DateTimeFormat('en-US', {
+											year: 'numeric',
+											month: 'long',
+											day: 'numeric',
+											hour: '2-digit',
+											minute: '2-digit'
+										}).format(new Date(note.created_at))}
+									</span>
+									<!-- {#if updateAmbitionEnabled}
+										<button
+											on:click={() => handleRemoveAmbitionNote(note.id)}
+											type="button"
+											class="absolute top-px right-px bg-red-500 hover:brightness-150 active:bg-red-800 rounded-full p-px"
+											><X size="20" /></button
+										>
+									{/if} -->
+								</div>
+							{/each}
+						{/if}
+					</div>
+				</div>
+			</div>
+			{#if updateAmbitionEnabled}
+				<div>
+					<!-- <h2 class="text-xl font-semibold mb-4">Add a new Note</h2> -->
+					<div class="border rounded-xl p-4 space-y-2">
+						<h1 class="font-bold text-xs">ADD A NEW NOTE</h1>
+						<form
+							action="?/addNewTaskForAmbition"
+							method="POST"
+							use:enhance={() => {
+								if (noteContent === '') {
+									toast.error('Please fill in the note content!');
+								}
+							}}
+						>
+							<div class="space-y-4">
+								<Textarea
+									bind:value={noteContent}
+									name="note"
+									placeholder="Enter your new Note"
+									class="bg-yellow-200 dark:bg-yellow-900 dark:bg-opacity-20 bg-opacity-20"
+								/>
+								<Button
+									disabled={noteContent.length === 0}
+									on:click={handleNewNoteAddition}
+									type="submit"
+									class="bg-yellow-200 hover:bg-yellow-300 active:bg-yellow-400 text-black w-full flex place-items-center gap-5"
+								>
+									<MessageSquareDiff />
+									<p>Add Note</p>
+								</Button>
+							</div>
+						</form>
+					</div>
+				</div>
+			{/if}
+			<!-- NOTES SECTION  -->
+
+			<!-- AMBITION DETAILS SECTION  -->
 			<div class="max-w-full">
 				<h2 class="text-xl font-semibold mb-4">Ambition Details</h2>
 				<div class=" border rounded-xl p-4">
@@ -708,7 +705,7 @@
 					</div>
 				</div>
 			</div>
-			<!-- AMBITION DETAILS SECTION ENDS -->
+			<!-- AMBITION DETAILS SECTION  -->
 		</div>
 	</section>
 

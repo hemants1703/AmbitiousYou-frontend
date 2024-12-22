@@ -35,24 +35,32 @@
 	}}
 />
 
-<Particles className="fixed inset-0 -z-50" />
-<div class="flex flex-col gap-8 max-sm:mb-20 justify-center items-center">
-	<div class="flex gap-2 font-bold sm:text-5xl md:text-7xl lg:text-9xl text-4xl text-center">
-		<h1
+<!-- <Particles className="fixed inset-0 -z-50" /> -->
+
+<div class="flex flex-col gap-8 max-sm:my-20 justify-center items-center">
+	<div class="flex gap-2 font-bold text-center max-w-5xl mx-auto">
+		<!-- <h1
 			class="selection:text-black tracking-tight bg-gradient-to-br from-black dark:from-white to-[--custom-secondary] text-transparent bg-clip-text"
 		>
 			AmbitiousYou
 		</h1>
-		🚩
+		🚩 -->
+		<BlurFade delay={0}>
+			<h1 class="text-5xl sm:text-6xl md:text-7xl">For Those Who Dare to Dream Beyond Limits.</h1>
+		</BlurFade>
 	</div>
-	<h2 class="font-semibold sm:text-3xl text-xl text-center">Get Ready to Become a Superhuman!</h2>
-	<p class="text-center my-10 max-w-2xl font-light text-muted-foreground max-sm:text-md">
-		Imagine an app that let&apos;s you manage all your ambitions at a single place, you might have a
-		lot of ambitions in your life but due to the time constraint and busy schedule you might be
-		facing issues and cumbersomeness for the ambitions and plans you had for yourself in the short
-		term or sometimes even in the long term, AmbitiousYou helps you solve this issue!
-	</p>
-	<a
+	<h2 class="font-medium mt-10 sm:text-3xl text-xl text-center">
+		<BlurFade delay={0.5}>Get Ready to Become a Superhuman!</BlurFade>
+	</h2>
+	<BlurFade delay={1}>
+		<p class="text-center my-10 max-w-2xl font-light text-muted-foreground max-sm:text-md">
+			Life is full of ambitions, but managing them all can be overwhelming. AmbitiousYou brings all
+			your goals together in one powerful platform. Whether it's short-term targets or long-term
+			dreams, we help you stay focused and organized. Transform your busy schedule into a structured
+			path to success. Start achieving more, with less mental load. 🚀
+		</p>
+	</BlurFade>
+	<!-- <a
 		href="/features"
 		class="relative inline-flex overflow-hidden rounded-xl p-px text-xl shadow-lg hover:shadow-xl active:shadow-md active:translate-y-1"
 	>
@@ -64,7 +72,11 @@
 		>
 			Explore AmbitiousYou!
 		</span>
-	</a>
+	</a> -->
+
+	<BlurFade delay={1.5}>
+		<a id="primaryButton" class="text-xl" href="/features">Explore AmbitiousYou!</a>
+	</BlurFade>
 	<!-- <div class="flex justify-center items-center gap-2">
 			<a id="secondaryButton" href="/signup">Sign Up</a>
 			<a id="primaryButton" href="/login">Login</a>

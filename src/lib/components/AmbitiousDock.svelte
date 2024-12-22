@@ -37,7 +37,7 @@
 			<DockIcon {mouseX} {magnification} {distance}>
 				<Tooltip.Root openDelay={100}>
 					<Tooltip.Trigger
-						class="hover:brightness-150 bg-[--custom-light] text-background transition-all duration-200 rounded-full p-3"
+						class="hover:brightness-150 bg-gradient-to-b from-[--custom-light] to-[#428883] text-background transition-all duration-200 rounded-full p-3 hover:scale-105 active:scale-95"
 					>
 						<svelte:component this={Plus} size={20} strokeWidth={1.2} />
 					</Tooltip.Trigger>

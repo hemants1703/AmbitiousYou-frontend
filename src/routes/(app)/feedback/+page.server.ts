@@ -34,43 +34,30 @@ export const actions: Actions = {
 
 		const database = new Databases(client);
 
-		await database
-			.createDocument(
+		try {
+			const response = await database.createDocument(
 				PRIVATE_APPWRITE_DATABASE_ID,
 				PRIVATE_APPWRITE_COLLECTION_ID_FOR_FEEDBACK,
 				ID.unique(),
 				feedbackData
-			)
-			.then((response) => {
-				if (response.ok) {
-					// console.log(chalk.bgGreenBright.black('Feedback posted successfully: '), response);
-					// console.log(chalk.bgGreenBright.black('Feedback posted successfully: '), response.json());
+			);
 
-					return {
-						status: 200,
-						success: true,
-						message: 'Feedback posted successfully',
-						body: { feedbackData }
-					};
-				} else {
-					return {
-						status: 400,
-						success: false,
-						message: 'Error posting feedback',
-						body: { feedbackData }
-					};
-				}
-			})
-			.catch((error) => {
-				console.error(chalk.bgRedBright.white('Error posting feedback: '), error);
-				return {
-					status: 400,
-					success: false,
-					message: 'Error posting feedback',
-					body: { feedbackData }
-				};
-			});
+			console.log(chalk.bgGreenBright.black('Feedback posted successfully: '), response);
 
-		// console.log(chalk.bgWhiteBright.black('Feedback: '), feedbackData);
+			return {
+				status: 200,
+				success: true,
+				message: 'Feedback posted successfully',
+				body: { feedbackData }
+			};
+		} catch (error) {
+			console.error(chalk.bgRedBright.white('Error posting feedback: '), error);
+			return {
+				status: 400,
+				success: false,
+				message: 'Error posting feedback',
+				body: { feedbackData }
+			};
+		}
 	}
 };

@@ -94,7 +94,7 @@
 			You're about to be a superhuman and fulfil all your big dreams and ambitions in life!
 		</p>
 	</div>
-	<div class="sm:w-1/2 border p-5 rounded-2xl sm:max-w-sm w-3/4 z-10">
+	<div class="sm:w-1/2 border p-5 rounded-2xl sm:max-w-sm w-3/4 z-10 bg-black">
 		<form
 			action="?/createAccount"
 			method="POST"
