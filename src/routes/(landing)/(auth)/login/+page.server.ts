@@ -51,12 +51,14 @@ export const actions: Actions = {
 				path: '/'
 			});
 
-			const user = await account.get();
+			// const user = await account.get();
 
-			locals.user = user;
+			// console.log(chalk.bgWhiteBright.black('User account get request response'), user);
 
-			loggedInUser.set(user);
-			greetUser.set(true);
+			// locals.user = user;
+
+			// loggedInUser.set(user);
+			// greetUser.set(true);
 
 			formActionResponse = {
 				status: 200,
