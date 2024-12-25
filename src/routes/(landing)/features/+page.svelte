@@ -101,7 +101,11 @@
 	}}
 />
 
-<div class="max-w-5xl pb-20">
+<div
+	class="max-w-5xl pb-20"
+	in:fly={{ x: -200, duration: 300, delay: 300 }}
+	out:fly={{ x: 200, duration: 300 }}
+>
 	<section class=" mt-10 flex flex-col gap-5">
 		<h1 class="font-bold text-5xl">
 			Explore <span
@@ -117,6 +121,7 @@
 			achieve every single one of them instead of just keeping them in your mind and eventually forgetting
 			about them. AmbitiousYou helps you become a <i>superhuman!</i>
 		</p>
+
 		<p class="font-light text-xl">
 			Get to explore the actual application AmbitiousYou in an interactive way!<br /> Yes, not just some
 			random screenshots, explore the real application with some real world use cases for some of the
@@ -186,11 +191,10 @@
 			<h1 class="font-bold text-5xl">Ambitions</h1>
 			<p class="font-normal text-xl mt-5">
 				Ambitions are the goals or the dreams that you want to achieve in your life. They can be
-				short-term or long-term goals. You can add as many ambitions as you want and track your
-				progress on each of them. <strong>AmbitiousYou</strong> helps you manage all your ambitions in
-				one single place in a very intuitive manner so that you can focus on your ambitions and achieve
-				them one at a time or even multiple at a time because you can track your progress on each of
-				them.
+				short-term or long-term goals. You can add ambitions as you want and track your progress on
+				each of them. <strong>AmbitiousYou</strong> helps you manage all your ambitions in one single
+				place in a very intuitive manner so that you can focus on your ambitions and achieve them one
+				at a time or even multiple at a time because you can track your progress on each of them.
 			</p>
 		</div>
 		<div class="w-full flex justify-center items-center">

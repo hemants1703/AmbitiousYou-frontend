@@ -2,6 +2,7 @@
 	import BlurFade from '$lib/components/svelte_magicui/BlurFade.svelte';
 	import SvelteSeo from 'svelte-seo';
 	import Particles from '$lib/components/svelte_magicui/Particles.svelte';
+	import InteractiveLinkButton from '$lib/components/InteractiveLinkButton.svelte';
 </script>
 
 <SvelteSeo
@@ -74,8 +75,36 @@
 		</span>
 	</a> -->
 
-	<BlurFade delay={1.5}>
-		<a id="primaryButton" class="text-xl" href="/features">Explore AmbitiousYou!</a>
+	<BlurFade delay={1}>
+		<!-- <a
+			id="primaryButton"
+			class="text-xl
+    relative
+    inline-flex
+    items-center
+    justify-center
+    overflow-hidden
+    after:absolute
+    after:inset-0
+    after:bg-gradient-to-r
+    after:from-transparent
+    after:via-[#64ccc5]/30
+    after:to-transparent
+    after:translate-x-[-200%]
+    after:animate-[shine_3s_ease-in-out_infinite]
+    before:absolute
+    before:inset-[2px]
+    before:bg-gradient-to-r
+    before:from-[#64ccc5]/0
+    before:via-[#64ccc5]/50
+    before:to-[#64ccc5]/0
+    before:animate-[borderGlow_2s_ease-in-out_infinite]
+    hover:shadow-[0_0_15px_#64ccc5]
+    transition-all
+    duration-300"
+			href="/features">Explore AmbitiousYou!</a
+		> -->
+		<InteractiveLinkButton href="/features">Explore AmbitiousYou!</InteractiveLinkButton>
 	</BlurFade>
 	<!-- <div class="flex justify-center items-center gap-2">
 			<a id="secondaryButton" href="/signup">Sign Up</a>

@@ -9,7 +9,7 @@
 </script>
 
 <main
-	class="max-w-screen-2xl min-h-dvh flex flex-col justify-between items-center mx-auto p-4 z-50"
+	class="max-w-screen-2xl min-h-dvh flex flex-col justify-between items-center mx-auto p-4 z-50 overflow-x-hidden"
 >
 	<Navbar />
 	<slot />

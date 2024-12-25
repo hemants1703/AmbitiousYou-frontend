@@ -8,6 +8,7 @@
 	import { PUBLIC_APPWRITE_PROJECT_ID } from '$env/static/public';
 	import { goto } from '$app/navigation';
 	import SvelteSeo from 'svelte-seo';
+	import { fly } from 'svelte/transition';
 
 	export let form: ActionData;
 	// $: console.log('Signup form response from server:', form);
@@ -85,16 +86,20 @@
 />
 
 <div
-	class={`flex max-md:flex-col lg:gap-40 gap-10 py-36 justify-center items-center w-full h-full mx-auto`}
+	class={`flex max-md:flex-col lg:gap-40 gap-10 py-36 justify-center items-center w-full h-full mx-auto min-h-svh`}
+	in:fly={{ x: -200, duration: 300, delay: 300 }}
+	out:fly={{ x: 200, duration: 300 }}
 >
-	<div class="w-1/2 max-w-96 text-center">
-		<h1 class="font-bold text-7xl text-end max-md:text-center">📑 Signup</h1>
-		<p class="text-2xl mt-5 text-end max-md:text-center">Create an account to get started</p>
-		<p class="text-lg mt-5 text-end text-[--custom-dark] max-md:text-center">
+	<div class=" max-w-96 w-3/4 max-md:text-start">
+		<h1 class="font-bold text-7xl text-end max-md:text-start">📑 Signup</h1>
+		<p class="text-2xl mt-5 text-end max-md:text-start">Create an account to get started</p>
+		<p class="text-lg mt-5 text-end text-[--custom-dark] max-md:text-start">
 			You're about to be a superhuman and fulfil all your big dreams and ambitions in life!
 		</p>
 	</div>
-	<div class="sm:w-1/2 border p-5 rounded-2xl sm:max-w-sm w-3/4 z-10 bg-black">
+	<div
+		class="sm:w-1/2 border p-5 rounded-2xl sm:max-w-sm w-3/4 z-10 bg-black shadow-lg shadow-neutral-900"
+	>
 		<form
 			action="?/createAccount"
 			method="POST"

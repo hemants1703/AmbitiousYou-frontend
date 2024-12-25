@@ -5,6 +5,7 @@
 	import { Eye } from 'lucide-svelte';
 	import { EyeClosed } from 'svelte-radix';
 	import SvelteSeo from 'svelte-seo';
+	import { fly } from 'svelte/transition';
 
 	export let form: ActionData;
 
@@ -66,13 +67,19 @@
 </svelte:head>
 
 <div
-	class={`flex max-md:flex-col gap-40 max-md:gap-10 justify-center items-center w-full h-full mx-auto`}
+	class={`flex max-md:flex-col gap-40 max-md:gap-10 justify-center items-center w-full h-full mx-auto min-h-svh`}
+	in:fly={{ x: -200, duration: 300, delay: 300 }}
+	out:fly={{ x: 200, duration: 300 }}
 >
-	<div>
-		<h1 class="font-bold text-7xl text-end max-md:text-center">🔐 Login</h1>
-		<p class="text-2xl mt-5 text-end max-md:text-center">Create an account to get started</p>
+	<div class="sm:max-w-sm w-3/4">
+		<h1 class="font-bold text-7xl text-end max-md:text-start">🔐 Login</h1>
+		<p class="text-2xl mt-5 text-end max-md:text-start">
+			Login to your account, check on your ambitions!
+		</p>
 	</div>
-	<div class="sm:w-1/2 border bg-black shadow-xl p-5 rounded-2xl sm:max-w-sm w-3/4 z-10">
+	<div
+		class="sm:w-1/2 border bg-black shadow-lg shadow-neutral-900 p-5 rounded-2xl sm:max-w-sm w-3/4 z-10"
+	>
 		<form
 			action="?/login"
 			method="POST"

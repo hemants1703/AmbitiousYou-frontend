@@ -62,7 +62,9 @@ const config = {
 				dropDown: 'dropDown 0.5s cubic-bezier(.36,.07,.19,.97) forwards',
 				dropDownReverse: 'dropDown 0.5s cubic-bezier(.36,.07,.19,.97) reverse forwards',
 				gradient: 'gradient 60s ease-in-out infinite',
-				ambitionEditModeAnimation: 'ambitionEditModeAnimation 1s ease-in-out infinite'
+				ambitionEditModeAnimation: 'ambitionEditModeAnimation 1s ease-in-out infinite',
+				borderPulse: 'borderPulse 2s ease-in-out infinite',
+				shine: 'shine 3s ease-in-out infinite'
 			},
 			keyframes: {
 				shake: {
