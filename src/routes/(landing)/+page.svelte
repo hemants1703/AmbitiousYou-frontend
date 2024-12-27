@@ -3,6 +3,7 @@
 	import SvelteSeo from 'svelte-seo';
 	import Particles from '$lib/components/svelte_magicui/Particles.svelte';
 	import InteractiveLinkButton from '$lib/components/InteractiveLinkButton.svelte';
+	import { onMount } from 'svelte';
 </script>
 
 <SvelteSeo
@@ -51,7 +52,13 @@
 		</BlurFade>
 	</div>
 	<h2 class="font-medium mt-10 sm:text-3xl text-xl text-center">
-		<BlurFade delay={0.5}>Get Ready to Become a Superhuman!</BlurFade>
+		<BlurFade delay={0.5}
+			>Get Ready to Become a <span class="relative z-10 px-1"
+				><span
+					class="absolute -z-10 inset-0 h-full w-0 bg-[--custom-light] opacity-50 animate-highlight [animation-delay:_1.2s]"
+				></span>Superhuman</span
+			>!</BlurFade
+		>
 	</h2>
 	<BlurFade delay={1}>
 		<p class="text-center my-10 max-w-2xl font-light text-muted-foreground max-sm:text-md">

@@ -4,6 +4,7 @@
 	import type { PageServerData } from './$types';
 	import { greetUser } from '$lib/store/userData';
 	import CountCard from '$lib/components/afterAuth/CountCard.svelte';
+	import { goto } from '$app/navigation';
 
 	export let data: PageServerData;
 
@@ -12,9 +13,10 @@
 
 	const user = data.user;
 	const allAmbitions = data.allAmbitions ?? { total: 0, documents: [] };
+	const totalAmbitions = allAmbitions.total;
 
 	const ambitionsData = {
-		totalAmbitions: allAmbitions.total,
+		totalAmbitions: totalAmbitions,
 		completedAmbitions: 0,
 		ongoingAmbitions: 0,
 		futureAmbitions: 0,
@@ -43,16 +45,59 @@
 		if (currentMonth === ambitionDueThisMonth) ambitionsDueThisMonth++;
 	});
 
-	let userfirstName = user.name.split(' ')[0];
+	let firstName = user.name.split(' ')[0];
+
+	let displayAddAmbitionModal = false;
+	if (totalAmbitions === 0) {
+		setTimeout(() => (displayAddAmbitionModal = true), 800);
+	}
 </script>
 
 <svelte:head>
 	<title>Dashboard - AmbitiousYou!</title>
 </svelte:head>
 
-<div class="flex flex-col gap-10 pb-32">
+{#if totalAmbitions === 0 && displayAddAmbitionModal}
+	<div class="fixed inset-0 bg-background bg-opacity-90 z-10">
+		<div class="animate-dropDown fixed inset-0 flex justify-center items-center">
+			<div class="space-y-5 border bg-background p-5 max-sm:mx-10 rounded-lg shadow-lg max-w-2xl">
+				<h1 class="text-4xl">
+					Welcome Aboard <span
+						class="font-bold bg-gradient-to-br from-[#64ccc5] via-[#10b981] to-[#176b87] inline-block text-transparent bg-clip-text"
+						>{firstName}</span
+					>!🎉
+				</h1>
+				<h2 class="text-muted-foreground text-lg mt-2">
+					You don't have any ambitions added here yet thus your dashboard is empty. Let's start by
+					adding your first ambition and get you started on your journey to success!
+				</h2>
+				<div class="flex justify-end gap-2 mt-5">
+					<button
+						id="secondaryButton"
+						class="hover:bg-[--custom-dark] px-4 py-1 text-foreground rounded-lg"
+						on:click={() => (displayAddAmbitionModal = false)}
+					>
+						I'll explore on my own!
+					</button>
+					<button
+						id="primaryButton"
+						class="bg-[--custom-light] hover:bg-[--custom-light] hover:brightness-110 active:brightness-90 text-black px-4 py-1 rounded-lg"
+						on:click={() => {
+							goto('/create_new_ambition');
+							displayAddAmbitionModal = false;
+						}}
+					>
+						Let's Do This!
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+{/if}
+
+<div class="flex flex-col gap-10 pb-32 w-full">
 	<header>
-		<h1 class="font-bold text-3xl">Welcome, {userfirstName}!</h1>
+		<h1 class="font-bold text-3xl">Welcome, {firstName}!</h1>
 		<p class="text-muted-foreground">
 			Here's an overview of your ambitions and tasks. Here you can see all your ambitions and add
 			new ambitions. You can also track your progress on each ambition.
@@ -65,16 +110,19 @@
 				count={ambitionsData.totalAmbitions}
 				title="Total"
 				cardDescription="Total Ambitions You Have For Yourself!"
+				customClass="[animation-delay:_0s]"
 			/>
 			<CountCard
 				count={ambitionsData.completedAmbitions}
 				title="Completed"
 				cardDescription="Ambitions You Have Completed!"
+				customClass="[animation-delay:_0.1s]"
 			/>
 			<CountCard
 				count={ambitionsData.ongoingAmbitions}
 				title="Ongoing"
 				cardDescription="Ambitions You Are Currently Working On!"
+				customClass="[animation-delay:_0.2s]"
 			/>
 		</div>
 		<div class="flex max-sm:flex-col justify-center items-center gap-4">
@@ -82,16 +130,19 @@
 				count={ambitionsData.combinedAmbitionTasks}
 				title="Tasks"
 				cardDescription="Total Tasks Across All Ambitions!"
+				customClass="[animation-delay:_0.3s]"
 			/>
 			<CountCard
 				count={ambitionsData.futureAmbitions}
 				title="Future"
 				cardDescription="Ambitions You Plan To Work On!"
+				customClass="[animation-delay:_0.4s]"
 			/>
 			<CountCard
 				count={ambitionsDueThisMonth}
 				title="Due"
 				cardDescription="Ambitions Due This Month!"
+				customClass="[animation-delay:_0.5s]"
 			/>
 		</div>
 		<!-- <div

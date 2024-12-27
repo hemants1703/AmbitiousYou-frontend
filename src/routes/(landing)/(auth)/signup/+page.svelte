@@ -147,6 +147,15 @@
 					{/if}
 				</button>
 			</div>
+			<div class="flex items-center gap-2">
+				<input type="checkbox" id="agree" name="agree" required class="mr-2" />
+				<label for="agree" class="text-sm text-gray-400">
+					By signing up, you agree to our
+					<a href="/terms_and_conditions" class="text-[#64ccc5] hover:underline">T&C</a>
+					and
+					<a href="/privacy_policy" class="text-[#64ccc5] hover:underline">Privacy Policy</a>.
+				</label>
+			</div>
 			<div
 				class={`${form && !form.success && form.message === 'Invalid Password' ? 'animate-shake text-red-500 opacity-65' : 'opacity-50'} font-extralight`}
 			>

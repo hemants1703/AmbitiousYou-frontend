@@ -1,9 +1,10 @@
 <script lang="ts">
 	import DashboardMenubar from '$lib/components/afterAuth/DashboardMenubar.svelte';
-	import DashboardNavbar from '$lib/components/afterAuth/DashboardNavbar.svelte';
+	// import DashboardNavbar from '$lib/components/afterAuth/DashboardNavbar.svelte';
 	import AmbitiousDock from '$lib/components/AmbitiousDock.svelte';
 	import { Toasts } from 'svoast';
 	import type { LayoutServerData } from '../$types';
+	import { fly } from 'svelte/transition';
 
 	export let data: LayoutServerData;
 	const { userData } = data;
@@ -15,9 +16,15 @@
 		<DashboardMenubar {userData} />
 	</div>
 	<div class="flex h-[calc(100vh-5.1rem)]">
-		<div class="w-full max-w-7xl md:min-w-5xl mx-auto my-10 px-20 py-16 max-md:px-5 text-start">
-			<slot />
-		</div>
+		{#key data.url}
+			<div
+				in:fly={{ x: -200, duration: 300, delay: 300 }}
+				out:fly={{ x: 200, duration: 300 }}
+				class="w-full max-w-7xl md:min-w-5xl mx-auto my-10 px-20 py-16 max-md:px-5 text-start"
+			>
+				<slot />
+			</div>
+		{/key}
 		<!-- <div class="h-full flex justify-center items-center z-40">
 			<DashboardNavbar />
 		</div> -->

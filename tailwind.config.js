@@ -64,7 +64,9 @@ const config = {
 				gradient: 'gradient 60s ease-in-out infinite',
 				ambitionEditModeAnimation: 'ambitionEditModeAnimation 1s ease-in-out infinite',
 				borderPulse: 'borderPulse 2s ease-in-out infinite',
-				shine: 'shine 3s ease-in-out infinite'
+				shine: 'shine 3s ease-in-out infinite',
+				highlight: 'highlight 2s ease-in-out forwards',
+				fadeInDown: 'fadeInDown 0.5s ease-in-out forwards'
 			},
 			keyframes: {
 				shake: {
@@ -100,6 +102,31 @@ const config = {
 				ambitionEditModeAnimation: {
 					'0%, 100%': { filter: 'brightness(1)' },
 					'50%': { filter: 'brightness(1.2)' }
+				},
+				borderPulse: {
+					'0%': { borderColor: 'hsl(var(--border) / 0.5)' },
+					'50%': { borderColor: 'hsl(var(--border) / 1)' },
+					'100%': { borderColor: 'hsl(var(--border) / 0.5)' }
+				},
+				shine: {
+					'0%': { backgroundPosition: '200% center' },
+					'100%': { backgroundPosition: '-200% center' }
+				},
+				highlight: {
+					'0%': { width: '0%' },
+					'100%': { width: '100%' }
+				},
+				fadeInDown: {
+					'0%': {
+						opacity: 0,
+						filter: 'blur(10px)',
+						transform: 'translateY(-20px) scale(0.9)'
+					},
+					'100%': {
+						opacity: 1,
+						filter: 'blur(0)',
+						transform: 'translateY(0) scale(1)'
+					}
 				}
 			}
 		}

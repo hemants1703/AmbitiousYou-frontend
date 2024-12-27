@@ -18,6 +18,24 @@ export const actions: Actions = {
 		const fullName: string = formData.get('fullName') as string;
 		const email: FormDataEntryValue = formData.get('email') as string;
 		const password: FormDataEntryValue = formData.get('password') as string;
+		const agreeToTerms: FormDataEntryValue = formData.get('agree') as string;
+
+		// console.log(chalk.bgBlueBright.white('agreeToTerms'), agreeToTerms);
+
+		if (agreeToTerms !== 'on') {
+			return {
+				status: 400,
+				success: false,
+				message: 'You must agree to the terms and conditions',
+				body: {
+					formData: {
+						fullName: fullName,
+						email: email,
+						password: password
+					}
+				}
+			};
+		}
 
 		// console.log(chalk.bgBlueBright.white('formData'), formData);
 

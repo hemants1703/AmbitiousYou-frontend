@@ -10,7 +10,7 @@
 </script>
 
 <div
-	class="relative flex flex-col items-start justify-center w-full h-full gap-2 border rounded-md p-4 {customClass} shadow-md dark:shadow-stone-950"
+	class="relative flex flex-col items-start justify-center w-full h-full gap-2 border rounded-md p-4 {customClass} shadow-md dark:shadow-stone-950 opacity-0 animate-fadeInDown"
 >
 	<span class="flex justify-between w-full items-center">
 		<h1 class="text-4xl font-bold">

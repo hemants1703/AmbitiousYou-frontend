@@ -206,7 +206,7 @@
 	<title>Add a new Ambition! - AmbitiousYou!</title>
 </svelte:head>
 
-<div class="flex flex-col gap-8 pb-40">
+<div class="flex flex-col gap-8 pb-40 w-full">
 	<header>
 		<h1 class="text-3xl font-bold">Add You New Ambition!</h1>
 		<p class="text-muted-foreground">
@@ -216,7 +216,7 @@
 		</p>
 	</header>
 	<Separator />
-	<div class="">
+	<div class="w-full min-w-full">
 		<form method="POST" action="?/add_ambition" use:enhance={handleSubmit}>
 			<div class="flex flex-col gap-10">
 				<div class="flex flex-col gap-4">
@@ -284,22 +284,6 @@
 								<Select.Input name="ambitionPriority" bind:value={ambitionData.ambitionPriority} />
 							</Select.Root>
 						</div>
-						<!-- AMBITION STATUS IS DECIDED BY THE STATES OF THE AMBITION TASKS -->
-						<!-- <input type="hidden" name="ambitionStatus" bind:value={ambitionStatusInput} />s -->
-						<!-- <div class="flex flex-col gap-2">
-							<Label for="ambitionStatus">Ambition Status <sup class=" text-red-500">*</sup></Label>
-							<Select.Root name="ambitionStatus">
-								<Select.Trigger class="w-[180px]">
-									<Select.Value placeholder="Choose Status..." />
-								</Select.Trigger>
-								<Select.Content>
-									<Select.Item value="completed" class="text-[#10b981]">Completed</Select.Item>
-									<Select.Item value="ongoing" class="text-[#3b82f6]">Ongoing</Select.Item>
-									<Select.Item value="future" class="text-[#a855f7]">Future</Select.Item>
-								</Select.Content>
-								<Select.Input name="ambitionStatus" bind:value={ambitionData.ambitionStatus} />
-							</Select.Root>
-						</div> -->
 					</div>
 					<div class="grid gap-2">
 						<Label for="ambitionDeadline" class="text-xl">
@@ -368,24 +352,6 @@
 						</Popover.Root>
 					</div>
 
-					<!-- TAGS FEATURE, MIGHT BE USING IN FUTURE UPDATES -->
-					<!-- <div class="flex flex-col gap-2">
-						<Label for="ambitionTags" class="text-xl">Tags</Label>
-						<Input
-							id="ambitionTag"
-							name="ambitionTag"
-							placeholder="Give your ambition some tags for easy search..."
-						/>
-						<div>
-							{#each ambitionTags as tag}
-								<span
-									class="text-sm bg-yellow-200 dark:bg-yellow-900 dark:bg-opacity-20 bg-opacity-20 rounded-lg p-1"
-								>
-									{tag}
-								</span>
-							{/each}
-						</div>
-					</div> -->
 					<div class="grid sm:grid-cols-2 gap-x-5">
 						<div class="col-span-2">
 							<Label class="text-xl"
