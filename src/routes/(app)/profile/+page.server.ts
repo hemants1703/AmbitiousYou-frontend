@@ -125,6 +125,10 @@ export const actions: Actions = {
 
 		cookies.delete(SESSION_COOKIE, { path: '/' });
 
+		if (serverActionResponse.message === 'Account deleted') {
+			redirect(308, '/account_deleted');
+		}
+
 		if (serverActionResponse.success) {
 			redirect(308, '/');
 		}

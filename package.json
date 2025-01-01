@@ -46,7 +46,6 @@
 		"class-variance-authority": "^0.7.0",
 		"clsx": "^2.1.1",
 		"lucide-svelte": "^0.445.0",
-		"mini-svg-data-uri": "^1.4.4",
 		"mode-watcher": "^0.4.1",
 		"node-appwrite": "^14.1.0",
 		"svelte-inview": "^4.0.4",

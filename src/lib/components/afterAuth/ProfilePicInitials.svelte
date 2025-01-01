@@ -6,7 +6,7 @@
 </script>
 
 <div
-	class="bg-[--custom-light] text-background p-2 rounded-full w-10 h-10 flex items-center justify-center"
+	class="bg-[--custom-light] text-background p-2 rounded-xl w-10 h-10 flex items-center justify-center"
 >
 	{firstInitial}{secondInitial}
 </div>

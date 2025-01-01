@@ -73,13 +73,11 @@
 >
 	<div class="sm:max-w-sm w-3/4">
 		<h1 class="font-bold text-7xl text-end max-md:text-start">🔐 Login</h1>
-		<p class="text-2xl mt-5 text-end max-md:text-start">
-			Login to your account, check on your ambitions!
+		<p class="text-xl mt-5 text-end max-md:text-start">
+			Log in to pursue your ambitions and start your journey to greatness!
 		</p>
 	</div>
-	<div
-		class="sm:w-1/2 border bg-black shadow-lg shadow-neutral-900 p-5 rounded-2xl sm:max-w-sm w-3/4 z-10"
-	>
+	<div class="sm:w-1/2 border bg-background shadow-sm p-5 rounded-2xl sm:max-w-sm w-3/4 z-10">
 		<form
 			action="?/login"
 			method="POST"
@@ -89,18 +87,20 @@
 			}}
 		>
 			<input
+				required
 				placeholder="Email"
 				type="email"
 				name="email"
-				class="font-geist-mono bg-transparent border rounded-lg py-1 px-2 active:outline focus:outline-[--custom-primary] transition-all duration-100 ease-in-out"
+				class="text-lg font-geist-mono bg-transparent border rounded-lg py-1 px-2 active:outline focus:outline-[--custom-primary] transition-all duration-100 ease-in-out"
 			/>
 			<div class="relative">
 				<input
+					required
 					placeholder="Password"
 					type="password"
 					name="password"
 					bind:this={passwordInputElement}
-					class="w-full font-mono bg-transparent border rounded-lg py-1 px-2 pr-12 active:outline focus:outline-[--custom-primary] transition-all duration-100 ease-in-out"
+					class="w-full text-lg font-mono bg-transparent border rounded-lg py-1 px-2 pr-12 active:outline focus:outline-[--custom-primary] transition-all duration-100 ease-in-out"
 				/>
 				<button
 					type="button"

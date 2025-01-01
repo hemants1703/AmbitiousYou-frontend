@@ -16,6 +16,7 @@
 :root {
 	--custom-light: #64ccc5;
 	--custom-dark: #176b87;
+	--custom-light-pale: rgba(100, 204, 197, 0.3);
 	--custom-completed: rgba(16, 185, 129, 0.3);
 	--custom-ongoing: rgba(59, 130, 246, 0.3);
 	--custom-future: rgba(168, 85, 247, 0.3);
@@ -169,11 +170,12 @@
 	color: black;
 	border: none;
 	padding: 0.5rem 1.25rem;
-	border-radius: 0.9rem;
+	border-radius: 0.5rem;
 	cursor: pointer;
 	text-align: center;
 	font-weight: 600;
 	filter: brightness(1.2);
+	text-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
 	transition: all 0.1s ease-in-out;
 }
 
@@ -184,7 +186,6 @@
 #primaryButton:active {
 	background: linear-gradient(180deg, #428883, var(--custom-light));
 	scale: 0.99;
-	box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.1);
 }
 
 #primaryButton:disabled {
@@ -194,17 +195,17 @@
 
 #secondaryButton {
 	background-color: transparent;
-	/* color: var(--background); */
 	border: none;
 	padding: 0.5rem 1.25rem;
-	border-radius: 0.9rem;
+	border-radius: 0.5rem;
 	cursor: pointer;
 	text-align: center;
-	transition: background-color 0.1s ease-in-out;
+	transition: all 0.1s ease-in-out;
 }
 
 #secondaryButton:hover {
 	background: var(--custom-dark);
+	color: var(--custom-light);
 }
 
 #secondaryButton:active {

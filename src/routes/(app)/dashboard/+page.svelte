@@ -5,6 +5,7 @@
 	import { greetUser } from '$lib/store/userData';
 	import CountCard from '$lib/components/afterAuth/CountCard.svelte';
 	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
 
 	export let data: PageServerData;
 
@@ -48,9 +49,17 @@
 	let firstName = user.name.split(' ')[0];
 
 	let displayAddAmbitionModal = false;
-	if (totalAmbitions === 0) {
-		setTimeout(() => (displayAddAmbitionModal = true), 800);
-	}
+
+	onMount(() => {
+		displayAddAmbitionModal =
+			localStorage.getItem('displayAddAmbitionModal') === 'true' ? true : false;
+		if (totalAmbitions === 0 && localStorage.getItem('displayAddAmbitionModal') === null) {
+			setTimeout(() => {
+				displayAddAmbitionModal = true;
+				localStorage.setItem('displayAddAmbitionModal', 'true');
+			}, 800);
+		}
+	});
 </script>
 
 <svelte:head>
@@ -65,26 +74,30 @@
 					Welcome Aboard <span
 						class="font-bold bg-gradient-to-br from-[#64ccc5] via-[#10b981] to-[#176b87] inline-block text-transparent bg-clip-text"
 						>{firstName}</span
-					>!🎉
+					>! 🎉
 				</h1>
 				<h2 class="text-muted-foreground text-lg mt-2">
-					You don't have any ambitions added here yet thus your dashboard is empty. Let's start by
-					adding your first ambition and get you started on your journey to success!
+					We're thrilled to have you on board! Let's kickstart your journey by setting your first
+					ambition and pave the way to your success!
 				</h2>
 				<div class="flex justify-end gap-2 mt-5">
 					<button
 						id="secondaryButton"
-						class="hover:bg-[--custom-dark] px-4 py-1 text-foreground rounded-lg"
-						on:click={() => (displayAddAmbitionModal = false)}
+						class=" px-4 py-1 rounded-lg"
+						on:click={() => {
+							displayAddAmbitionModal = false;
+							localStorage.setItem('displayAddAmbitionModal', 'false');
+						}}
 					>
 						I'll explore on my own!
 					</button>
 					<button
 						id="primaryButton"
-						class="bg-[--custom-light] hover:bg-[--custom-light] hover:brightness-110 active:brightness-90 text-black px-4 py-1 rounded-lg"
+						class=" hover:brightness-110 active:brightness-90 rounded-lg"
 						on:click={() => {
 							goto('/create_new_ambition');
 							displayAddAmbitionModal = false;
+							localStorage.setItem('displayAddAmbitionModal', 'false');
 						}}
 					>
 						Let's Do This!
@@ -95,7 +108,7 @@
 	</div>
 {/if}
 
-<div class="flex flex-col gap-10 pb-32 w-full">
+<div class="flex flex-col gap-5 pb-32 w-full">
 	<header>
 		<h1 class="font-bold text-3xl">Welcome, {firstName}!</h1>
 		<p class="text-muted-foreground">
@@ -104,7 +117,24 @@
 		</p>
 	</header>
 
-	<section class="space-y-4">
+	<section class="relative space-y-4">
+		{#if totalAmbitions === 0}
+			<div
+				class="flex flex-col items-center justify-center gap-4 py-10 bg-[--custom-light-pale] rounded-lg shadow-md dark:shadow-gray-900"
+			>
+				<h2 class="text-2xl font-semibold">You don't have any ambitions yet!</h2>
+				<p class="text-muted-foreground text-center">
+					You can start by adding your first ambition and setting your goals. Let's get started!
+				</p>
+				<button
+					id="primaryButton"
+					class="hover:brightness-110 active:brightness-90"
+					on:click={() => goto('/create_new_ambition')}
+				>
+					Add Your First Ambition
+				</button>
+			</div>
+		{/if}
 		<div class="flex max-sm:flex-col justify-center items-center gap-4">
 			<CountCard
 				count={ambitionsData.totalAmbitions}

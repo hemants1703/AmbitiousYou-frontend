@@ -61,7 +61,7 @@
 			</a> -->
 			<a
 				href="/dashboard"
-				class="flex justify-center items-center gap-2 tracking-tighter w-64 h-auto z-50"
+				class="flex justify-start items-center gap-2 tracking-tighter w-fit h-auto z-50"
 			>
 				<img
 					src={'/logo.svg'}

@@ -102,7 +102,7 @@
 />
 
 <div
-	class="max-w-5xl pb-20"
+	class="py-20 md:max-w-screen-lg"
 	in:fly={{ x: -200, duration: 300, delay: 300 }}
 	out:fly={{ x: 200, duration: 300 }}
 >

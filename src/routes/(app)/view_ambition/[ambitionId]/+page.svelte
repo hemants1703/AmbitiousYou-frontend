@@ -425,10 +425,13 @@
 		<div class="w-full flex flex-col gap-10">
 			<!-- AMBITION TASKS SECTION  -->
 			<div>
-				<!-- <h2 class="text-xl font-semibold mb-4">Tasks to Accomplish your Ambition</h2> -->
-				<div class="flex flex-col gap-3 border p-4 rounded-xl">
-					<h1 class="font-extrabold text-sm">TASKS TO ACCOMPLISH YOUR AMBITION</h1>
-					<div class="max-h-96 space-y-4 overflow-y-auto overflow-x-hidden">
+				<div
+					class="flex flex-col gap-3 border-4 border-[--custom-light-pale] rounded-xl overflow-hidden"
+				>
+					<h1 class="font-extrabold text-sm bg-[--custom-light-pale] p-2 text-center">
+						TASKS TO ACCOMPLISH YOUR AMBITION
+					</h1>
+					<div class="p-4 max-h-96 space-y-4 overflow-y-auto overflow-x-hidden">
 						{#if ambitionTasks.length === 0}
 							<p class="text-muted-foreground text-center">No tasks added yet!</p>
 						{:else}
@@ -521,13 +524,15 @@
 
 			<!-- AMBITION STATS  -->
 			<div>
-				<h2 class="text-xl font-semibold mb-4">Ambitions Stats</h2>
 				<div
-					class="border {daysLeft < 0 && updatedAmbitionStatus.toUpperCase() !== 'COMPLETED'
+					class="border-4 {daysLeft < 0 && updatedAmbitionStatus.toUpperCase() !== 'COMPLETED'
 						? 'border-red-500'
-						: ''} rounded-xl p-4"
+						: ' border-[--custom-light-pale]'} rounded-xl overflow-hidden"
 				>
-					<div class="rounded-lg space-y-5">
+					<h2 class="font-extrabold text-sm bg-[--custom-light-pale] p-2 text-center">
+						AMBITION STATS
+					</h2>
+					<div class="rounded-lg space-y-5 p-4">
 						<div class="flex justify-between w-full border-b">
 							<strong>Days Left:</strong>
 							{#if updatedAmbitionStatus.toLowerCase() === 'completed'}
@@ -564,11 +569,13 @@
 		<div class="w-full flex flex-col gap-10">
 			<!-- NOTES SECTION  -->
 			<div>
-				<div class="flex flex-col gap-2 border p-4 rounded-xl">
-					<h1 class="font-extrabold text-sm">
+				<div
+					class="flex flex-col gap-2 border-4 border-[--custom-light-pale] overflow-hidden rounded-xl"
+				>
+					<h1 class="font-extrabold text-sm bg-[--custom-light-pale] p-2 text-center">
 						NOTE{ambitionNotes.length > 1 ? 'S' : ''}
 					</h1>
-					<div class="flex flex-col space-y-4 max-h-96 overflow-y-auto">
+					<div class="flex flex-col space-y-4 max-h-96 overflow-y-auto p-4">
 						{#if ambitionNotes.length === 0}
 							<p class="text-muted-foreground text-center">No notes added yet!</p>
 						{:else}
@@ -642,10 +649,12 @@
 			<!-- NOTES SECTION  -->
 
 			<!-- AMBITION DETAILS SECTION  -->
-			<div class="max-w-full">
-				<h2 class="text-xl font-semibold mb-4">Ambition Details</h2>
-				<div class=" border rounded-xl p-4">
-					<div class="rounded-lg space-y-10">
+			<div class="max-w-full overflow-hidden">
+				<div class="overflow-hidden border-4 border-[--custom-light-pale] rounded-xl">
+					<h2 class="font-extrabold text-sm bg-[--custom-light-pale] p-2 text-center">
+						AMBITION DETAILS
+					</h2>
+					<div class="rounded-lg space-y-10 p-4">
 						<ul class="space-y-5">
 							<li class="flex justify-between w-full border-b py-1">
 								<strong>Start Date:</strong>

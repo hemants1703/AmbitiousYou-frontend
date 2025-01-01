@@ -5,6 +5,7 @@
 	import { toast } from 'svoast';
 	import { UserRoundMinus, X } from 'lucide-svelte';
 	import ProfilePicInitials from '$lib/components/afterAuth/ProfilePicInitials.svelte';
+	import localStorageItems from '$lib/localStorageItems';
 
 	export let data: PageServerData;
 	export let form: ActionData;
@@ -24,6 +25,12 @@
 	let promptAccountDeletion = false;
 	let showMoreOptions = false;
 	let deletingAccount = false;
+
+	function clearLocalStorage() {
+		localStorageItems.forEach((item) => {
+			localStorage.removeItem(item);
+		});
+	}
 </script>
 
 <svelte:head>
@@ -55,6 +62,7 @@
 						action="?/deleteAccount"
 						method="POST"
 						use:enhance={() => {
+							clearLocalStorage();
 							deletingAccount = true;
 						}}
 					>

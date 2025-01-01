@@ -97,9 +97,7 @@
 			You're about to be a superhuman and fulfil all your big dreams and ambitions in life!
 		</p>
 	</div>
-	<div
-		class="sm:w-1/2 border p-5 rounded-2xl sm:max-w-sm w-3/4 z-10 bg-black shadow-lg shadow-neutral-900"
-	>
+	<div class="sm:w-1/2 border p-5 rounded-2xl sm:max-w-sm w-3/4 z-10 bg-background shadow-sm">
 		<form
 			action="?/createAccount"
 			method="POST"
@@ -114,7 +112,7 @@
 				type="text"
 				name="fullName"
 				required
-				class="bg-transparent border rounded-lg py-1 px-2 active:outline focus:outline-[--custom-primary] transition-all duration-100 ease-in-out"
+				class="text-lg bg-transparent border rounded-lg py-1 px-2 active:outline focus:outline-[--custom-primary] transition-all duration-100 ease-in-out"
 			/>
 			<input
 				bind:value={signUpDetails.email}
@@ -122,7 +120,7 @@
 				type="email"
 				name="email"
 				required
-				class="bg-transparent border rounded-lg py-1 px-2 active:outline focus:outline-[--custom-primary] transition-all duration-100 ease-in-out"
+				class="text-lg bg-transparent border rounded-lg py-1 px-2 active:outline focus:outline-[--custom-primary] transition-all duration-100 ease-in-out"
 			/>
 			<div class="relative">
 				<input
@@ -131,7 +129,7 @@
 					name="password"
 					required
 					bind:this={passwordInputElement}
-					class="w-full font-mono bg-transparent border rounded-lg py-1 px-2 pr-12 active:outline focus:outline-[--custom-primary] transition-all duration-100 ease-in-out"
+					class="text-lg w-full font-mono bg-transparent border rounded-lg py-1 px-2 pr-12 active:outline focus:outline-[--custom-primary] transition-all duration-100 ease-in-out"
 				/>
 				<button
 					type="button"
