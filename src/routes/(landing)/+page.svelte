@@ -192,12 +192,13 @@
 		</BlurFade>
 
 		<BlurFade delay={1}>
-			<InteractiveLinkButton href="/features">Explore AmbitiousYou!</InteractiveLinkButton>
+			<InteractiveLinkButton href="#keyFeaturesSection">Explore AmbitiousYou!</InteractiveLinkButton
+			>
 		</BlurFade>
 	</section>
 
 	<!-- KEY FEATURES SECTION -->
-	<section class="mt-20 space-y-14">
+	<section id="keyFeaturesSection" class="pt-20 space-y-14">
 		<h1 class="text-5xl font-bold">
 			Key Features of <span
 				class="bg-gradient-to-br from-[#64ccc5] via-[#10b981] to-[#176b87] inline-block text-transparent bg-clip-text"

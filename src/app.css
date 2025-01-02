@@ -47,6 +47,11 @@
 	background: var(--scrollbar-thumb);
 }
 
+html {
+	scroll-behavior: smooth;
+	--scroll-behavior: smooth;
+}
+
 @layer base {
 	:root {
 		--custom-primary: #000000;
