@@ -15,7 +15,7 @@
 		type: 'website',
 		images: [
 			{
-				url: 'https://www.ambitious-you.vercel.app/og_data/OG_IMAGE.png',
+				url: 'https://res.cloudinary.com/dej4ks4wd/image/upload/v1736240186/OG_IMAGE_ahclhi.png',
 				width: 1200,
 				height: 630,
 				alt: 'AmbitiousYou Privacy Policy'
@@ -29,7 +29,7 @@
 		title: 'Privacy Policy - AmbitiousYou',
 		description:
 			'Learn how AmbitiousYou handles and protects your personal information. Our privacy policy outlines our data collection, usage, and protection practices.',
-		image: 'https://www.ambitious-you.vercel.app/og_data/OG_IMAGE.png'
+		image: 'https://res.cloudinary.com/dej4ks4wd/image/upload/v1736240186/OG_IMAGE_ahclhi.png'
 	}}
 />
 

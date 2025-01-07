@@ -67,7 +67,7 @@
 		type: 'website',
 		images: [
 			{
-				url: 'https://www.ambitious-you.vercel.app/og_data/OG_IMAGE.png',
+				url: 'https://res.cloudinary.com/dej4ks4wd/image/upload/v1736240186/OG_IMAGE_ahclhi.png',
 				width: 1200,
 				height: 630,
 				alt: 'Sign up for AmbitiousYou'
@@ -81,7 +81,7 @@
 		title: 'Sign Up - AmbitiousYou',
 		description:
 			'Create your free AmbitiousYou account and start your journey to becoming superhuman. Manage your ambitions and achieve your goals.',
-		image: 'https://www.ambitious-you.vercel.app/og_data/OG_IMAGE.png'
+		image: 'https://res.cloudinary.com/dej4ks4wd/image/upload/v1736240186/OG_IMAGE_ahclhi.png'
 	}}
 />
 

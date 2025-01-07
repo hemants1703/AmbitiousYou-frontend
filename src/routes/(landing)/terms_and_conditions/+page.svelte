@@ -15,7 +15,7 @@
 		type: 'website',
 		images: [
 			{
-				url: 'https://www.ambitious-you.vercel.app/og_data/OG_IMAGE.png',
+				url: 'https://res.cloudinary.com/dej4ks4wd/image/upload/v1736240186/OG_IMAGE_ahclhi.png',
 				width: 1200,
 				height: 630,
 				alt: 'AmbitiousYou - Get ready to become a superhuman!'
@@ -29,7 +29,7 @@
 		title: 'Terms and Conditions - AmbitiousYou',
 		description:
 			'Terms & Conditions for AmbitiousYou, Reduce your mental overload and manage all your ambitions at a single place, AmbitiousYou helps you become a superhuman!',
-		image: 'https://www.ambitious-you.vercel.app/og_data/OG_IMAGE.png'
+		image: 'https://res.cloudinary.com/dej4ks4wd/image/upload/v1736240186/OG_IMAGE_ahclhi.png'
 	}}
 />
 

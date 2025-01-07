@@ -44,7 +44,7 @@
 		type: 'website',
 		images: [
 			{
-				url: 'https://www.ambitious-you.vercel.app/og_data/OG_IMAGE.png',
+				url: 'https://res.cloudinary.com/dej4ks4wd/image/upload/v1736240186/OG_IMAGE_ahclhi.png',
 				width: 1200,
 				height: 630,
 				alt: 'Login to AmbitiousYou'
@@ -58,7 +58,7 @@
 		title: 'Login - AmbitiousYou',
 		description:
 			'Log in to your AmbitiousYou account to continue managing your ambitions and tracking your journey to becoming superhuman.',
-		image: 'https://www.ambitious-you.vercel.app/og_data/OG_IMAGE.png'
+		image: 'https://res.cloudinary.com/dej4ks4wd/image/upload/v1736240186/OG_IMAGE_ahclhi.png'
 	}}
 />
 
