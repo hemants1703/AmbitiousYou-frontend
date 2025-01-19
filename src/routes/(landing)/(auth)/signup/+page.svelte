@@ -57,13 +57,13 @@
 <SvelteSeo
 	title="Sign Up - AmbitiousYou"
 	description="Create your free AmbitiousYou account and start your journey to becoming superhuman. Manage your ambitions and achieve your goals."
-	canonical="https://ambitious-you.vercel.app/signup"
+	canonical="https://www.ambitiousyou.pro/signup"
 	keywords="sign up, create account, free account, register, join ambitiousyou, ambitions management, goal tracking, become superhuman"
 	openGraph={{
 		title: 'Sign Up - AmbitiousYou',
 		description:
 			'Create your free AmbitiousYou account and start your journey to becoming superhuman. Manage your ambitions and achieve your goals.',
-		url: 'https://ambitious-you.vercel.app/signup',
+		url: 'https://www.ambitiousyou.pro/signup',
 		type: 'website',
 		images: [
 			{

@@ -1,16 +1,15 @@
-<script lang="ts">
+<script>
 	import Particles from '$lib/components/svelte_magicui/Particles.svelte';
-	import NumberTicker from '$lib/components/svelte_magicui/NumberTicker.svelte';
-	import type { PageServerData } from './$types';
 	import { greetUser } from '$lib/store/userData';
 	import CountCard from '$lib/components/afterAuth/CountCard.svelte';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
+	import SvelteSeo from 'svelte-seo';
 
-	export let data: PageServerData;
+	export let data;
 
-	console.log('dashboard user : ', data.user);
-	console.log('dashboard allAmbitions : ', data.allAmbitions);
+	// console.log('dashboard user : ', data.user);
+	// console.log('dashboard allAmbitions : ', data.allAmbitions);
 
 	const user = data.user;
 	const allAmbitions = data.allAmbitions ?? { total: 0, documents: [] };
@@ -28,7 +27,7 @@
 	let latestCompletionDate = new Date(0);
 	let ambitionsDueThisMonth = 0;
 
-	allAmbitions.documents.forEach((ambition: any) => {
+	allAmbitions.documents.forEach((ambition) => {
 		if (ambition.ambitionStatus === 'ongoing') ambitionsData.ongoingAmbitions++;
 		else if (ambition.ambitionStatus === 'completed') ambitionsData.completedAmbitions++;
 		else ambitionsData.futureAmbitions++;
@@ -64,7 +63,39 @@
 
 <svelte:head>
 	<title>Dashboard - AmbitiousYou!</title>
+	<link rel="icon" href="/favicon.png" />
 </svelte:head>
+
+<SvelteSeo
+	title="Dashboard - AmbitiousYou!"
+	description="Reduce your mental overload and manage all your ambitions at a single place, AmbitiousYou helps you become a superhuman!"
+	canonical="https://www.ambitiousyou.pro/dashboard"
+	keywords="superhuman, ambitions, goals, plans, ambitions management, ambitions planner, ambitions tracker, ambitions manager, ambitions organizer, ambitions scheduler, ambitions calendar, ambitions reminder, ambitions notification, ambitions tracker, ambitions progress, ambitions completion, ambitions achievement, ambitions success, ambitions failure, ambitions motivation, ambitions inspiration, ambitions encouragement, ambitions support, ambitions help, ambitions assistance, ambitions guidance, ambitions mentor, ambitions coach, ambitions consultant, ambitions advisor"
+	openGraph={{
+		title: 'AmbitiousYou - Get ready to become a superhuman!',
+		description:
+			'Reduce your mental overload and manage all your ambitions at a single place, AmbitiousYou helps you become a superhuman!',
+		url: 'https://www.ambitiousyou.pro/dashboard',
+		type: 'website',
+		images: [
+			{
+				url: 'https://res.cloudinary.com/dej4ks4wd/image/upload/v1736240186/OG_IMAGE_ahclhi.png',
+				width: 1200,
+				height: 630,
+				alt: 'AmbitiousYou - Get ready to become a superhuman!'
+			}
+		],
+		site_name: 'AmbitiousYou!'
+	}}
+	twitter={{
+		card: 'summary_large_image',
+		creator: '@hemants1703',
+		title: 'Dashboard - AmbitiousYou!',
+		description:
+			'Reduce your mental overload and manage all your ambitions at a single place, AmbitiousYou helps you become a superhuman!',
+		image: 'https://res.cloudinary.com/dej4ks4wd/image/upload/v1736240186/OG_IMAGE_ahclhi.png'
+	}}
+/>
 
 {#if totalAmbitions === 0 && displayAddAmbitionModal}
 	<div class="fixed inset-0 bg-background bg-opacity-90 z-10">

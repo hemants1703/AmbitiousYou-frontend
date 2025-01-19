@@ -73,13 +73,13 @@
 <SvelteSeo
 	title="Features - AmbitiousYou"
 	description="Discover the features of AmbitiousYou and learn how it can help you manage your ambitions and achieve your goals."
-	canonical="https://ambitious-you.vercel.app/features"
+	canonical="https://www.ambitiousyou.pro/features"
 	keywords="features, ambitiousyou, ambitions management, goal tracking, productivity tools"
 	openGraph={{
 		title: 'Features - AmbitiousYou',
 		description:
 			'Discover the features of AmbitiousYou and learn how it can help you manage your ambitions and achieve your goals.',
-		url: 'https://ambitious-you.vercel.app/features',
+		url: 'https://www.ambitiousyou.pro/features',
 		type: 'website',
 		images: [
 			{

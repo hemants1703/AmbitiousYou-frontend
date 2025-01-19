@@ -5,13 +5,13 @@
 <SvelteSeo
 	title="Privacy Policy - AmbitiousYou"
 	description="Learn how AmbitiousYou handles and protects your personal information. Our privacy policy outlines our data collection, usage, and protection practices."
-	canonical="https://ambitious-you.vercel.app/privacy_policy"
+	canonical="https://www.ambitiousyou.pro/privacy_policy"
 	keywords="privacy policy, data protection, personal information, data security, user privacy, data collection, information handling, privacy practices, data usage, user data, data protection policy"
 	openGraph={{
 		title: 'Privacy Policy - AmbitiousYou',
 		description:
 			'Learn how AmbitiousYou handles and protects your personal information. Our privacy policy outlines our data collection, usage, and protection practices.',
-		url: 'https://ambitious-you.vercel.app/privacy_policy',
+		url: 'https://www.ambitiousyou.pro/privacy_policy',
 		type: 'website',
 		images: [
 			{

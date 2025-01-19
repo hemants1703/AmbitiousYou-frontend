@@ -484,20 +484,6 @@
 					</div>
 				</div>
 			</div>
-
-			<div class="mt-12 text-center">
-				<p class="text-sm text-muted-foreground">
-					Join 10,000+ ambitious individuals already achieving their dreams
-				</p>
-				<div class="flex justify-center gap-4 mt-4">
-					<CircleCheckBig class="text-[#64ccc5]" size={20} />
-					<span class="text-sm">No credit card required</span>
-					<CircleCheckBig class="text-[#64ccc5]" size={20} />
-					<span class="text-sm">Free forever plan</span>
-					<CircleCheckBig class="text-[#64ccc5]" size={20} />
-					<span class="text-sm">Cancel anytime</span>
-				</div>
-			</div>
 		</div>
 	</section>
 </div>

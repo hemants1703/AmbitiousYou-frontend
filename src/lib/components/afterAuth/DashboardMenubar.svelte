@@ -1,13 +1,13 @@
 <script lang="ts">
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import * as Avatar from '$lib/components/ui/avatar';
-	import ThemeToggler from '../ThemeToggler.svelte';
-	import { MenuIcon, Loader, Blocks } from 'lucide-svelte';
+	import { Loader, Blocks } from 'lucide-svelte';
 	import Separator from '../ui/separator/separator.svelte';
 	import { toast } from 'svoast';
 	import { User } from 'lucide-svelte';
 	import ProfilePicInitials from './ProfilePicInitials.svelte';
 	import { goto } from '$app/navigation';
+	import SwitchThemeToggler from "$lib/components/SwitchThemeToggler.svelte";
 
 	export let userData;
 
@@ -74,20 +74,8 @@
 			</a>
 		</div>
 		<div class="flex place-items-center gap-6">
-			<ThemeToggler />
-
 			<DropdownMenu.Root>
 				<DropdownMenu.Trigger>
-					<!-- <div
-						class="max-sm:hidden flex flex-col text-end border rounded-md px-2 hover:bg-foreground hover:bg-opacity-10 transition-all duration-100 ease-in-out"
-					>
-						<p class="font-medium text-md">{userFullName}</p>
-						<span class="text-xs text-emerald-500">Logged in</span>
-						
-					</div>
-					<div class="sm:hidden border rounded-md p-1">
-						<MenuIcon />
-					</div> -->
 					<div class="hover:brightness-110">
 						<ProfilePicInitials fullName={userFullName} />
 					</div>
@@ -99,6 +87,12 @@
 							<div class="flex flex-col text-start">
 								<span>{userFullName}</span>
 								<span class="text-xs text-emerald-500">Logged in</span>
+							</div>
+						</DropdownMenu.Label>
+						<DropdownMenu.Separator />
+						<DropdownMenu.Label>
+							<div class="scale-125 w-fit self-center">
+								<SwitchThemeToggler />
 							</div>
 						</DropdownMenu.Label>
 						<DropdownMenu.Separator />

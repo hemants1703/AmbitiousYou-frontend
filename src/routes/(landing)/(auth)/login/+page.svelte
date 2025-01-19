@@ -34,13 +34,13 @@
 <SvelteSeo
 	title="Login - AmbitiousYou"
 	description="Log in to your AmbitiousYou account to continue managing your ambitions and tracking your journey to becoming superhuman."
-	canonical="https://ambitious-you.vercel.app/login"
+	canonical="https://www.ambitiousyou.pro/login"
 	keywords="login, sign in, access account, ambitiousyou login, ambitions management, goal tracking"
 	openGraph={{
 		title: 'Login - AmbitiousYou',
 		description:
 			'Log in to your AmbitiousYou account to continue managing your ambitions and tracking your journey to becoming superhuman.',
-		url: 'https://ambitious-you.vercel.app/login',
+		url: 'https://www.ambitiousyou.pro/login',
 		type: 'website',
 		images: [
 			{
