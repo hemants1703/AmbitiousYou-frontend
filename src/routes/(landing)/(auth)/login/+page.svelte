@@ -44,7 +44,7 @@
 		type: 'website',
 		images: [
 			{
-				url: 'https://res.cloudinary.com/dej4ks4wd/image/upload/v1736240186/OG_IMAGE_ahclhi.png',
+				url: 'https://raw.githubusercontent.com/hemants1703/AmbitiousYou/refs/heads/main/static/og_data/OG_IMAGE.png',
 				width: 1200,
 				height: 630,
 				alt: 'Login to AmbitiousYou'
@@ -58,7 +58,8 @@
 		title: 'Login - AmbitiousYou',
 		description:
 			'Log in to your AmbitiousYou account to continue managing your ambitions and tracking your journey to becoming superhuman.',
-		image: 'https://res.cloudinary.com/dej4ks4wd/image/upload/v1736240186/OG_IMAGE_ahclhi.png'
+		image:
+			'https://raw.githubusercontent.com/hemants1703/AmbitiousYou/refs/heads/main/static/og_data/OG_IMAGE.png'
 	}}
 />
 
