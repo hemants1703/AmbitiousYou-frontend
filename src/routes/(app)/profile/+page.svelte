@@ -1,14 +1,15 @@
-<script lang="ts">
-	import type { ActionData, PageServerData } from './$types';
+<script>
 	import { enhance } from '$app/forms';
 	import Trash_2 from 'lucide-svelte/icons/trash-2';
 	import { toast } from 'svoast';
-	import { UserRoundMinus, X } from 'lucide-svelte';
+	import { FilePenLine, SquareAsterisk, UserRoundMinus, X, Eye } from 'lucide-svelte';
 	import ProfilePicInitials from '$lib/components/afterAuth/ProfilePicInitials.svelte';
 	import localStorageItems from '$lib/localStorageItems';
+	import { Button } from '$lib/components/ui/button/index';
+	import { EyeClosed } from 'svelte-radix';
 
-	export let data: PageServerData;
-	export let form: ActionData;
+	export let data;
+	export let form;
 
 	$: if (form) {
 		if (form.success) {
@@ -22,9 +23,26 @@
 
 	// console.log(user);
 
+	const accountCreationDate = new Date(user.registration).toString().split(" ").slice(1, 4).join(" ");
+
 	let promptAccountDeletion = false;
 	let showMoreOptions = false;
 	let deletingAccount = false;
+	let promptChangePassword = false;
+	let passwordInputElement;
+	let confirmPasswordInputElement;
+	let revealInputPassword = false;
+	let revealConfirmInputPassword = false;
+
+	function handleRevealInputPassword() {
+		revealInputPassword = !revealInputPassword;
+		passwordInputElement.type = revealInputPassword ? 'text' : 'password';
+	}
+
+	function handleRevealConfirmInputPassword() {
+		revealConfirmInputPassword = !revealConfirmInputPassword;
+		confirmPasswordInputElement.type = revealConfirmInputPassword ? 'text' : 'password';
+	}
 
 	function clearLocalStorage() {
 		localStorageItems.forEach((item) => {
@@ -100,6 +118,120 @@
 	</div>
 {/if}
 
+{#if promptChangePassword}
+	<div class="fixed inset-0 bg-background bg-opacity-90 z-10">
+		<div class="animate-dropDown fixed inset-0 flex justify-center items-center">
+			<div class="border bg-background p-5 max-sm:mx-10 rounded-lg shadow-lg max-w-lg">
+				<h1 class="text-xl font-bold flex gap-2 justify-start items-center">
+					<SquareAsterisk class="text-lime-500" size="30" />
+					Change Password
+				</h1>
+				<h2 class="text-muted-foreground text-sm mt-2">
+					Please enter your new password below. Make sure it is strong and secure.
+				</h2>
+				<div class="font-extralight text-sm opacity-50 mt-2">
+					Password must contain at least:
+					<ul class="mt-2">
+						<li>1 uppercase letter</li>
+						<li>1 lowercase letter</li>
+						<li>1 number</li>
+						<li>1 special character [@ $ ! % * ? &]</li>
+						<li>8 characters long</li>
+					</ul>
+				</div>
+				<form
+					action="?/changePassword"
+					method="POST"
+					use:enhance={() => {
+						return async ({ result }) => {
+							console.log("Check this data from actions response: ", result);
+
+							if (result.data.status === 200) {
+								toast.success(result.data.message, { closable: true });
+								promptChangePassword = false;
+							} else {
+								toast.error(result.data.message, { closable: true });
+							}
+						}
+					}}
+				>
+					<div class="flex flex-col gap-5 mt-5">
+						<div class="flex flex-col gap-2">
+							<!-- <label for="password" class="text-muted-foreground">New Password</label> -->
+							<div class="relative">
+								<input
+									placeholder="Password"
+									type="password"
+									name="password"
+									required
+									bind:this={passwordInputElement}
+									class="text-lg w-full font-mono bg-transparent border rounded-lg py-1 px-2 pr-12 active:outline focus:outline-[--custom-primary] transition-all duration-100 ease-in-out"
+								/>
+								<button
+									type="button"
+									on:click={handleRevealInputPassword}
+									class="absolute right-1 top-1 bottom-1 p-2 flex place-items-center text-muted-foreground {revealInputPassword
+										? 'bg-foreground bg-opacity-20'
+										: ''} hover:bg-foreground hover:bg-opacity-10 rounded-sm"
+								>
+									{#if revealInputPassword}
+										<Eye />
+									{:else}
+										<EyeClosed />
+									{/if}
+								</button>
+							</div>
+						</div>
+						<div class="flex flex-col gap-2">
+							<!-- <label for="confirmPassword" class="text-muted-foreground">Confirm Password</label> -->
+							<div class="relative">
+								<input
+									placeholder="Confirm Password"
+									type="password"
+									name="confirmPassword"
+									required
+									bind:this={confirmPasswordInputElement}
+									class="text-lg w-full font-mono bg-transparent border rounded-lg py-1 px-2 pr-12 active:outline focus:outline-[--custom-primary] transition-all duration-100 ease-in-out"
+								/>
+								<button
+									type="button"
+									on:click={handleRevealConfirmInputPassword}
+									class="absolute right-1 top-1 bottom-1 p-2 flex place-items-center text-muted-foreground {revealConfirmInputPassword
+										? 'bg-foreground bg-opacity-20'
+										: ''} hover:bg-foreground hover:bg-opacity-10 rounded-sm"
+								>
+									{#if revealConfirmInputPassword}
+										<Eye />
+									{:else}
+										<EyeClosed />
+									{/if}
+								</button>
+							</div>
+						</div>
+						<div class="flex justify-end gap-2">
+							<button
+								class="hover:bg-[--custom-dark] px-4 py-1 text-foreground rounded-lg active:scale-95 transition-all ease-in-out"
+								on:click|preventDefault={() => {
+									promptChangePassword = false;
+								}}
+							>
+								Cancel
+							</button>
+							<button
+								class="bg-lime-200 hover:bg-lime-500 hover:text-white active:bg-lime-600 active:scale-95 transition-all ease-in-out text-lime-800 px-4 py-1 rounded-lg"
+								type="submit"
+								tabindex="0"
+							>
+								Change Password
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{/if}
+
 <div class="flex flex-col gap-10 pb-20">
 	<header>
 		<h1 class="font-bold text-3xl">Your Profile</h1>
@@ -109,53 +241,45 @@
 		</p>
 	</header>
 	<div class="flex flex-col gap-10">
-		<!-- <div class="flex justify-between items-center">
-			<p class="italic dark:text-neutral-300 text-neutral-400">
-				Last Updated: {new Date(user.$updatedAt)}
-			</p>
-			<Button href="/profile" variant="secondary">Edit Profile</Button>
-		</div> -->
 		<div class="flex flex-col gap-5 text-xl">
-			<div class="flex justify-between border-b">
-				<p class="font-extralight">Full Name</p>
+			<div class="grid grid-cols-2 gap-5">
+				<p class="font-extralight sm:text-end">Full Name</p>
 				<span>{user.name}</span>
 			</div>
-			<div class="flex justify-between border-b">
-				<p class="font-extralight">Email</p>
+			<div class="grid grid-cols-2 gap-5">
+				<p class="font-extralight sm:text-end">Email</p>
 				<span>{user.email}</span>
 			</div>
-			<div class="flex justify-between border-b">
-				<p class="font-extralight">Password</p>
-				<span class="flex gap-5 max-sm:flex-col-reverse max-sm:items-end">
-					<span class="text-xs text-muted-foreground"
-						>Last Updated: {new Date(user.passwordUpdate).toLocaleDateString()}</span
-					>
+			<div class="grid grid-cols-2 gap-5 ">
+				<p class="font-extralight sm:text-end">Password</p>
+				<span class="flex justify-start items-center gap-5 max-sm:flex-col max-sm:items-start">
 					<span>**********</span>
+					<span class="text-xs text-muted-foreground"
+						>Last Updated: {new Date(user.passwordUpdate).toLocaleDateString()}</span>
+					<!-- <form action="?/changePassword" method="post" ><Button type="submit" variant="ghost">Change Password</Button></form> -->
 				</span>
 			</div>
-			<div class="flex justify-between border-b">
-				<p class="font-extralight">Account Creation</p>
-				<span>{new Date(user.registration).toLocaleDateString()}</span>
+			<div class="grid grid-cols-2 gap-5 ">
+				<p class="font-extralight sm:text-end">Account Created On</p>
+				<span>{accountCreationDate}</span>
 			</div>
 		</div>
 
 		<div class="flex justify-between items-center">
-			<button
-				on:click={() => {
-					showMoreOptions = !showMoreOptions;
-				}}
-				class="{showMoreOptions ? 'text-red-500' : ''} font-bold"
+			<Button
+				variant="ghost"
+				on:click={() => ( showMoreOptions = !showMoreOptions )}
+				class="{showMoreOptions ? 'text-red-500' : ''} font-bold text-sm"
 			>
 				{showMoreOptions ? 'Hide' : 'Show'} More Options
-			</button>
-			<!-- <button
+			</Button>
+			<!-- <Button
 				on:click={() => {
-					window.location.href = '/profile/edit';
+					promptChangePassword = true;
 				}}
-				class="bg-blue-100 hover:bg-blue-500 text-blue-500 hover:text-blue-100 p-2 rounded-md"
 			>
-				Edit Profile
-			</button> -->
+				Change Password
+			</Button> -->
 		</div>
 	</div>
 

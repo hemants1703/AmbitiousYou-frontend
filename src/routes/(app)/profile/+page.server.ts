@@ -2,7 +2,7 @@ import { SESSION_COOKIE } from '$lib/appwrite/appwrite.js';
 import { redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import confirmAuth from '$lib/utils/auth';
-import { Client, Databases, Query, Users } from 'node-appwrite';
+import { Client, Databases, Query, Users, Account } from 'node-appwrite';
 import { PUBLIC_APPWRITE_ENDPOINT, PUBLIC_APPWRITE_PROJECT_ID } from '$env/static/public';
 import {
 	PRIVATE_APPWRITE_COLLECTION_ID,
@@ -134,5 +134,95 @@ export const actions: Actions = {
 		}
 
 		// return serverActionResponse;
+	},
+	changePassword: async ({ cookies, request }) => {
+		const loginSession = cookies.get(SESSION_COOKIE) as string;
+		let newPassword = "";
+		let confirmNewPassword = "";
+		let passwordUpdateResponse = {};
+		let serverActionResponse = {
+			status: 400,
+			success: false,
+			message: 'New password and confirm new password do not match, please try again',
+			body: {
+				newPassword,
+				confirmNewPassword,
+				passwordUpdateResponse
+			}
+		};		
+
+		const requestData = await request.formData();		
+
+		newPassword = requestData.get("password") as string;
+		confirmNewPassword = requestData.get("confirmPassword") as string;		
+
+		if (!newPassword || !confirmNewPassword) {
+			return {
+				status: 400,
+				success: false,
+				message: 'New password and confirm new password are required',
+				body: {
+					newPassword,
+					confirmNewPassword
+				}
+			};
+		}
+
+		if (newPassword !== confirmNewPassword) {
+			return serverActionResponse;
+		}
+
+		const passwordRegex: RegExp =
+			/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+		if (!passwordRegex.test(newPassword)) {
+			return {
+				status: 400,
+				success: false,
+				message: 'Please follow the intructions above for a valid password',
+				body: {
+					newPassword,
+					confirmNewPassword
+				}
+			};
+		}
+
+		try {
+			const client = new Client()
+			.setEndpoint(PUBLIC_APPWRITE_ENDPOINT) // Your API Endpoint
+			.setProject(PUBLIC_APPWRITE_PROJECT_ID) // Your project ID
+			.setSession(loginSession)
+
+			const account = new Account(client);
+
+			passwordUpdateResponse = await account.updatePassword(newPassword);
+
+			console.log('Password Update Response: ', passwordUpdateResponse);
+			
+			serverActionResponse = {
+				status: 200,
+				success: true,
+				message: 'Password changed successfully',
+				body: {
+					newPassword,
+					confirmNewPassword,
+					passwordUpdateResponse
+				}
+			};
+		} catch (error) {
+			console.error('Error changing password', error);
+			serverActionResponse = {
+				status: error.code,
+				success: false,
+				message: "We hit a snag on our side. Please try again shortly. We appreciate your patience!",
+				body: {
+					newPassword,
+					confirmNewPassword,
+					passwordUpdateResponse
+				}
+			};
+		}
+
+		return serverActionResponse;
 	}
 };
