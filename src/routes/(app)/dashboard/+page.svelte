@@ -63,7 +63,7 @@
 
 <svelte:head>
 	<title>Dashboard - AmbitiousYou!</title>
-	<link rel="icon" href="/favicon.png" />
+	<link rel="icon" href="/logo.svg" />
 </svelte:head>
 
 <SvelteSeo
