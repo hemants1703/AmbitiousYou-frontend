@@ -2,27 +2,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://ambitiousyou.pro/</loc>
-        <lastmod>2023-10-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <lastmod>2025-01-21</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
         <loc>https://ambitiousyou.pro/features</loc>
-        <lastmod>2023-10-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <lastmod>2025-01-21</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://ambitiousyou.pro/privacy-policy</loc>
-        <lastmod>2023-10-01</lastmod>
-        <changefreq>yearly</changefreq>
+        <loc>https://ambitiousyou.pro/privacy_policy</loc>
+        <lastmod>2025-01-21</lastmod>
+        <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
     <url>
-        <loc>https://ambitiousyou.pro/terms-and-conditions</loc>
-        <lastmod>2023-10-01</lastmod>
-        <changefreq>yearly</changefreq>
+        <loc>https://ambitiousyou.pro/terms_and_conditions</loc>
+        <lastmod>2025-01-21</lastmod>
+        <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
-    <!-- Add more URLs as needed -->
 </urlset>
