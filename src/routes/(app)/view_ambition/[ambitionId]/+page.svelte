@@ -17,7 +17,7 @@
 	import Input from '$lib/components/ui/input/input.svelte';
 	import Textarea from '$lib/components/ui/textarea/textarea.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
-	import { ListPlus, MessageSquareDiff, X } from 'lucide-svelte';
+	import { ListPlus, MessageSquareDiff, X, InfoIcon } from 'lucide-svelte';
 	import { enhance } from '$app/forms';
 	import { toast } from 'svoast';
 	import type { AmbitionNoteType, AmbitionTaskType, AmbitionType } from '$lib/types/ambitionType';
@@ -25,6 +25,7 @@
 	import Trash_2 from 'lucide-svelte/icons/trash-2';
 	import type { ActionData } from '../$types';
 	import { afterUpdate } from 'svelte';
+	import * as Tooltip from '$lib/components/ui/tooltip';
 
 	export let form: ActionData;
 	export let data: PageData;
@@ -378,11 +379,19 @@
 
 <!-- BACK BUTTON -->
 {#if !updateAmbitionEnabled}
-	<a
-		href="/all_ambitions"
-		class="inline-flex justify-start items-center opacity-50 mb-5 hover:opacity-100 active:opacity-30 transition-all duration-300 ease-in-out"
-		><ChevronLeft />Back</a
-	>
+	<div class="w-full flex justify-between items-start gap-5">
+		<a
+			href="/all_ambitions"
+			class="inline-flex justify-start items-center opacity-50 mb-5 hover:opacity-100 active:opacity-30 transition-all duration-300 ease-in-out"
+			><ChevronLeft />Back</a
+		>
+		<Tooltip.Root>
+			<Tooltip.Trigger><InfoIcon class="w-5 h-5 opacity-50" /></Tooltip.Trigger>
+			<Tooltip.Content>
+				<p>To make any changes to your Ambition, you need to go to Update mode by clicking the "<b>Update Ambition</b>" button below</p>
+			</Tooltip.Content>
+		</Tooltip.Root>
+	</div>
 {/if}
 
 <div class="flex flex-col gap-10 pb-20">
@@ -391,7 +400,7 @@
 			<h1 class="font-bold text-3xl max-sm:text-center">
 				{ambitionData.ambitionName}
 				<Badge
-					class="bg-[--custom-dark] hover:bg[--custom-light] text-white px-2 py-px -translate-y-1.5 rounded-full"
+					class="bg-[--custom-dark] hover:bg[--custom-light] text-white hover:dark:text-black px-2 py-px -translate-y-1.5 rounded-full"
 					>{ambitionData.ambitionCategory.toUpperCase()}</Badge
 				>
 			</h1>
@@ -441,7 +450,7 @@
 								<div
 									class="{updateAmbitionEnabled
 										? 'animate-ambitionEditModeAnimation relative'
-										: ''} flex items-center space-x-3 p-4 border rounded-lg shadow-sm border-[--custom-light]"
+										: ''} {task.checked ? "bg-lime-100 dark:bg-lime-950" : ""} flex items-center space-x-3 p-4 border rounded-lg shadow-sm {task.checked ? "border-lime-500" : "border-[--custom-light]"}"
 								>
 									{#if updateAmbitionEnabled}
 										<Checkbox
@@ -460,7 +469,11 @@
 											><X size="20" /></button
 										> -->
 									{:else}
-										<span class="text-muted-foreground text-xl">{idx + 1}</span>
+										{#if task.checked}
+											<CircleCheckBig class="text-lime-500" size="30" />
+										{:else}
+											<span class="text-muted-foreground text-xl">{idx + 1}</span>
+										{/if}
 									{/if}
 									<Label
 										for={updateAmbitionEnabled
@@ -468,7 +481,7 @@
 												? task.id.toString()
 												: task.id
 											: ''}
-										class="{task.checked ? 'line-through opacity-50' : ''} text-sm font-medium"
+										class="{task.checked ? 'opacity-60' : ''} text-sm font-medium"
 									>
 										<h2 class="text-lg font-medium">{task.name}</h2>
 										<p class="text-sm text-muted-foreground whitespace-pre-wrap">
