@@ -9,6 +9,10 @@
 	import type { AmbitionType } from '$lib/types/ambitionType';
 	import ambitiousQuotes from './ambitiousQuotes';
 	import { blur, crossfade, draw, fade, fly, scale, slide } from 'svelte/transition';
+	import AmbitionTasksContainer from '$lib/components/AmbitionTasksContainer.svelte';
+	import AmbitionNotesContainer from '$lib/components/AmbitionNotesContainer.svelte';
+	import AmbitionDetailsContainer from '$lib/components/AmbitionDetailsContainer.svelte';
+	import AmbitionStatsContainer from '$lib/components/AmbitionStatsContainer.svelte';
 
 	const ambitionTypes = exampleAmbitionsData.map((exampleAmbition) => ({
 		value: exampleAmbition.category,
@@ -272,29 +276,10 @@
 	</section>
 	<section class=" mt-20 flex max-md:flex-col-reverse gap-20">
 		<div class="w-full flex justify-center items-center">
-			<div class="flex flex-col gap-5 min-w-96">
+			<div class="flex flex-col min-w-96">
 				<div>
 					<h2 class="text-xl font-semibold mb-4">Tasks to Accomplish your Ambition</h2>
-					<div class="border shadow-lg rounded-xl p-4">
-						<div class="max-h-96 space-y-4 overflow-y-auto overflow-x-hidden">
-							{#each sampleAmbitionTasks as task, idx}
-								<div
-									class="flex items-center space-x-3 p-4 border rounded-lg shadow-sm border-[--custom-light]"
-								>
-									<span class="text-muted-foreground text-xl">{idx + 1}</span>
-									<Label
-										for={idx.toString()}
-										class="{task.checked ? 'line-through opacity-50' : ''} text-sm font-medium"
-									>
-										<h2 class="text-lg font-medium">{task.name}</h2>
-										<p class="text-sm text-muted-foreground whitespace-pre-wrap">
-											{task.description}
-										</p>
-									</Label>
-								</div>
-							{/each}
-						</div>
-					</div>
+					<AmbitionTasksContainer ambitionTasks={sampleAmbitionTasks} />
 				</div>
 			</div>
 		</div>
@@ -314,6 +299,7 @@
 	<section class=" mt-20 flex max-md:flex-col gap-20">
 		<div>
 			<h1 class="font-bold text-5xl">Ambition Notes</h1>
+			
 			<p class="font-normal text-xl mt-5">
 				Ambition notes are the notes that you can add to each ambition to keep track of your
 				thoughts, ideas, and progress. You can add as many notes as you want to each ambition and
@@ -321,78 +307,11 @@
 				ambitions.
 			</p>
 		</div>
-		<div class="w-full flex justify-center items-center">
-			<div class="flex flex-col gap-5 min-w-96">
-				<div>
-					<div class="flex flex-col gap-2 border shadow-lg p-4 rounded-xl">
-						<h1 class="font-bold text-xs">NOTES</h1>
-						<div class="flex flex-col space-y-4 max-h-96 overflow-y-auto">
-							{#each sampleAmbitionNotes as note}
-								<div
-									class="flex flex-col gap-2 justify-between items-start bg-yellow-200 dark:bg-yellow-900 dark:bg-opacity-20 bg-opacity-20 border border-yellow-400 rounded-lg p-2"
-								>
-									<p class="text-md opacity-80">
-										{note.content}
-									</p>
-									<span class="text-muted-foreground opacity-50 text-xs self-end">
-										{new Intl.DateTimeFormat('en-US', {
-											year: 'numeric',
-											month: 'long',
-											day: 'numeric',
-											hour: '2-digit',
-											minute: '2-digit'
-										}).format(new Date(note.created_at))}
-									</span>
-								</div>
-							{/each}
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		<AmbitionNotesContainer ambitionNotes={sampleAmbitionNotes} />
 	</section>
 	<section class=" mt-20 flex max-md:flex-col-reverse gap-20">
 		<div>
-			<div class="max-w-full min-w-96">
-				<h2 class="text-xl font-semibold mb-4">Ambition Details</h2>
-				<div class="border shadow-lg rounded-xl p-4">
-					<div class="rounded-lg space-y-10">
-						<ul class="space-y-5">
-							<li class="flex justify-between w-full border-b py-1">
-								<strong>Start Date:</strong>
-								{new Date(new Date().setDate(new Date().getDate() - 10)).toLocaleDateString()}
-							</li>
-							<li class="flex justify-between w-full border-b py-1">
-								<strong>End Date:</strong>
-								{new Date(new Date().setDate(new Date().getDate() + 10)).toLocaleDateString()}
-							</li>
-							<li class="flex justify-between w-full border-b py-1">
-								<strong>Completion Date:</strong>
-								{new Date().toLocaleDateString()}
-							</li>
-							<li class="flex justify-between w-full border-b py-1">
-								<strong>Status:</strong>
-								<p class="flex place-items-center gap-2">
-									<CircleCheckBig color="#10b981" />
-									Completed
-								</p>
-							</li>
-							<li class="flex justify-between w-full border-b py-1">
-								<strong>Priority:</strong>
-								<p class="flex place-items-center gap-2">
-									<span class="border border-red-500 px-1 rounded-md text-red-500 text-sm">!!!</span
-									>
-									<span> High </span>
-								</p>
-							</li>
-							<li class="flex justify-between w-full border-b py-1">
-								<strong>Category:</strong>
-								Learning
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
+			<AmbitionDetailsContainer />
 		</div>
 		<div>
 			<h1 class="font-bold text-5xl sm:text-end">Ambition Details</h1>
@@ -415,33 +334,7 @@
 			</p>
 		</div>
 		<div class="w-full flex justify-center items-center">
-			<div class="flex flex-col gap-5 min-w-96">
-				<div class="border shadow-xl rounded-xl p-4">
-					<div class="rounded-lg space-y-5">
-						<div class="flex justify-between w-full border-b">
-							<strong>Days Left:</strong>
-
-							<p>10</p>
-						</div>
-						<div class="flex justify-between w-full border-b">
-							<strong>Percentage Completed:</strong>
-							<p>50%</p>
-						</div>
-						<div class="flex justify-between w-full border-b">
-							<strong>Unfinished Tasks:</strong>
-							<p>3</p>
-						</div>
-						<div class="flex justify-between w-full border-b">
-							<strong>Finished Tasks:</strong>
-							<p>1</p>
-						</div>
-						<div class="flex justify-between w-full border-b">
-							<strong>Total Tasks:</strong>
-							<p>4</p>
-						</div>
-					</div>
-				</div>
-			</div>
+			<AmbitionStatsContainer />
 		</div>
 	</section>
 	<section class=" mt-20 flex flex-col">

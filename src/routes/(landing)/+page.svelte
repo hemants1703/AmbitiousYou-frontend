@@ -7,6 +7,8 @@
 	import Label from '$lib/components/ui/label/label.svelte';
 	import ExploreAmbitionSection from './features/ExploreAmbitionSection.svelte';
 	import * as Accordion from '$lib/components/ui/accordion';
+	import AmbitionTasksContainer from '$lib/components/AmbitionTasksContainer.svelte';
+	import AmbitionDetailsContainer from '$lib/components/AmbitionDetailsContainer.svelte';
 
 	const keyFeatures = [
 		{
@@ -280,33 +282,7 @@
 			<div
 				class="flex max-sm:flex-col-reverse max-sm:justify-center max-sm:items-center max-sm:border justify-between items-start sm:gap-48 gap-10 max-sm:rounded-xl"
 			>
-				<div class="flex flex-col gap-5 min-w-96">
-					<div
-						class="flex flex-col gap-3 border-4 border-[--custom-light-pale] shadow-lg rounded-xl overflow-hidden"
-					>
-						<h1 class="font-extrabold text-sm bg-[--custom-light-pale] p-2 text-center">
-							TASKS TO ACCOMPLISH YOUR AMBITION
-						</h1>
-						<div class="max-h-96 space-y-4 p-4 overflow-y-auto overflow-x-hidden">
-							{#each sampleAmbitionTasks as task, idx}
-								<div
-									class="flex items-center space-x-3 p-4 border rounded-lg shadow-sm border-[--custom-light]"
-								>
-									<span class="text-muted-foreground text-xl">{idx + 1}</span>
-									<Label
-										for={idx.toString()}
-										class="{task.checked ? 'line-through opacity-50' : ''} text-sm font-medium"
-									>
-										<h2 class="text-lg font-medium">{task.name}</h2>
-										<p class="text-sm text-muted-foreground whitespace-pre-wrap">
-											{task.description}
-										</p>
-									</Label>
-								</div>
-							{/each}
-						</div>
-					</div>
-				</div>
+				<AmbitionTasksContainer ambitionTasks={sampleAmbitionTasks} />
 				<span class="space-y-5 sm:text-end max-sm:p-4">
 					<h2 class="text-3xl font-bold">2. Set Ambition Tasks 📝</h2>
 					<p class="text-lg font-light text-muted-foreground">
@@ -328,51 +304,7 @@
 						details as needed.
 					</p>
 				</span>
-				<div>
-					<div class="max-w-full min-w-96">
-						<div class="border-4 border-[--custom-light-pale] shadow-lg rounded-xl overflow-hidden">
-							<h2 class="font-extrabold text-sm bg-[--custom-light-pale] p-2 text-center">
-								AMBITION DETAILS
-							</h2>
-							<div class="rounded-lg space-y-10 p-4">
-								<ul class="space-y-5">
-									<li class="flex justify-between w-full border-b py-1">
-										<strong>Start Date:</strong>
-										{new Date(new Date().setDate(new Date().getDate() - 10)).toLocaleDateString()}
-									</li>
-									<li class="flex justify-between w-full border-b py-1">
-										<strong>End Date:</strong>
-										{new Date(new Date().setDate(new Date().getDate() + 10)).toLocaleDateString()}
-									</li>
-									<li class="flex justify-between w-full border-b py-1">
-										<strong>Completion Date:</strong>
-										{new Date().toLocaleDateString()}
-									</li>
-									<li class="flex justify-between w-full border-b py-1">
-										<strong>Status:</strong>
-										<p class="flex place-items-center gap-2">
-											<CircleCheckBig color="#10b981" />
-											Completed
-										</p>
-									</li>
-									<li class="flex justify-between w-full border-b py-1">
-										<strong>Priority:</strong>
-										<p class="flex place-items-center gap-2">
-											<span class="border border-red-500 px-1 rounded-md text-red-500 text-sm"
-												>!!!</span
-											>
-											<span> High </span>
-										</p>
-									</li>
-									<li class="flex justify-between w-full border-b py-1">
-										<strong>Category:</strong>
-										Learning
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
+				<AmbitionDetailsContainer ambitionData={sampleAmbition} />
 			</div>
 			<div class="space-y-10 p-2 rounded-lg">
 				<h2 class="sm:text-5xl text-4xl font-bold flex flex-col text-center">

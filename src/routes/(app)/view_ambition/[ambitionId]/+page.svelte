@@ -26,6 +26,8 @@
 	import type { ActionData } from '../$types';
 	import { afterUpdate } from 'svelte';
 	import * as Tooltip from '$lib/components/ui/tooltip';
+	import AmbitionStatsContainer from '$lib/components/AmbitionStatsContainer.svelte';
+	import AmbitionLoader from '$lib/components/AmbitionLoader.svelte';
 
 	export let form: ActionData;
 	export let data: PageData;
@@ -388,13 +390,17 @@
 		<Tooltip.Root>
 			<Tooltip.Trigger><InfoIcon class="w-5 h-5 opacity-50" /></Tooltip.Trigger>
 			<Tooltip.Content>
-				<p>To make any changes to your Ambition, you need to go to Update mode by clicking the "<b>Update Ambition</b>" button below</p>
+				<p>
+					To make any changes to your Ambition, you need to go to Update mode by clicking the "<b
+						>Update Ambition</b
+					>" button below
+				</p>
 			</Tooltip.Content>
 		</Tooltip.Root>
 	</div>
 {/if}
 
-<div class="flex flex-col gap-10 pb-20">
+<div class="flex flex-col gap-5 pb-20">
 	<header class="flex max-sm:flex-col justify-between items-center gap-5">
 		<div>
 			<h1 class="font-bold text-3xl max-sm:text-center">
@@ -432,17 +438,19 @@
 			</button>
 		</div>
 	</header>
+	<!-- AMBITION PERCENTAGE COMPLETE PROGRESS BAR ANIMATION -->
+	<AmbitionLoader {percentageCompleted} />
 	<section class="grid lg:grid-cols-2 gap-5 w-full">
 		<div class="w-full flex flex-col gap-10">
 			<!-- AMBITION TASKS SECTION  -->
 			<div>
 				<div
-					class="flex flex-col gap-3 border-4 border-[--custom-light-pale] rounded-xl overflow-hidden"
+					class="flex flex-col border-2 border-[--custom-light-pale] bg-[--custom-light-pale] rounded-xl overflow-hidden"
 				>
-					<h1 class="font-extrabold text-sm bg-[--custom-light-pale] p-2 text-center">
-						TASKS TO ACCOMPLISH YOUR AMBITION
-					</h1>
-					<div class="p-4 max-h-96 space-y-4 overflow-y-auto overflow-x-hidden">
+					<h1 class="font-extrabold text-sm p-2 text-center">TASKS TO ACCOMPLISH YOUR AMBITION</h1>
+					<div
+						class="p-3 bg-background rounded-lg max-h-96 space-y-4 overflow-y-auto overflow-x-hidden"
+					>
 						{#if ambitionTasks.length === 0}
 							<p class="text-muted-foreground text-center">No tasks added yet!</p>
 						{:else}
@@ -450,7 +458,9 @@
 								<div
 									class="{updateAmbitionEnabled
 										? 'animate-ambitionEditModeAnimation relative'
-										: ''} {task.checked ? "bg-lime-100 dark:bg-lime-950" : ""} flex items-center space-x-3 p-4 border rounded-lg shadow-sm {task.checked ? "border-lime-500" : "border-[--custom-light]"}"
+										: ''} {task.checked
+										? 'bg-lime-100 dark:bg-lime-950 border-lime-500'
+										: 'border-[--custom-light]'} flex items-center space-x-3 p-4 border rounded-lg shadow-sm"
 								>
 									{#if updateAmbitionEnabled}
 										<Checkbox
@@ -468,12 +478,10 @@
 											class="absolute top-px right-px bg-red-500 hover:brightness-150 active:bg-red-800 rounded-full p-px"
 											><X size="20" /></button
 										> -->
+									{:else if task.checked}
+										<CircleCheckBig class="text-lime-500" size="30" />
 									{:else}
-										{#if task.checked}
-											<CircleCheckBig class="text-lime-500" size="30" />
-										{:else}
-											<span class="text-muted-foreground text-xl">{idx + 1}</span>
-										{/if}
+										<span class="text-muted-foreground text-xl">{idx + 1}</span>
 									{/if}
 									<Label
 										for={updateAmbitionEnabled
@@ -538,44 +546,40 @@
 			<!-- AMBITION TASKS SECTION  -->
 
 			<!-- AMBITION STATS  -->
-			<div>
-				<div
-					class="border-4 {daysLeft < 0 && updatedAmbitionStatus.toUpperCase() !== 'COMPLETED'
-						? 'border-red-500'
-						: ' border-[--custom-light-pale]'} rounded-xl overflow-hidden"
-				>
-					<h2 class="font-extrabold text-sm bg-[--custom-light-pale] p-2 text-center">
-						AMBITION STATS
-					</h2>
-					<div class="rounded-lg space-y-5 p-4">
-						<div class="flex justify-between w-full border-b">
-							<strong>Days Left:</strong>
-							{#if updatedAmbitionStatus.toLowerCase() === 'completed'}
-								<p class="text-green-500">{updatedAmbitionStatus.toUpperCase()}!</p>
-							{:else if daysLeft < 0 && updatedAmbitionStatus.toLowerCase() !== 'completed'}
-								<p class="text-red-500">Deadline passed</p>
-							{:else if daysLeft <= 0 && updatedAmbitionStatus.toLowerCase() === 'completed'}
-								<p class="text-green-500">{updatedAmbitionStatus.toUpperCase()}!</p>
-							{:else}
-								<p>{daysLeft}</p>
-							{/if}
-						</div>
-						<div class="flex justify-between w-full border-b">
-							<strong>Percentage Completed:</strong>
-							<p>{percentageCompleted}%</p>
-						</div>
-						<div class="flex justify-between w-full border-b">
-							<strong>Unfinished Tasks:</strong>
-							<p>{ambitionTasks.filter((task) => !task.checked).length}</p>
-						</div>
-						<div class="flex justify-between w-full border-b">
-							<strong>Finished Tasks:</strong>
-							<p>{ambitionTasks.filter((task) => task.checked).length}</p>
-						</div>
-						<div class="flex justify-between w-full border-b">
-							<strong>Total Tasks:</strong>
-							<p>{ambitionTasks.length}</p>
-						</div>
+			<div
+				class="border-2 {daysLeft < 0 && updatedAmbitionStatus.toUpperCase() !== 'COMPLETED'
+					? 'border-red-500'
+					: ' border-[--custom-light-pale]'} bg-[--custom-light-pale] rounded-xl overflow-hidden"
+			>
+				<h2 class="font-extrabold text-sm p-2 text-center">AMBITION STATS</h2>
+				<div class="bg-background rounded-lg space-y-5 p-3">
+					<div class="flex justify-between w-full border-b">
+						<strong>Days Left:</strong>
+						{#if updatedAmbitionStatus.toLowerCase() === 'completed'}
+							<p class="text-green-500">{updatedAmbitionStatus.toUpperCase()}!</p>
+						{:else if daysLeft < 0 && updatedAmbitionStatus.toLowerCase() !== 'completed'}
+							<p class="text-red-500">Deadline passed</p>
+						{:else if daysLeft <= 0 && updatedAmbitionStatus.toLowerCase() === 'completed'}
+							<p class="text-green-500">{updatedAmbitionStatus.toUpperCase()}!</p>
+						{:else}
+							<p>{daysLeft}</p>
+						{/if}
+					</div>
+					<div class="flex justify-between w-full border-b">
+						<strong>Percentage Completed:</strong>
+						<p>{percentageCompleted}%</p>
+					</div>
+					<div class="flex justify-between w-full border-b">
+						<strong>Unfinished Tasks:</strong>
+						<p>{ambitionTasks.filter((task) => !task.checked).length}</p>
+					</div>
+					<div class="flex justify-between w-full border-b">
+						<strong>Finished Tasks:</strong>
+						<p>{ambitionTasks.filter((task) => task.checked).length}</p>
+					</div>
+					<div class="flex justify-between w-full border-b">
+						<strong>Total Tasks:</strong>
+						<p>{ambitionTasks.length}</p>
 					</div>
 				</div>
 			</div>
@@ -585,12 +589,14 @@
 			<!-- NOTES SECTION  -->
 			<div>
 				<div
-					class="flex flex-col gap-2 border-4 border-[--custom-light-pale] overflow-hidden rounded-xl"
+					class="flex flex-col border-2 border-[--custom-light-pale] bg-[--custom-light-pale] overflow-hidden rounded-xl"
 				>
-					<h1 class="font-extrabold text-sm bg-[--custom-light-pale] p-2 text-center">
+					<h1 class="font-extrabold text-sm p-2 text-center">
 						NOTE{ambitionNotes.length > 1 ? 'S' : ''}
 					</h1>
-					<div class="flex flex-col space-y-4 max-h-96 overflow-y-auto p-4">
+					<div
+						class="flex flex-col space-y-4 max-h-96 bg-background rounded-lg overflow-y-auto p-3"
+					>
 						{#if ambitionNotes.length === 0}
 							<p class="text-muted-foreground text-center">No notes added yet!</p>
 						{:else}
@@ -665,11 +671,11 @@
 
 			<!-- AMBITION DETAILS SECTION  -->
 			<div class="max-w-full overflow-hidden">
-				<div class="overflow-hidden border-4 border-[--custom-light-pale] rounded-xl">
-					<h2 class="font-extrabold text-sm bg-[--custom-light-pale] p-2 text-center">
-						AMBITION DETAILS
-					</h2>
-					<div class="rounded-lg space-y-10 p-4">
+				<div
+					class="overflow-hidden border-2 border-[--custom-light-pale] bg-[--custom-light-pale] rounded-xl"
+				>
+					<h2 class="font-extrabold text-sm p-2 text-center">AMBITION DETAILS</h2>
+					<div class="bg-background rounded-lg space-y-10 p-3">
 						<ul class="space-y-5">
 							<li class="flex justify-between w-full border-b py-1">
 								<strong>Start Date:</strong>
@@ -771,3 +777,5 @@
 		</button>
 	{/if}
 </div>
+
+
