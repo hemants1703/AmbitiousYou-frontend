@@ -206,13 +206,12 @@
 	<title>Add a new Ambition! - AmbitiousYou!</title>
 </svelte:head>
 
-<div class="flex flex-col gap-8 pb-40 w-full">
+<div class="flex flex-col gap-5 pb-40 w-full">
 	<header>
 		<h1 class="text-3xl font-bold">Add You New Ambition!</h1>
 		<p class="text-muted-foreground">
 			Ambitions are the goals you want to achieve in your life. They can be anything from learning a
-			new skill to starting a new project. You can add as many ambitions as you want. You can also
-			track your progress on each ambition.
+			new skill to starting a new project.
 		</p>
 	</header>
 	<Separator />
@@ -259,10 +258,10 @@
 							placeholder="Define your ambitions descriptively here..."
 						/>
 					</div>
-					<div class="flex flex-wrap gap-4">
+					<div class="flex flex-wrap max-sm:flex-col lg:gap-16 sm:gap-5 gap-4">
 						<div class="flex flex-col gap-2">
 							<Label for="ambitionCategory" class="flex justify-start items-center gap-2">
-								<p>Ambition Category <sup class=" text-red-500">*</sup></p>
+								<p class="text-xl">Ambition Category <sup class=" text-red-500">*</sup></p>
 								<Tooltip.Root>
 									<Tooltip.Trigger><InfoIcon class="w-5 h-5 opacity-20" /></Tooltip.Trigger>
 									<Tooltip.Content>
@@ -271,7 +270,7 @@
 								</Tooltip.Root>
 							</Label>
 							<Select.Root name="ambitionCategory">
-								<Select.Trigger class="w-[180px]">
+								<Select.Trigger>
 									<Select.Value placeholder="Choose Category..." />
 								</Select.Trigger>
 								<Select.Content>
@@ -289,7 +288,7 @@
 						</div>
 						<div class="flex flex-col gap-2">
 							<Label for="ambitionPriority" class="flex justify-start items-center gap-2">
-								<p>Ambition Priority <sup class=" text-red-500">*</sup></p>
+								<p class="text-xl">Ambition Priority <sup class=" text-red-500">*</sup></p>
 								<Tooltip.Root>
 									<Tooltip.Trigger><InfoIcon class="w-5 h-5 opacity-20" /></Tooltip.Trigger>
 									<Tooltip.Content>
@@ -298,7 +297,7 @@
 								</Tooltip.Root>
 							</Label>
 							<Select.Root name="ambitionPriority">
-								<Select.Trigger class="w-[180px]">
+								<Select.Trigger>
 									<Select.Value placeholder="Choose Priority..." />
 								</Select.Trigger>
 								<Select.Content>
@@ -309,81 +308,79 @@
 								<Select.Input name="ambitionPriority" bind:value={ambitionData.ambitionPriority} />
 							</Select.Root>
 						</div>
-					</div>
-					<div class="grid gap-2">
-						<div class="flex justify-start items-center gap-2">
-							<Label for="ambitionDeadline" class="text-xl">
-								<p>Timeline / Deadline <sup class=" text-red-500">*</sup></p>
-								<p class="text-muted-foreground text-sm">
-									I'll complete my ambition within...
-								</p>
-							</Label>
-							<Tooltip.Root>
-								<Tooltip.Trigger><InfoIcon class="w-5 h-5 opacity-20" /></Tooltip.Trigger>
-								<Tooltip.Content>
-									<p>In what time duration would you like your Ambition to be started and completed in, you can set it here!</p>
-								</Tooltip.Content>
-							</Tooltip.Root>
-						</div>
-						<input
-							type="hidden"
-							name="ambitionStartDate"
-							value={value?.start ? value.start.toDate(getLocalTimeZone()) : ''}
-						/>
-						<input
-							type="hidden"
-							name="ambitionEndDate"
-							value={value?.end ? value.end.toDate(getLocalTimeZone()) : ''}
-						/>
-						<Popover.Root openFocus>
-							<Popover.Trigger asChild let:builder>
-								<Button
-									variant="outline"
-									class={cn(
-										'w-[300px] justify-start text-left font-normal',
-										!value && 'text-muted-foreground'
-									)}
-									builders={[builder]}
-								>
-									<CalendarIcon class="mr-2 h-4 w-4" />
-									{#if value?.start}
-										{#if value.end}
-											{df.format(value.start.toDate(getLocalTimeZone()))} - {df.format(
-												value.end.toDate(getLocalTimeZone())
-											)}
+						<div class="flex flex-col gap-2">
+							<div class="flex justify-start items-center gap-2">
+								<Label for="ambitionDeadline">
+									<p class="text-xl">Timeline / Deadline <sup class=" text-red-500">*</sup></p>
+								</Label>
+								<Tooltip.Root>
+									<Tooltip.Trigger><InfoIcon class="w-5 h-5 opacity-20" /></Tooltip.Trigger>
+									<Tooltip.Content>
+										<p>In what time duration would you like your Ambition to be started and completed in, you can set it here!</p>
+									</Tooltip.Content>
+								</Tooltip.Root>
+							</div>
+							<input
+								type="hidden"
+								name="ambitionStartDate"
+								value={value?.start ? value.start.toDate(getLocalTimeZone()) : ''}
+							/>
+							<input
+								type="hidden"
+								name="ambitionEndDate"
+								value={value?.end ? value.end.toDate(getLocalTimeZone()) : ''}
+							/>
+							<Popover.Root openFocus>
+								<Popover.Trigger asChild let:builder>
+									<Button
+										variant="outline"
+										class={cn(
+											'justify-start text-left font-normal',
+											!value && 'text-muted-foreground'
+										)}
+										builders={[builder]}
+									>
+										<CalendarIcon class="mr-2 h-4 w-4" />
+										{#if value?.start}
+											{#if value.end}
+												{df.format(value.start.toDate(getLocalTimeZone()))} - {df.format(
+													value.end.toDate(getLocalTimeZone())
+												)}
+											{:else}
+												{df.format(value.start.toDate(getLocalTimeZone()))}
+											{/if}
+										{:else if startValue}
+											{df.format(startValue.toDate(getLocalTimeZone()))}
 										{:else}
-											{df.format(value.start.toDate(getLocalTimeZone()))}
+											Pick a date
 										{/if}
-									{:else if startValue}
-										{df.format(startValue.toDate(getLocalTimeZone()))}
-									{:else}
-										Pick a date
-									{/if}
-								</Button>
-							</Popover.Trigger>
-							<Popover.Content class="w-auto p-0" align="start">
-								<RangeCalendar
-									name="ambitionDeadline"
-									bind:value
-									bind:startValue
-									initialFocus
-									numberOfMonths={2}
-									placeholder={value?.start}
-									onValueChange={(value) => {
-										if (value?.end && value.end.toDate(getLocalTimeZone()) < new Date()) {
-											toast.warning(
-												'Seems like you are trying to set a deadline in the past! Assuming you have already completed this ambition in the past, please do note that it will not reflect completed unless all the ambition tasks are checked off.',
-												{
-													duration: 10000,
-													closable: true
-												}
-											);
-										}
-									}}
-								/>
-							</Popover.Content>
-						</Popover.Root>
+									</Button>
+								</Popover.Trigger>
+								<Popover.Content class="w-auto p-0" align="start">
+									<RangeCalendar
+										name="ambitionDeadline"
+										bind:value
+										bind:startValue
+										initialFocus
+										numberOfMonths={2}
+										placeholder={value?.start}
+										onValueChange={(value) => {
+											if (value?.end && value.end.toDate(getLocalTimeZone()) < new Date()) {
+												toast.warning(
+													'Seems like you are trying to set a deadline in the past! Assuming you have already completed this ambition in the past, please do note that it will not reflect completed unless all the ambition tasks are checked off.',
+													{
+														duration: 10000,
+														closable: true
+													}
+												);
+											}
+										}}
+									/>
+								</Popover.Content>
+							</Popover.Root>
+						</div>
 					</div>
+					
 					<div class="grid sm:grid-cols-2 gap-x-5">
 						<div class="col-span-2 mb-2">
 							<Label class="text-xl flex justify-start items-center gap-2">
