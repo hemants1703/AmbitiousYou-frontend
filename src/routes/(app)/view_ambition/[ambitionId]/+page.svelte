@@ -385,7 +385,7 @@
 	>
 {/if}
 
-<div class="flex flex-col gap-10 pb-20 {updateAmbitionEnabled ? '' : 'select-none'}">
+<div class="flex flex-col gap-10 pb-20">
 	<header class="flex max-sm:flex-col justify-between items-center gap-5">
 		<div>
 			<h1 class="font-bold text-3xl max-sm:text-center">
@@ -395,9 +395,11 @@
 					>{ambitionData.ambitionCategory.toUpperCase()}</Badge
 				>
 			</h1>
-			<p class="text-muted-foreground text-md max-sm:text-center">
-				{ambitionData.ambitionDefinition}
-			</p>
+			{#if ambitionData.ambitionDefinition.trim().length > 0}
+				<p class="text-muted-foreground text-md max-sm:text-center">
+					{ambitionData.ambitionDefinition}
+				</p>
+			{/if}
 		</div>
 		<div class="flex gap-2">
 			<!-- {#each JSON.parse(ambitionData.tags) as tag, idx}

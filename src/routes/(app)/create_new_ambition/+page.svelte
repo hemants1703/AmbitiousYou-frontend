@@ -16,7 +16,7 @@
 	import { RangeCalendar } from '$lib/components/ui/range-calendar/index.js';
 	import { enhance } from '$app/forms';
 	import Separator from '$lib/components/ui/separator/separator.svelte';
-	import { ListPlus, MessageSquareDiff, X, Minus } from 'lucide-svelte';
+	import { ListPlus, MessageSquareDiff, X, Minus, InfoIcon } from 'lucide-svelte';
 	import Checkbox from '$lib/components/ui/checkbox/checkbox.svelte';
 	import { toast } from 'svoast';
 	import type { ActionData, PageServerData } from './$types';
@@ -24,6 +24,7 @@
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import type { AmbitionNoteType, AmbitionTaskType, AmbitionType } from '$lib/types/ambitionType';
+	import * as Tooltip from '$lib/components/ui/tooltip';
 
 	const df = new DateFormatter('en-IN', { dateStyle: 'long' });
 
@@ -179,7 +180,6 @@
 
 		if (
 			ambitionData.ambitionName.trim() === '' ||
-			ambitionData.ambitionDefinition.trim() === '' ||
 			ambitionData.ambitionCategory === '' ||
 			ambitionData.ambitionPriority === ''
 		) {
@@ -221,9 +221,17 @@
 			<div class="flex flex-col gap-10">
 				<div class="flex flex-col gap-4">
 					<div class="flex flex-col gap-2">
-						<Label for="ambitionName" class="text-xl"
-							>Name your Ambition <sup class=" text-red-500">*</sup></Label
-						>
+						<Label for="ambitionName" class="text-xl flex justify-start items-center gap-2">
+							<p>
+								Name your Ambition <sup class=" text-red-500">*</sup>
+							</p>
+							<Tooltip.Root>
+								<Tooltip.Trigger><InfoIcon class="w-5 h-5 opacity-20" /></Tooltip.Trigger>
+								<Tooltip.Content>
+									<p>Give your Ambition a catchy name to bring your dream to life!</p>
+								</Tooltip.Content>
+							</Tooltip.Root>
+						</Label>
 						<Input
 							bind:value={ambitionData.ambitionName}
 							type="text"
@@ -235,22 +243,33 @@
 						/>
 					</div>
 					<div class="flex flex-col gap-2">
-						<Label for="ambitionDefinition" class="text-xl"
-							>Define your Ambition <sup class=" text-red-500">*</sup></Label
-						>
+						<Label for="ambitionDefinition" class="text-xl flex justify-start items-center gap-2">
+							<p>Define your Ambition</p>
+							<Tooltip.Root>
+								<Tooltip.Trigger><InfoIcon class="w-5 h-5 opacity-20" /></Tooltip.Trigger>
+								<Tooltip.Content>
+									<p>Define your Ambitions in detail. Outline your goals, what you want to accomplish, and how you plan to reach them!</p>
+								</Tooltip.Content>
+							</Tooltip.Root>
+						</Label>
 						<Textarea
 							bind:value={ambitionData.ambitionDefinition}
 							id="ambitionDefinition"
 							name="ambitionDefinition"
-							required
 							placeholder="Define your ambitions descriptively here..."
 						/>
 					</div>
 					<div class="flex flex-wrap gap-4">
 						<div class="flex flex-col gap-2">
-							<Label for="ambitionCategory"
-								>Ambition Category <sup class=" text-red-500">*</sup></Label
-							>
+							<Label for="ambitionCategory" class="flex justify-start items-center gap-2">
+								<p>Ambition Category <sup class=" text-red-500">*</sup></p>
+								<Tooltip.Root>
+									<Tooltip.Trigger><InfoIcon class="w-5 h-5 opacity-20" /></Tooltip.Trigger>
+									<Tooltip.Content>
+										<p>Categorize your Ambition for better organization</p>
+									</Tooltip.Content>
+								</Tooltip.Root>
+							</Label>
 							<Select.Root name="ambitionCategory">
 								<Select.Trigger class="w-[180px]">
 									<Select.Value placeholder="Choose Category..." />
@@ -269,9 +288,15 @@
 							</Select.Root>
 						</div>
 						<div class="flex flex-col gap-2">
-							<Label for="ambitionPriority"
-								>Ambition Priority <sup class=" text-red-500">*</sup></Label
-							>
+							<Label for="ambitionPriority" class="flex justify-start items-center gap-2">
+								<p>Ambition Priority <sup class=" text-red-500">*</sup></p>
+								<Tooltip.Root>
+									<Tooltip.Trigger><InfoIcon class="w-5 h-5 opacity-20" /></Tooltip.Trigger>
+									<Tooltip.Content>
+										<p>Prioritize your Ambition accordingly</p>
+									</Tooltip.Content>
+								</Tooltip.Root>
+							</Label>
 							<Select.Root name="ambitionPriority">
 								<Select.Trigger class="w-[180px]">
 									<Select.Value placeholder="Choose Priority..." />
@@ -286,12 +311,20 @@
 						</div>
 					</div>
 					<div class="grid gap-2">
-						<Label for="ambitionDeadline" class="text-xl">
-							<p>Timeline / Deadline <sup class=" text-red-500">*</sup></p>
-							<p class="text-muted-foreground text-sm">
-								I'll complete my ambition within this time frame
-							</p>
-						</Label>
+						<div class="flex justify-start items-center gap-2">
+							<Label for="ambitionDeadline" class="text-xl">
+								<p>Timeline / Deadline <sup class=" text-red-500">*</sup></p>
+								<p class="text-muted-foreground text-sm">
+									I'll complete my ambition within...
+								</p>
+							</Label>
+							<Tooltip.Root>
+								<Tooltip.Trigger><InfoIcon class="w-5 h-5 opacity-20" /></Tooltip.Trigger>
+								<Tooltip.Content>
+									<p>In what time duration would you like your Ambition to be started and completed in, you can set it here!</p>
+								</Tooltip.Content>
+							</Tooltip.Root>
+						</div>
 						<input
 							type="hidden"
 							name="ambitionStartDate"
@@ -351,12 +384,17 @@
 							</Popover.Content>
 						</Popover.Root>
 					</div>
-
 					<div class="grid sm:grid-cols-2 gap-x-5">
-						<div class="col-span-2">
-							<Label class="text-xl"
-								>Tasks for this ambition <sup class=" text-red-500">*</sup></Label
-							>
+						<div class="col-span-2 mb-2">
+							<Label class="text-xl flex justify-start items-center gap-2">
+								<p>Tasks for this ambition <sup class=" text-red-500">*</sup></p>
+								<Tooltip.Root>
+									<Tooltip.Trigger><InfoIcon class="w-5 h-5 opacity-20" /></Tooltip.Trigger>
+									<Tooltip.Content>
+										<p>Segment your tasks that you need to fulfill to achieve your Ambition</p>
+									</Tooltip.Content>
+								</Tooltip.Root>
+							</Label>
 							<input
 								type="hidden"
 								name="ambitionTasks"
@@ -467,7 +505,15 @@
 					</div>
 					<div class="grid sm:grid-cols-2 gap-x-5">
 						<div class="col-span-2">
-							<Label class="text-xl">Notes for this ambition</Label>
+							<Label class="text-xl flex justify-start items-center gap-2 mb-2">
+								<p>Notes</p>
+								<Tooltip.Root>
+									<Tooltip.Trigger><InfoIcon class="w-5 h-5 opacity-20" /></Tooltip.Trigger>
+									<Tooltip.Content>
+										<p>You can write yourself some notes, if any</p>
+									</Tooltip.Content>
+								</Tooltip.Root>
+							</Label>
 							<input
 								type="hidden"
 								name="ambitionNotes"

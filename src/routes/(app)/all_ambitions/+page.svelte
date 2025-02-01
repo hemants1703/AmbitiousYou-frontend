@@ -1,24 +1,18 @@
-<script lang="ts">
+<script>
 	import MagicCard from '$lib/components/svelte_magicui/MagicCard.svelte';
 	import * as Select from '$lib/components/ui/select';
-	import Label from '$lib/components/ui/label/label.svelte';
-	import type { AmbitionType } from '$lib/types/ambitionType';
-	import { Badge } from '$lib/components/ui/badge/index.js';
 	import {
 		CalendarArrowUp,
 		CircleCheckBig,
 		LoaderPinwheel,
 		CircleSlash,
-		CircleAlert
 	} from 'lucide-svelte';
-	// import Button from '$lib/components/ui/button/Button.svelte';
-	import type { PageServerData } from './$types';
+	import { onMount } from 'svelte';
 	import { toast } from 'svoast';
-	import { afterUpdate } from 'svelte';
 
-	export let data: PageServerData;
+	export let data;
 
-	// console.log('PageServerData All Ambitions: ', data);
+	// console.log('Ambitions Data: ', data);
 
 	if (data) {
 		if (!data.success) {
@@ -30,10 +24,40 @@
 
 	// console.log('PageServerData documents: ', data.body.documents);
 
-	let updatedAmbitions = data.body === null ? [] : data.body.documents;
+	let updatedAmbitions = data.body ? data.body.documents.slice() : [];
+	let selectedSortingOrder = "newestFirst";
+
+	updatedAmbitions = updatedAmbitions.sort((a, b) => new Date(b.$createdAt) - new Date(a.$createdAt));
 
 	// let selectedStatus: string | unknown = '';
 	// let selectedCategory: string | unknown = '';
+
+	function handleSortingOrderChange(e) {
+		selectedSortingOrder = e.value;
+
+		// Re-create the array to avoid mutating the original
+		updatedAmbitions = data.body ? data.body.documents.slice() : [];
+		
+		// Apply the sorting order filter
+		if (selectedSortingOrder === "newestFirst") {
+            updatedAmbitions.sort((a, b) => new Date(b.$createdAt) - new Date(a.$createdAt));
+        } else if (selectedSortingOrder === "oldestFirst") {
+            updatedAmbitions.sort((a, b) => new Date(a.$createdAt) - new Date(b.$createdAt));
+        }
+	}
+
+	function updateVariabledBasedOnBrowserStorage() {
+		if (localStorage.getItem("sortingOrder")) {
+			selectedSortingOrder = localStorage.getItem("sortingOrder");
+		} else {
+			selectedSortingOrder = "newestFirst";
+			localStorage.setItem("sortingOrder", selectedSortingOrder);
+		}
+	}
+
+	onMount(() => {
+		updateVariabledBasedOnBrowserStorage();
+	})
 </script>
 
 <svelte:head>
@@ -67,38 +91,55 @@
 			</a>
 		</div>
 	{:else}
-		<div class="flex flex-col gap-10">
+		<div class="flex flex-col gap-8">
 			<header>
 				<h1 class="font-bold text-3xl">{userData.name.split(' ')[0]}'s All Ambitions!</h1>
 				<p class="text-muted-foreground">
 					All your ambitions in one single place. You can also track your progress on each ambition.
 				</p>
 			</header>
-			<div class="flex flex-col gap-10">
-				<div>
-					<h1 class="font-bold text-xs mb-2">STATUS</h1>
-					<div
-						class="flex flex-wrap gap-5 sm:gap-10 justify-between border rounded-lg sm:w-fit w-full p-2"
-					>
-						<div class="flex gap-2">
-							<CircleCheckBig color="#10b981" />
-							<p>Completed</p>
-						</div>
-						<div class="flex gap-2">
-							<div class="animate-spin">
-								<LoaderPinwheel color="#3b82f6" />
+			<div class="flex flex-col gap-8">
+				<div class="flex flex-col">
+					<div class="flex justify-between gap-5">
+						<h1 class="font-bold text-xs mb-2 self-start">STATUS <span class="sm:hidden"> & FILTER</span></h1>
+						<h1 class="font-bold text-xs mb-2 self-end max-sm:hidden">FILTER</h1>
+					</div>
+					<div class="border p-1 rounded-xl flex justify-between items-center max-sm:flex-col gap-5">
+						<div
+							class="flex flex-wrap gap-5 max-sm:pt-2 sm:pl-1 sm:gap-10 justify-between w-fit"
+						>
+							<div class="flex gap-2">
+								<CircleCheckBig color="#10b981" />
+								<p>Completed</p>
 							</div>
-							<p>Ongoing</p>
+							<div class="flex gap-2">
+								<div class="animate-spin">
+									<LoaderPinwheel color="#3b82f6" />
+								</div>
+								<p>Ongoing</p>
+							</div>
+							<div class="flex gap-2">
+								<CalendarArrowUp color="#a855f7" />
+								<p>Future</p>
+							</div>
+							<!-- <div class="flex gap-2">
+								<CircleSlash color="#ff6347" />
+								<CircleAlert color="#ffcc00" />
+								<p>Overdue</p>
+							</div> -->
 						</div>
-						<div class="flex gap-2">
-							<CalendarArrowUp color="#a855f7" />
-							<p>Future</p>
+						<div class="max-sm:self-start w-40 max-sm:w-full">
+							<Select.Root onSelectedChange={handleSortingOrderChange}>
+								<Select.Trigger>
+									<Select.Value placeholder="Sort order..." />
+								</Select.Trigger>
+								<Select.Content>
+									<Select.Item value="newestFirst">Newest First</Select.Item>
+									<Select.Item value="oldestFirst">Oldest First</Select.Item>
+								</Select.Content>
+								<Select.Input name="sortingOrder" value={selectedSortingOrder}/>
+							</Select.Root>
 						</div>
-						<!-- <div class="flex gap-2">
-							<CircleSlash color="#ff6347" />
-							<CircleAlert color="#ffcc00" />
-							<p>Overdue</p>
-						</div> -->
 					</div>
 				</div>
 				<!-- FILTERS: MIGHT BE USED IN FUTURE VERSIONS -->
@@ -107,7 +148,7 @@
 					<div class="flex gap-5">
 						<div class="flex flex-col">
 							<Label class="text-md">Status</Label>
-							<Select.Root selected={selectedStatus}>
+							<Select.Root selected="Completed">
 								<Select.Trigger class="w-[180px]">
 									<Select.Value placeholder="Select Status..." />
 								</Select.Trigger>
@@ -120,7 +161,7 @@
 						</div>
 						<div>
 							<Label class="text-md">Category</Label>
-							<Select.Root selected={selectedCategory}>
+							<Select.Root selected="Personal">
 								<Select.Trigger class="w-[180px]">
 									<Select.Value placeholder="Select Category..." />
 								</Select.Trigger>
@@ -132,8 +173,8 @@
 							</Select.Root>
 						</div>
 					</div>
-					
 				</div> -->
+
 				<div class="flex flex-col gap-2">
 					{#each updatedAmbitions as ambition}
 						<a href={`/view_ambition/${ambition.$id}`}>

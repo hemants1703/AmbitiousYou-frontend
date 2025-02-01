@@ -4,6 +4,7 @@ import { redirect } from '@sveltejs/kit';
 import { ID } from 'node-appwrite';
 import chalk from 'chalk';
 import { greetUser } from '$lib/store/userData';
+import validEmail from '$lib/helpers/validateEmail';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
@@ -52,6 +53,21 @@ export const actions: Actions = {
 					}
 				}
 			};
+		}
+
+		if (!validEmail(email)) {
+			return {
+				status: 400,
+				success: false,
+				message: 'Invalid email address',
+				body: {
+					formData: {
+						fullName: fullName,
+						email: email,
+						password: password
+					}
+				}
+			}
 		}
 
 		const passwordRegex: RegExp =
