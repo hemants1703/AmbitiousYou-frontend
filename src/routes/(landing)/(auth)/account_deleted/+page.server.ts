@@ -1,5 +1,3 @@
-import type { PageServerLoad } from './$types';
-import confirmAuth from '$lib/utils/auth';
 import type { Actions } from '@sveltejs/kit';
 import type { FeedbackType } from '$lib/types/feedbackType';
 import chalk from 'chalk';
@@ -9,10 +7,6 @@ import {
 	PRIVATE_APPWRITE_DATABASE_ID,
 	PRIVATE_APPWRITE_COLLECTION_ID_FOR_FEEDBACK
 } from '$env/static/private';
-
-export const load: PageServerLoad = async ({ locals }) => {
-	confirmAuth(locals);
-};
 
 export const actions: Actions = {
 	postFeedback: async ({ request, locals }) => {
@@ -26,9 +20,7 @@ export const actions: Actions = {
 			feedbackTitle,
 			feedbackDescription,
 			feedbackCategory,
-			feedbackFromActiveUser: true,
-			userId: locals.user.$id,
-			userEmail: locals.user.email,
+			feedbackFromActiveUser: false,
 			createdAt: new Date(),
 			updatedAt: new Date()
 		};
@@ -53,12 +45,12 @@ export const actions: Actions = {
 			};
 		} catch (error) {
 			console.error(chalk.bgRedBright.white('Error posting feedback: '), error);
-			return {
-				status: 400,
-				success: false,
-				message: 'Uh oh, something unexpected happened! Please try again, and don\'t worry—we\'re on it.',
-				body: { feedbackData }
-			};
+            return {
+                status: 400,
+                success: false,
+                message: 'Uh oh, something unexpected happened! Please try again, and don\'t worry—we\'re on it.',
+                body: { feedbackData }
+            };
 		}
 	}
 };
