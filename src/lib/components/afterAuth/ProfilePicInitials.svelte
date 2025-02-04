@@ -6,7 +6,8 @@
 </script>
 
 <div
-	class="bg-[--custom-light] text-background p-2 rounded-xl w-10 h-10 flex items-center justify-center"
+id="primaryButton"
+	class="shadow-md active:shadow-none bg-[--custom-light] text-background p-2 rounded-xl w-10 h-10 flex items-center justify-center"
 >
 	{firstInitial}{secondInitial}
 </div>

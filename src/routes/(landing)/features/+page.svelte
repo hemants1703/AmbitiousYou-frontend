@@ -156,7 +156,7 @@
 							{/each}
 						</Select.Group>
 					</Select.Content>
-					<!-- <Select.Input name="ambitionType" bind:value={selectedType} /> -->
+					<Select.Input name="ambitionType" bind:value={selectedType} />
 				</Select.Root>
 			</span>
 		</div>

@@ -43,7 +43,7 @@
 		<p class="text-muted-foreground">
 			Welcome to the feedback page! We're excited to hear your thoughts, suggestions, and reports.
 			Feel free to share your feedback, request new features, or report any bugs you encounter. Your
-			input helps us improve our product for everyone.
+			input helps us improve our product for everyone. If you want support, please contact our <a class="text-[--custom-light] no-underline hover:underline active:text-[--custom-dark]" href="mailto:support@ambitiousyou.pro">support mail here</a>.
 		</p>
 	</header>
 	<div class="flex flex-col gap-10">

@@ -71,6 +71,7 @@
 				<span class="text-3xl">
 					<span class="font-light">Ambitious</span><span class="font-bold">You</span>
 				</span>
+				<span class="bg-[--custom-dark] text-white px-2 rounded-lg select-none">BETA</span>
 			</a>
 		</div>
 		<div class="flex place-items-center gap-6">

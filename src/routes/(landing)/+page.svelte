@@ -172,12 +172,12 @@
 
 <div>
 	<!-- HERO SECTION -->
-	<section class="min-h-svh flex flex-col gap-8 justify-center items-center">
-		<div class="flex gap-2 font-bold text-center max-w-5xl mx-auto">
-			<BlurFade delay={0}>
-				<h1 class="text-5xl sm:text-6xl md:text-7xl">For Those Who Dare to Dream Beyond Limits.</h1>
-			</BlurFade>
-		</div>
+	<section class="min-h-svh flex flex-col gap-2 sm:gap-8 justify-center items-center">
+		<BlurFade delay={0}>
+			<h1 class="font-semibold text-4xl xs:text-5xl sm:text-6xl md:text-7xl text-center max-w-5xl mx-auto">
+				For Those Who Dare to Dream Beyond Limits.
+			</h1>
+		</BlurFade>
 		<h2 class="font-medium mt-10 sm:text-3xl text-xl text-center">
 			<BlurFade delay={0.5}
 				>Get Ready to Become a <span class="relative z-10 px-1"
@@ -188,7 +188,7 @@
 			>
 		</h2>
 		<BlurFade delay={1}>
-			<p class="text-center my-10 max-w-2xl font-light max-sm:text-md">
+			<p class="text-center my-10 max-w-2xl font-light sm:text-lg text-md px-10">
 				Overwhelmed by your ambitions? AmbitiousYou consolidates your goals into one powerful
 				platform, keeping you focused and organized. Start your journey to success with ease. 🚀
 			</p>

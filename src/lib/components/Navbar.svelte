@@ -34,9 +34,9 @@
 				<img
 					src={'/logo.svg'}
 					alt="AmbitiousYou Logo"
-					class="w-fit h-fit max-w-14 max-h-14 aspect-square"
+					class="w-fit h-fit max-sm:size-10 max-w-14 max-h-14 aspect-square"
 				/>
-				<span class="sm:text-5xl text-4xl">
+				<span class="sm:text-5xl text-3xl">
 					<span class="font-light">Ambitious</span><span class="font-bold">You</span>
 				</span>
 			</a>
