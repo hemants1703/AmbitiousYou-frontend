@@ -587,38 +587,35 @@
 		</div>
 		<div class="w-full flex flex-col gap-10">
 			<!-- NOTES SECTION  -->
-			<div>
-				<div
-					class="flex flex-col border-2 border-[--custom-light-pale] bg-[--custom-light-pale] overflow-hidden rounded-xl"
-				>
-					<h1 class="font-extrabold text-sm p-2 text-center">
-						NOTE{ambitionNotes.length > 1 ? 'S' : ''}
-					</h1>
-					<div
-						class="flex flex-col space-y-4 max-h-96 bg-background rounded-lg overflow-y-auto p-3"
-					>
-						{#if ambitionNotes.length === 0}
-							<p class="text-muted-foreground text-center">No notes added yet!</p>
-						{:else}
-							{#each ambitionNotes as note}
-								<div
-									class="{updateAmbitionEnabled
-										? 'animate-ambitionEditModeAnimation relative'
-										: ''}  flex flex-col gap-2 justify-between items-start bg-yellow-200 dark:bg-yellow-900 dark:bg-opacity-20 bg-opacity-20 border border-yellow-400 rounded-lg p-2"
-								>
-									<p class="text-md opacity-80">
-										{note.content}
-									</p>
-									<span class="text-muted-foreground opacity-50 text-xs self-end">
-										{new Intl.DateTimeFormat('en-US', {
-											year: 'numeric',
-											month: 'long',
-											day: 'numeric',
-											hour: '2-digit',
-											minute: '2-digit'
-										}).format(new Date(note.created_at))}
-									</span>
-									<!-- {#if updateAmbitionEnabled}
+			<div
+				class="flex flex-col border-2 border-[--custom-light-pale] bg-[--custom-light-pale] overflow-hidden rounded-xl w-full"
+			>
+				<h1 class="font-extrabold text-sm p-2 text-center">
+					NOTE{ambitionNotes.length > 1 ? 'S' : ''}
+				</h1>
+				<div class="flex flex-col space-y-4 max-h-96 bg-background rounded-lg overflow-y-auto p-3">
+					{#if ambitionNotes.length === 0}
+						<p class="text-muted-foreground text-center">No notes added yet!</p>
+					{:else}
+						{#each ambitionNotes as note}
+							<div
+								class="{updateAmbitionEnabled
+									? 'animate-ambitionEditModeAnimation relative'
+									: ''} flex flex-col gap-2 justify-between items-start bg-yellow-200 dark:bg-yellow-900 dark:bg-opacity-20 bg-opacity-20 border border-yellow-400 rounded-lg p-2 max-w-full"
+							>
+								<p class="text-md opacity-80 break-words max-sm:max-w-64">
+									{note.content}
+								</p>
+								<span class="text-muted-foreground opacity-50 text-xs self-end">
+									{new Intl.DateTimeFormat('en-US', {
+										year: 'numeric',
+										month: 'long',
+										day: 'numeric',
+										hour: '2-digit',
+										minute: '2-digit'
+									}).format(new Date(note.created_at))}
+								</span>
+								<!-- {#if updateAmbitionEnabled}
 										<button
 											on:click={() => handleRemoveAmbitionNote(note.id)}
 											type="button"
@@ -626,10 +623,9 @@
 											><X size="20" /></button
 										>
 									{/if} -->
-								</div>
-							{/each}
-						{/if}
-					</div>
+							</div>
+						{/each}
+					{/if}
 				</div>
 			</div>
 			{#if updateAmbitionEnabled}
@@ -677,19 +673,19 @@
 					<h2 class="font-extrabold text-sm p-2 text-center">AMBITION DETAILS</h2>
 					<div class="bg-background rounded-lg space-y-10 p-3">
 						<ul class="space-y-5">
-							<li class="flex justify-between w-full border-b py-1">
+							<li class="flex justify-between gap-10 w-full border-b py-1">
 								<strong>Start Date:</strong>
 								{ambitionStartDate}
 							</li>
-							<li class="flex justify-between w-full border-b py-1">
+							<li class="flex justify-between gap-10 w-full border-b py-1">
 								<strong>End Date:</strong>
 								{ambitionEndDate}
 							</li>
-							<li class="flex justify-between w-full border-b py-1">
+							<li class="flex justify-between gap-10 w-full border-b py-1">
 								<strong>Completion Date:</strong>
 								{ambitionCompletionDate ?? 'Not completed yet'}
 							</li>
-							<li class="flex justify-between w-full border-b py-1">
+							<li class="flex justify-between gap-10 w-full border-b py-1">
 								<strong>Status:</strong>
 								<p class="flex place-items-center gap-2">
 									{#if updatedAmbitionStatus.toLowerCase() === 'completed'}
@@ -706,7 +702,7 @@
 									{updatedAmbitionStatus.toUpperCase()}
 								</p>
 							</li>
-							<li class="flex justify-between w-full border-b py-1">
+							<li class="flex justify-between gap-10 w-full border-b py-1">
 								<strong>Priority:</strong>
 								<p class="flex place-items-center gap-2">
 									{#if ambitionPriority === 'High'}
@@ -727,7 +723,7 @@
 									</span>
 								</p>
 							</li>
-							<li class="flex justify-between w-full border-b py-1">
+							<li class="flex justify-between gap-10 w-full border-b py-1">
 								<strong>Category:</strong>
 								{ambitionCategory}
 							</li>
@@ -777,5 +773,3 @@
 		</button>
 	{/if}
 </div>
-
-

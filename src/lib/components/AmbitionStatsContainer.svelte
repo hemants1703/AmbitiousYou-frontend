@@ -21,7 +21,7 @@
 	};
 </script>
 
-<div class="min-w-96 flex flex-col border-2 border-[--custom-light-pale] bg-[--custom-light-pale] rounded-xl overflow-hidden">
+<div class="sm:min-w-96 flex flex-col border-2 border-[--custom-light-pale] bg-[--custom-light-pale] shadow-lg rounded-xl overflow-hidden">
 	<h2 class="font-extrabold text-sm p-2 text-center">AMBITION STATS</h2>
 	<div class="bg-background rounded-lg space-y-5 p-4">
 		<div class="flex justify-between w-full border-b">

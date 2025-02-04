@@ -5,7 +5,7 @@
 
 <div>
     <div
-        class="min-w-96 flex flex-col border-2 border-[--custom-light-pale] bg-[--custom-light-pale] overflow-hidden rounded-xl"
+        class="sm:min-w-96 flex flex-col border-2 border-[--custom-light-pale] bg-[--custom-light-pale] shadow-lg overflow-hidden rounded-xl"
     >
         <h1 class="font-extrabold text-sm p-2 text-center">
             NOTE{ambitionNotes.length > 1 ? 'S' : ''}

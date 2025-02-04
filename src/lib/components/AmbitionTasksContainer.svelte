@@ -6,7 +6,7 @@
 </script>
 
 <div
-	class="flex flex-col border-2 border-[--custom-light-pale] bg-[--custom-light-pale] shadow-lg rounded-xl overflow-hidden min-w-96"
+	class="flex flex-col border-2 border-[--custom-light-pale] bg-[--custom-light-pale] shadow-lg rounded-xl overflow-hidden sm:min-w-96"
 >
 	<h1 class="font-extrabold text-sm p-2 text-center">TASKS TO ACCOMPLISH YOUR AMBITION</h1>
 	<div class="bg-background rounded-lg max-h-96 space-y-4 p-3 overflow-y-auto overflow-x-hidden">

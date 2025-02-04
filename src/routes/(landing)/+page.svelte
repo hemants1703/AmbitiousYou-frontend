@@ -280,10 +280,10 @@
 				</div>
 			</div>
 			<div
-				class="flex max-sm:flex-col-reverse max-sm:justify-center max-sm:items-center max-sm:border justify-between items-start sm:gap-48 gap-10 max-sm:rounded-xl"
+				class="flex max-sm:flex-col-reverse max-sm:justify-center max-sm:items-center max-sm:border max-sm:p-2 justify-between items-start sm:gap-48 gap-10 max-sm:rounded-xl"
 			>
 				<AmbitionTasksContainer ambitionTasks={sampleAmbitionTasks} />
-				<span class="space-y-5 sm:text-end max-sm:p-4">
+				<span class="space-y-5 sm:text-end max-sm:p-2">
 					<h2 class="text-3xl font-bold">2. Set Ambition Tasks 📝</h2>
 					<p class="text-lg font-light text-muted-foreground">
 						Ambition tasks are the steps needed to achieve your ambition. Add unlimited tasks to
@@ -293,9 +293,9 @@
 				</span>
 			</div>
 			<div
-				class="flex max-sm:flex-col max-sm:justify-center max-sm:items-center max-sm:border justify-between items-start sm:gap-48 gap-10 max-sm:rounded-xl"
+				class="flex max-sm:flex-col max-sm:justify-center max-sm:items-center max-sm:border max-sm:p-2 justify-between items-start sm:gap-48 gap-10 max-sm:rounded-xl"
 			>
-				<span class="space-y-5 max-sm:p-4">
+				<span class="space-y-5 max-sm:p-2">
 					<h2 class="text-3xl font-bold">3. Set Ambition Details 🗒️</h2>
 					<p class="text-lg font-light text-muted-foreground"></p>
 					<p class="text-lg font-light text-muted-foreground">
