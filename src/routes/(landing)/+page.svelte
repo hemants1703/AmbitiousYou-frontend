@@ -327,13 +327,13 @@
 		</div>
 	</section>
 
-	<!-- BENEFITS -->
+	<!-- WHY AMBIIOUSYOU! -->
 	<section class="mt-28 space-y-14">
 		<h1 class="text-5xl font-bold">
-			Benefits of Using <span
+			Why <span
 				class="bg-gradient-to-br from-[#64ccc5] via-[#10b981] to-[#176b87] inline-block text-transparent bg-clip-text"
 				>AmbitiousYou</span
-			>!
+			>?
 		</h1>
 		<div class="grid md:grid-cols-2 grid-rows-2 gap-8 mt-10 max-w-5xl mx-auto">
 			{#each benefits as { icon, title, description }, index}
