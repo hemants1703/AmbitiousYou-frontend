@@ -163,6 +163,8 @@ export const actions: Actions = {
 		}
 
 		// If the account exists for the provided userEmail, send the password reset link to the email
+		// const formattedDateTime = formatDateTime(new Date());
+		// 	console.log('Formatted Date Time: ', formattedDateTime);
 		try {
 			const client = new Client()
 				.setEndpoint(PUBLIC_APPWRITE_ENDPOINT) // Your API Endpoint
@@ -192,7 +194,7 @@ export const actions: Actions = {
 				[], // attachments (optional)
 				false, // draft (optional)
 				true, // html (optional)
-				formattedDateTime // scheduledAt (optional)
+				"" // scheduledAt (optional)
 			);
 
 			console.log(mailResult);
