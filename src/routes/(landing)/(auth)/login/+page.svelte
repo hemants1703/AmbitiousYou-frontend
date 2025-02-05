@@ -1,35 +1,33 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { toast } from 'svoast';
-	import type { ActionData } from '../signup/$types';
-	import { Eye } from 'lucide-svelte';
+	import { Eye, SquareAsterisk } from 'lucide-svelte';
 	import { EyeClosed } from 'svelte-radix';
 	import SvelteSeo from 'svelte-seo';
 	import { fly } from 'svelte/transition';
 
-	export let form: ActionData;
-
-	$: if (form) {
-		console.log(form);
-
-		if (!form.success) {
-			toast.error(form.message);
-			loginFormSubmitted = false;
-		} else {
-			toast.success(form.message);
-		}
-	}
-
 	let passwordInputElement: HTMLInputElement;
-	let revealInputPassword: boolean = false;
+	let passwordResetEmailInputElement: HTMLInputElement;
+	let forgotPasswordFormSubmitButton: HTMLButtonElement;
+	let revealInputPassword = false;
+	let loginFormSubmitted = false;
+	let showForgotPasswordModal = false;
 
 	function handleRevealInputPassword() {
 		revealInputPassword = !revealInputPassword;
 		passwordInputElement.type = revealInputPassword ? 'text' : 'password';
 	}
 
-	let loginFormSubmitted = false;
+	function toggleForgotPasswordModal() {
+		showForgotPasswordModal = !showForgotPasswordModal;
+	}
 </script>
+
+<svelte:document on:keydown={(e) => {
+	if (showForgotPasswordModal && e.key === 'Escape') {
+		showForgotPasswordModal = false;
+	}
+}} />
 
 <SvelteSeo
 	title="Login - AmbitiousYou"
@@ -67,8 +65,76 @@
 	<title>Login to your AmbitiousYou account</title>
 </svelte:head>
 
+{#if showForgotPasswordModal}
+	<div class="fixed inset-0 bg-background bg-opacity-90 z-50">
+		<div class="animate-dropDown fixed inset-0 flex justify-center items-center">
+			<div class="border bg-background p-5 max-sm:mx-10 rounded-lg shadow-lg max-w-lg">
+				<h1 class="text-xl font-bold flex gap-2 justify-between items-center w-full">
+					Forgot Password?
+					<SquareAsterisk class="text-lime-500" size="30" />
+				</h1>
+				<h2 class="text-muted-foreground text-sm mt-2">
+					Enter your email address to receive a password reset link.
+				</h2>
+				<form
+					action="?/forgotPassword"
+					method="POST"
+					use:enhance={() => {
+						if (passwordResetEmailInputElement.value === '') {
+							toast.warning('Please enter your email address to receive a password reset link.', {
+								closable: true
+							});
+							return;
+						}
+
+						return async ({ result }) => {
+							console.log('Check this data from actions response: ', result);
+							if (result.data.status === 200) {
+								toast.success(result.data.message, { closable: true });
+							} else {
+								toast.error(result.data.message, { closable: true });
+							}
+						};
+					}}
+				>
+					<div class="flex flex-col gap-5 mt-5">
+						<div class="flex flex-col gap-2">
+							<div class="relative">
+								<input
+									placeholder="Email"
+									type="email"
+									name="email"
+									required
+									bind:this={passwordResetEmailInputElement}
+									on:keydown={(e) => {
+										if (e.key === 'Enter') {
+											forgotPasswordFormSubmitButton.click();
+										}
+									}}
+									class="text-lg w-full bg-transparent border rounded-lg py-1 px-2 pr-12 active:outline focus:outline-[--custom-primary] transition-all duration-100 ease-in-out"
+								/>
+							</div>
+						</div>
+						<div class="flex justify-end gap-2">
+							<button
+								class="hover:bg-[--custom-dark] px-4 py-1 text-foreground rounded-lg active:scale-95 transition-all ease-in-out"
+								on:click|preventDefault={() => {
+									showForgotPasswordModal = false;
+								}}
+							>
+								Cancel
+							</button>
+							<button id="primaryButton" type="submit" tabindex="0" bind:this={forgotPasswordFormSubmitButton}> Email Link </button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{/if}
+
 <div
-	class={`flex max-md:flex-col gap-40 max-md:gap-10 justify-center items-center w-full h-full mx-auto min-h-svh`}
+	class="flex max-md:flex-col gap-40 max-md:gap-10 justify-center items-center w-full h-full mx-auto min-h-svh"
 	in:fly={{ x: -200, duration: 300, delay: 300 }}
 	out:fly={{ x: 200, duration: 300 }}
 >
@@ -78,13 +144,25 @@
 			Log in to pursue your ambitions and start your journey to greatness!
 		</p>
 	</div>
-	<div class="sm:w-1/2 border bg-background shadow-sm p-5 rounded-2xl sm:max-w-sm w-3/4 z-10">
+	<div
+		class="flex flex-col gap-5 sm:w-1/2 border bg-background shadow-sm p-5 rounded-2xl sm:max-w-sm w-3/4 z-10"
+	>
 		<form
 			action="?/login"
 			method="POST"
 			class="flex flex-col gap-4"
 			use:enhance={() => {
 				loginFormSubmitted = true;
+
+				return async ({ result }) => {
+					console.log('Check this data from actions response: ', result);
+					if (result.data.success) {
+						toast.success(result.data.message, { closable: true });
+					} else {
+						toast.error(result.data.message, { closable: true });
+						loginFormSubmitted = false;
+					}
+				};
 			}}
 		>
 			<input
@@ -121,7 +199,7 @@
 				id="primaryButton"
 				type="submit"
 				disabled={loginFormSubmitted}
-				class="flex justify-center items-center gap-2"
+				class="flex justify-center items-center gap-2 disabled:cursor-progress"
 			>
 				{#if loginFormSubmitted}
 					<span class="animate-spin"
@@ -148,5 +226,10 @@
 				{/if}
 			</button>
 		</form>
+		<button
+			on:click={toggleForgotPasswordModal}
+			class="inline text-center sm:text-end text-sm text-[--custom-light] hover:underline"
+			>Forgot Password?</button
+		>
 	</div>
 </div>
