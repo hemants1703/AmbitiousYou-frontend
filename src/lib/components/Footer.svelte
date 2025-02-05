@@ -119,7 +119,7 @@
 
 			<!-- Explore -->
 			<div class="space-y-4">
-				<h3 class="text-lg font-semibold">Explore</h3>
+				<h4 class="text-lg font-semibold">Explore</h4>
 				<ul class="space-y-2">
 					{#each exploreLinks as { title, href }}
 						<li>
@@ -133,7 +133,7 @@
 
 			<!-- Contact -->
 			<div class="space-y-4">
-				<h3 class="text-lg font-semibold">Contact</h3>
+				<h4 class="text-lg font-semibold">Contact</h4>
 				<ul class="space-y-2">
 					{#each contactLinks as { title, href }}
 						<li>
@@ -149,7 +149,7 @@
 
 			<!-- Legal -->
 			<div class="space-y-4">
-				<h3 class="text-lg font-semibold">Legal</h3>
+				<h4 class="text-lg font-semibold">Legal</h4>
 				<ul class="space-y-2">
 					{#each legalLinks as { title, href }}
 						<li>
@@ -165,7 +165,7 @@
 
 			<!-- Theme & Newsletter -->
 			<div class="space-y-4">
-				<h3 class="text-lg font-semibold">Preferences</h3>
+				<h4 class="text-lg font-semibold">Preferences</h4>
 				<div class="flex items-center gap-2">
 					<span class="text-sm text-muted-foreground">Theme:</span>
 					<SwitchThemeToggler />
