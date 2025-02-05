@@ -4,6 +4,7 @@
     "start_url": "/",
     "display": "standalone",
     "background_color": "#000000",
+    "description": "Reduce your mental overload and manage all your ambitions at a single place, AmbitiousYou helps you become a Superhuman!",
     "theme_color": "#64ccc5",
     "icons": [
       {

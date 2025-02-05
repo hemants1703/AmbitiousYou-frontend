@@ -139,14 +139,14 @@
 </script>
 
 <SvelteSeo
-	title="AmbitiousYou - Get ready to become a superhuman!"
-	description="Reduce your mental overload and manage all your ambitions at a single place, AmbitiousYou helps you become a superhuman!"
+	title="AmbitiousYou - Get ready to become a Superhuman!"
+	description="Reduce your mental overload and manage all your ambitions at a single place, AmbitiousYou helps you become a Superhuman!"
 	canonical="https://www.ambitiousyou.pro"
 	keywords="superhuman, ambitions, goals, plans, ambitions management, ambitions planner, ambitions tracker, ambitions manager, ambitions organizer, ambitions scheduler, ambitions calendar, ambitions reminder, ambitions notification, ambitions tracker, ambitions progress, ambitions completion, ambitions achievement, ambitions success, ambitions failure, ambitions motivation, ambitions inspiration, ambitions encouragement, ambitions support, ambitions help, ambitions assistance, ambitions guidance, ambitions mentor, ambitions coach, ambitions consultant, ambitions advisor"
 	openGraph={{
-		title: 'AmbitiousYou - Get ready to become a superhuman!',
+		title: 'AmbitiousYou - Get ready to become a Superhuman!',
 		description:
-			'Reduce your mental overload and manage all your ambitions at a single place, AmbitiousYou helps you become a superhuman!',
+			'Reduce your mental overload and manage all your ambitions at a single place, AmbitiousYou helps you become a Superhuman!',
 		url: 'https://www.ambitiousyou.pro',
 		type: 'website',
 		images: [
@@ -154,7 +154,7 @@
 				url: 'https://raw.githubusercontent.com/hemants1703/AmbitiousYou/refs/heads/main/static/og_data/OG_IMAGE.png',
 				width: 1200,
 				height: 630,
-				alt: 'AmbitiousYou - Get ready to become a superhuman!'
+				alt: 'AmbitiousYou - Get ready to become a Superhuman!'
 			}
 		],
 		site_name: 'AmbitiousYou!'
@@ -162,9 +162,9 @@
 	twitter={{
 		card: 'summary_large_image',
 		creator: '@hemants1703',
-		title: 'AmbitiousYou - Get ready to become a superhuman!',
+		title: 'AmbitiousYou - Get ready to become a Superhuman!',
 		description:
-			'Reduce your mental overload and manage all your ambitions at a single place, AmbitiousYou helps you become a superhuman!',
+			'Reduce your mental overload and manage all your ambitions at a single place, AmbitiousYou helps you become a Superhuman!',
 		image:
 			'https://raw.githubusercontent.com/hemants1703/AmbitiousYou/refs/heads/main/static/og_data/OG_IMAGE.png'
 	}}
@@ -202,12 +202,12 @@
 
 	<!-- KEY FEATURES SECTION -->
 	<section id="keyFeaturesSection" class="pt-20 space-y-14">
-		<h1 class="text-5xl font-bold">
+		<h2 class="text-5xl font-bold">
 			Key Features of <span
 				class="bg-gradient-to-br from-[#64ccc5] via-[#10b981] to-[#176b87] inline-block text-transparent bg-clip-text"
 				>AmbitiousYou</span
 			>!
-		</h1>
+		</h2>
 		<p class="text-start my-10 max-w-2xl font-light text-muted-foreground max-sm:text-md">
 			Life is full of ambitions, but managing them all can be overwhelming. AmbitiousYou brings all
 			your goals together in one powerful platform. Whether it's short-term targets or long-term
@@ -238,12 +238,12 @@
 
 	<!-- STEPS OF HOW IT WORKS -->
 	<section class="mt-28 space-y-14">
-		<h1 class="text-5xl font-bold">
+		<h2 class="text-5xl font-bold">
 			How <span
 				class="bg-gradient-to-br from-[#64ccc5] via-[#10b981] to-[#176b87] inline-block text-transparent bg-clip-text"
 				>AmbitiousYou</span
 			> Works?
-		</h1>
+		</h2>
 		<div class="flex flex-col sm:gap-28 gap-20 max-w-5xl mx-auto">
 			<div
 				class="flex max-sm:flex-col max-sm:justify-center max-sm:items-center max-sm:border max-sm:p-4 justify-between items-start sm:gap-48 gap-10 max-sm:rounded-xl"
@@ -329,12 +329,12 @@
 
 	<!-- WHY AMBIIOUSYOU! -->
 	<section class="mt-28 space-y-14">
-		<h1 class="text-5xl font-bold">
+		<h2 class="text-5xl font-bold">
 			Why <span
 				class="bg-gradient-to-br from-[#64ccc5] via-[#10b981] to-[#176b87] inline-block text-transparent bg-clip-text"
 				>AmbitiousYou</span
 			>?
-		</h1>
+		</h2>
 		<div class="grid md:grid-cols-2 grid-rows-2 gap-8 mt-10 max-w-5xl mx-auto">
 			{#each benefits as { icon, title, description }, index}
 				<div class="space-y-5 border p-4 rounded-lg border-foreground border-opacity-10">
@@ -352,7 +352,7 @@
 
 	<!-- FAQ -->
 	<section class="mt-28 space-y-14">
-		<h1 class="text-5xl font-bold">Frequently Asked Questions</h1>
+		<h2 class="text-5xl font-bold">Frequently Asked Questions</h2>
 		<div class="grid md:grid-cols-2 grid-rows-2 gap-8 mt-10 max-w-5xl mx-auto">
 			{#each faq as { question, answer }, index}
 				<Accordion.Root>
@@ -375,7 +375,7 @@
 
 		<div class="max-w-5xl mx-auto p-8 rounded-2xl border border-foreground/10 backdrop-blur-sm">
 			<div class="text-center mb-12">
-				<h1 class="text-5xl font-bold mb-4">Ready to Transform Your Dreams into Reality?</h1>
+				<h2 class="text-5xl font-bold mb-4">Ready to Transform Your Dreams into Reality?</h2>
 				<p class="text-xl text-muted-foreground max-w-2xl mx-auto">
 					Join thousands of ambitious individuals who are already achieving their goals with
 					AmbitiousYou.
