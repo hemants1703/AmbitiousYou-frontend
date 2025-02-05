@@ -1,9 +1,9 @@
 {
 	"name": "frontend",
-	"version": "0.9.6",
+	"version": "0.10.11",
 	"private": true,
 	"engines": {
-		"node": "^22.13.1"
+		"node": "^18.17.1"
 	},
 	"scripts": {
 		"dev": "vite dev",
