@@ -5,6 +5,7 @@
 	import { EyeClosed } from 'svelte-radix';
 	import SvelteSeo from 'svelte-seo';
 	import { fly } from 'svelte/transition';
+	import { goto } from '$app/navigation';
 
 	let passwordInputElement: HTMLInputElement;
 	let passwordResetEmailInputElement: HTMLInputElement;
@@ -156,10 +157,11 @@
 
 				return async ({ result }) => {
 					console.log('Check this data from actions response: ', result);
-					if (result.data.success) {
-						toast.success(result.data.message, { closable: true });
-						goto('/dashboard');
-					} else {
+					if (result.status === 308) {
+						goto("/dashboard");
+					}
+					
+					if (result?.data?.success === false) {
 						toast.error(result.data.message, { closable: true });
 						loginFormSubmitted = false;
 					}

@@ -94,7 +94,7 @@
 	<div class=" max-w-96 w-3/4 max-md:text-start">
 		<h1 class="font-bold text-7xl text-end max-md:text-start">📑 Signup</h1>
 		<p class="text-2xl mt-5 text-end max-md:text-start">Create an account to get started</p>
-		<p class="text-lg mt-5 text-end text-[--custom-dark] max-md:text-start">
+		<p class="text-lg mt-5 text-end text-[--custom-light] dark:text-[--custom-dark] max-md:text-start">
 			You're about to be a superhuman and fulfil all your big dreams and ambitions in life!
 		</p>
 	</div>
@@ -113,7 +113,7 @@
 				type="text"
 				name="fullName"
 				required
-				class="text-lg bg-transparent border rounded-lg py-1 px-2 active:outline focus:outline-[--custom-primary] transition-all duration-100 ease-in-out"
+				class="text-lg bg-transparent border rounded-lg py-1 px-2 active:outline-none focus:outline-none focus:ring-2 focus:ring-[var(--custom-primary)] focus:ring-offset-2 focus:ring-opacity-50 transition-all duration-100 ease-in-out"
 			/>
 			<input
 				bind:value={signUpDetails.email}
@@ -121,7 +121,7 @@
 				type="email"
 				name="email"
 				required
-				class="text-lg bg-transparent border rounded-lg py-1 px-2 active:outline focus:outline-[--custom-primary] transition-all duration-100 ease-in-out"
+				class="text-lg bg-transparent border rounded-lg py-1 px-2 active:outline-none focus:outline-none focus:ring-2 focus:ring-[var(--custom-primary)] focus:ring-offset-2 focus:ring-opacity-50 transition-all duration-100 ease-in-out"
 			/>
 			<div class="relative">
 				<input
@@ -130,7 +130,7 @@
 					name="password"
 					required
 					bind:this={passwordInputElement}
-					class="text-lg w-full font-mono bg-transparent border rounded-lg py-1 px-2 pr-12 active:outline focus:outline-[--custom-primary] transition-all duration-100 ease-in-out"
+					class="text-lg w-full font-mono bg-transparent border rounded-lg py-1 px-2 pr-12 active:outline-none focus:outline-none focus:ring-2 focus:ring-[var(--custom-primary)] focus:ring-offset-2 focus:ring-opacity-50 transition-all duration-100 ease-in-out"
 				/>
 				<button
 					type="button"

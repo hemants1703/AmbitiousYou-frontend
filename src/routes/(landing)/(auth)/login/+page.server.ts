@@ -65,35 +65,26 @@ export const actions: Actions = {
 				path: '/'
 			});
 
-			// const user = await account.get();
-
-			// console.log(chalk.bgWhiteBright.black('User account get request response'), user);
-
-			// locals.user = user;
-
-			// loggedInUser.set(user);
-			// greetUser.set(true);
-
 			formActionResponse = {
 				status: 200,
 				success: true,
 				message: 'Login successful',
 				body: session
 			};
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		} catch (error: any) {
-			console.error(chalk.bgRedBright.white('Error'), error);
+		} catch (error) {
+			const err = error as App.Error;
+			console.error(chalk.bgRedBright.white('Error'), err);
 			formActionResponse = {
 				status: 401,
 				success: false,
-				message: error.response.message,
-				body: error.response
+				message: "Invalid Email or Password",
+				body: err.response
 			};
 			console.log(chalk.bgRedBright.white('Login Form Response'), formActionResponse);
 		}
 
 		if (formActionResponse.success) {
-			redirect(302, '/dashboard');
+			redirect(308, '/dashboard');
 		}
 
 		return formActionResponse;
