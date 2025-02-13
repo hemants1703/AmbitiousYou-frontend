@@ -210,9 +210,10 @@ export const actions: Actions = {
 				}
 			};
 		} catch (error) {
-			console.error('Error changing password', error);
+			const err = error as App.Error;
+			console.error('Error changing password', err);
 			serverActionResponse = {
-				status: error.code,
+				status: err.code ?? 500,
 				success: false,
 				message: "We hit a snag on our side. Please try again shortly. We appreciate your patience!",
 				body: {

@@ -23,7 +23,17 @@
 
 	// console.log(user);
 
-	const accountCreationDate = new Date(user.registration).toString().split(" ").slice(1, 4).join(" ");
+	const accountDetails = [
+		{ label: 'Full Name', value: user.name },
+		{ label: 'Email', value: user.email },
+		{ label: 'Password', value: '**********' }
+	];
+
+	const accountCreationDate = new Date(user.registration)
+		.toString()
+		.split(' ')
+		.slice(1, 4)
+		.join(' ');
 
 	let promptAccountDeletion = false;
 	let showMoreOptions = false;
@@ -144,7 +154,7 @@
 					method="POST"
 					use:enhance={() => {
 						return async ({ result }) => {
-							console.log("Check this data from actions response: ", result);
+							console.log('Check this data from actions response: ', result);
 
 							if (result.data.status === 200) {
 								toast.success(result.data.message, { closable: true });
@@ -152,7 +162,7 @@
 							} else {
 								toast.error(result.data.message, { closable: true });
 							}
-						}
+						};
 					}}
 				>
 					<div class="flex flex-col gap-5 mt-5">
@@ -242,44 +252,36 @@
 	</header>
 	<div class="flex flex-col gap-10">
 		<div class="flex flex-col gap-5 text-xl">
-			<div class="grid grid-cols-2 gap-5">
-				<p class="font-extralight sm:text-end">Full Name</p>
-				<span>{user.name}</span>
-			</div>
-			<div class="grid grid-cols-2 gap-5">
-				<p class="font-extralight sm:text-end">Email</p>
-				<span>{user.email}</span>
-			</div>
-			<div class="grid grid-cols-2 gap-5 ">
-				<p class="font-extralight sm:text-end">Password</p>
-				<span class="flex justify-start items-center gap-5 max-sm:flex-col max-sm:items-start">
-					<span>**********</span>
-					<span class="text-xs text-muted-foreground"
-						>Last Updated: {new Date(user.passwordUpdate).toLocaleDateString()}</span>
-					<!-- <form action="?/changePassword" method="post" ><Button type="submit" variant="ghost">Change Password</Button></form> -->
-				</span>
-			</div>
-			<div class="grid grid-cols-2 gap-5 ">
-				<p class="font-extralight sm:text-end">Account Created On</p>
-				<span>{accountCreationDate}</span>
-			</div>
+			{#each accountDetails as { label, value }}
+				<div class="grid sm:grid-cols-2 sm:gap-5">
+					{#if label === 'Password'}
+						<p class="font-extralight sm:text-end text-muted-foreground">{label}</p>
+						<span
+							class="flex justify-start items-center sm:gap-5 max-sm:flex-col max-sm:items-start"
+						>
+							<span class="mt-1.5">**********</span>
+							<span class="text-xs text-muted-foreground mb-1"
+								>Last Updated: {new Date(user.passwordUpdate).toLocaleDateString()}</span
+							>
+						</span>
+					{:else}
+						<p class="font-extralight sm:text-end text-muted-foreground">{label}</p>
+						<span>{value}</span>
+					{/if}
+				</div>
+			{/each}
 		</div>
+
+		<p class="font-extralight">Account was created on {accountCreationDate}</p>
 
 		<div class="flex justify-between items-center">
 			<Button
 				variant="ghost"
-				on:click={() => ( showMoreOptions = !showMoreOptions )}
+				on:click={() => (showMoreOptions = !showMoreOptions)}
 				class="{showMoreOptions ? 'text-red-500' : ''} font-bold text-sm"
 			>
 				{showMoreOptions ? 'Hide' : 'Show'} More Options
 			</Button>
-			<!-- <Button
-				on:click={() => {
-					promptChangePassword = true;
-				}}
-			>
-				Change Password
-			</Button> -->
 		</div>
 	</div>
 
