@@ -130,7 +130,7 @@ export const actions: Actions = {
 			};
 		} catch (error) {
 			console.error(chalk.bgRedBright.black('Ambition Creation Error: '), error);
-			const appwriteError = error as { response?: { code?: number; message?: string } };
+			const appwriteError = error as App.Error;
 			pageFormAction = {
 				status: appwriteError?.response?.code ?? 500,
 				success: false,

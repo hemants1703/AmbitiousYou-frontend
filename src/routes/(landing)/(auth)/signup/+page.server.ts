@@ -116,14 +116,14 @@ export const actions: Actions = {
 				}
 			};
 
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		} catch (error: any) {
-			console.log(chalk.bgRedBright.white('error signing up: '), error);
+		} catch (error) {
+			const err = error as App.Error;
+			console.log(chalk.bgRedBright.white('error signing up: '), err);
 			return {
-				status: error.code,
+				status: err.code,
 				success: false,
-				message: error.response.message,
-				body: { response: error.response, formData: { fullName, email, password } }
+				message: err.response.message,
+				body: { response: err.response, formData: { fullName, email, password } }
 			};
 		}
 

@@ -52,7 +52,8 @@ export const actions: Actions = {
 				body: { feedbackData }
 			};
 		} catch (error) {
-			console.error(chalk.bgRedBright.white('Error posting feedback: '), error);
+			const err = error as App.Error;
+			console.error(chalk.bgRedBright.white('Error posting feedback: '), err);
 			return {
 				status: 400,
 				success: false,

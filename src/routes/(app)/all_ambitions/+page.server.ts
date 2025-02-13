@@ -47,7 +47,7 @@ export const load: PageServerLoad = async ({ locals, cookies }) => {
 			body: documentListingResult
 		};
 	} catch (error) {
-		const appwriteError = error as { response: { code: number; message: string } };
+		const appwriteError = error as App.Error;
 		console.error(
 			chalk.bgRedBright.white('All Ambitions Page Server Load Error: '),
 			appwriteError.response.message

@@ -158,6 +158,7 @@
 					console.log('Check this data from actions response: ', result);
 					if (result.data.success) {
 						toast.success(result.data.message, { closable: true });
+						goto('/dashboard');
 					} else {
 						toast.error(result.data.message, { closable: true });
 						loginFormSubmitted = false;

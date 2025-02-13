@@ -5,9 +5,7 @@ import type { Actions } from './$types';
 import { redirect } from '@sveltejs/kit';
 import { PUBLIC_APPWRITE_ENDPOINT, PUBLIC_APPWRITE_PROJECT_ID } from '$env/static/public';
 import validEmail from '$lib/helpers/validateEmail';
-import { ID, Client, Messaging, Users, Query } from 'node-appwrite';
-import { PRIVATE_APPWRITE_KEY } from '$env/static/private';
-import formatDateTime from '$lib/helpers/formatDateTime';
+import { Client, Account } from 'appwrite';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
@@ -105,9 +103,6 @@ export const actions: Actions = {
 
 		const userEmail: FormDataEntryValue = formData.get('email') as string;
 
-		console.log('FormData: ', formData);
-		console.log('Email: ', userEmail);
-
 		if (!validEmail(userEmail)) {
 			return {
 				status: 400,
@@ -119,89 +114,25 @@ export const actions: Actions = {
 			};
 		}
 
-		// Check and see if the email exists in the database, if it does, send a password reset link to the email
-		let accountExists = false;
-		let queriedUserFromEmail;
 		try {
 			const client = new Client()
-				.setEndpoint('https://cloud.appwrite.io/v1') // Your API Endpoint
-				.setProject(PUBLIC_APPWRITE_PROJECT_ID) // Your project ID
-				.setKey(PRIVATE_APPWRITE_KEY); // Your secret API key
+				.setEndpoint(PUBLIC_APPWRITE_ENDPOINT)
+				.setProject(PUBLIC_APPWRITE_PROJECT_ID)
 
-			const users = new Users(client);
+			const account = new Account(client);
 
-			queriedUserFromEmail = await users.list(
-				[Query.equal('email', userEmail)] // queries (optional)
-			);
+			const mailResult = await account.createRecovery(
+				userEmail,
+				"http://localhost:5173/reset_password"
+			)
 
-			// console.log("Users List: ", queriedUserFromEmail);
-
-			accountExists = queriedUserFromEmail.total > 0;
+			console.log("MAIL SENT RESPONSE: ", mailResult);
 		} catch (error) {
-			console.error(error);
-			accountExists = false;
-			return {
-				status: 400,
-				success: false,
-				message: error.message,
-				body: {
-					email: userEmail
-				}
-			};
-		}
+			const err = error as App.Error;
 
-		// If the account does not exist, don't send mail and return the error message
-		if (!accountExists) {
-			return {
-				status: 404,
-				success: false,
-				message: 'Account does not exist for provided mail ID, Create an Account Today!',
-				body: {
-					email: userEmail
-				}
-			};
-		}
+			console.error(err);
 
-		// If the account exists for the provided userEmail, send the password reset link to the email
-		// const formattedDateTime = formatDateTime(new Date());
-		// 	console.log('Formatted Date Time: ', formattedDateTime);
-		try {
-			const client = new Client()
-				.setEndpoint(PUBLIC_APPWRITE_ENDPOINT) // Your API Endpoint
-				.setProject(PUBLIC_APPWRITE_PROJECT_ID) // Your project ID
-				.setKey(PRIVATE_APPWRITE_KEY);
-
-			const messaging = new Messaging(client);
-
-			const mailContent = `
-			<h2>Since you forgot your password for you AmbitiousYou Account, here you have you password reset link.</h2>
-			Click on the link to reset your password: <b><a href="https://ambitiousyou.pro/>Reset Password</a></b>
-			`;
-
-			// Format the date time for mail scheduling
-			const formattedDateTime = formatDateTime(new Date());
-			console.log('Formatted Date Time: ', formattedDateTime);
-
-			const mailResult = await messaging.createEmail(
-				ID.unique(), // messageId
-				'Password Recovery Link', // subject
-				mailContent, // content
-				[], // topics (optional)
-				[queriedUserFromEmail.users[0].$id], // users (optional)
-				[], // targets (optional)
-				[], // cc (optional)
-				[], // bcc (optional)
-				[], // attachments (optional)
-				false, // draft (optional)
-				true, // html (optional)
-				"" // scheduledAt (optional)
-			);
-
-			console.log(mailResult);
-		} catch (error) {
-			console.error(error);
-
-			if (error.type === 'general_rate_limit_exceeded') {
+			if (err.type === 'general_rate_limit_exceeded') {
 				return {
 					status: 429,
 					success: false,
@@ -216,7 +147,7 @@ export const actions: Actions = {
 			return {
 				status: 400,
 				success: false,
-				message: error.message,
+				message: err.message,
 				body: {
 					email: userEmail
 				}

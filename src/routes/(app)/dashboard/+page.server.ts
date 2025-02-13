@@ -37,7 +37,8 @@ export const load: PageServerLoad = async ({ locals, cookies }) => {
 			[Query.equal('userEmail', [locals.user.email])]
 		);
 	} catch (error) {
-		console.error(chalk.bgRedBright.white('All Ambitions Page Server Load Error: '), error);
+		const err = error as App.Error
+		console.error(chalk.bgRedBright.white('All Ambitions Page Server Load Error: '), err);
 	}
 
 	return {

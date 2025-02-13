@@ -11,13 +11,7 @@ export const load: PageServerLoad = async ({ locals, params, cookies }) => {
 	confirmAuth(locals);
 
 	const { ambitionId } = params;
-	let pageServerResponse: {
-		status: number;
-		success: boolean;
-		message: string;
-		userData: object;
-		body: object;
-	} = {
+	let pageServerResponse: App.PageServerLoad = {
 		status: 0,
 		success: false,
 		message: '',
@@ -144,7 +138,8 @@ export const actions: Actions = {
 				}
 			};
 		} catch (error) {
-			console.error(error);
+			const err = error as App.Error;
+			console.error(err);
 			pageServerResponse = {
 				status: 500,
 				success: false,
